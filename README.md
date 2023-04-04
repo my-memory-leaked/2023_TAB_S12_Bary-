@@ -1,0 +1,16 @@
+# TAB project
+
+# Tasks tasks:
+
+## Frontend:
+- Filip - https://github.com/corosto
+- Karol - https://github.com/my-memory-leaked
+- Dominik - https://github.com/DominikBarys
+
+## Backend:
+- Mateusz - https://github.com/matebab551
+- Janek - https://github.com/PanJan44
+
+## Designer:
+- Wiktor - https://github.com/wm1511
+- Karol - https://github.com/my-memory-leaked
