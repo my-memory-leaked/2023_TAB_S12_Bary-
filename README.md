@@ -1,5 +1,11 @@
 # TAB project
 
+# Class diagram:
+![image](https://user-images.githubusercontent.com/72348855/230786275-7cdcbf8c-d475-487a-a484-877b348dee25.png)
+
+# Use case diagram:
+![image](https://user-images.githubusercontent.com/72348855/230786329-0619a12e-1a11-402c-a019-41126beb5f45.png)
+
 # Tasks:
 
 ## Frontend:
