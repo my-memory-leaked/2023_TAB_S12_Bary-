@@ -1,6 +1,6 @@
 # TAB project
 
-# Tasks tasks:
+# Tasks:
 
 ## Frontend:
 - Filip - https://github.com/corosto
@@ -9,7 +9,7 @@
 
 ## Backend:
 - Mateusz - https://github.com/matebab551
-- Janek - https://github.com/PanJan44
+- Janek - https://github.com/JankoJaneczko44
 
 ## Designer:
 - Wiktor - https://github.com/wm1511
