@@ -21,4 +21,3 @@
 ## Designer:
 - Wiktor - https://github.com/wm1511
 - Karol - https://github.com/my-memory-leaked
-![Use-case-refactored](https://user-images.githubusercontent.com/72353213/231154989-5c414389-0463-4e68-b980-51c186f2efba.jpg)
