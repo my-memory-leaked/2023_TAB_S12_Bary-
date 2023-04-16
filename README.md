@@ -1,13 +1,12 @@
 # TAB project
 
 # Class diagram:
-![image](https://user-images.githubusercontent.com/72348855/230786275-7cdcbf8c-d475-487a-a484-877b348dee25.png)
+![image](https://user-images.githubusercontent.com/72353213/232340095-04f3ceae-cb52-4ec8-927a-2e490fa09bb9.png)
 
 # Use case diagram:
-![image](https://user-images.githubusercontent.com/72353213/231155108-4bc72f42-930c-4f51-a8f2-e02aefea292f.png)
+![image](https://user-images.githubusercontent.com/72353213/232340048-d6f2e3f7-229c-4faf-bdd8-8dfe6b781d26.png)
 
 
-# Tasks:
 
 ## Frontend:
 - Filip - https://github.com/corosto
