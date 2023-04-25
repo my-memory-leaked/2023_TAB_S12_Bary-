@@ -7,10 +7,12 @@
 ![image](https://user-images.githubusercontent.com/72353213/233865757-123ebf24-6cfc-4489-8e84-6de6c65b1385.png)
 
 # UI Project
-![image](Documents/IMG_4600.jpeg)
-![image](Documents/IMG_4601.jpeg)
-![image](Documents/IMG_4602.jpeg)
-![image](Documents/IMG_4603.jpeg)
+![image](Documents/dodawanie.jpg)
+![image](Documents/logowanie.jpg)
+![image](Documents/rejestracja.jpg)
+![image](Documents/oferty.jpg)
+![image](Documents/rozwinieta.jpg)
+
 
 ## Frontend:
 - Filip - https://github.com/corosto
