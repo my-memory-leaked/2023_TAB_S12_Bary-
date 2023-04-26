@@ -12,6 +12,7 @@
 ![image](Documents/rejestracja.jpg)
 ![image](Documents/oferty.jpg)
 ![image](Documents/rozwinieta.jpg)
+![image](Documents/panel.jpg)
 
 
 ## Frontend:
