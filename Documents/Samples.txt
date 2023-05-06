@@ -1,0 +1,38 @@
+
+INSERT Counties VALUES (54, 'Gliwicki')
+
+INSERT Addresses VALUES (1, 'Gliwice', 'Łużycka', '44-100', 2137, 54)
+
+INSERT Addresses VALUES (2, 'Gliwice', 'Pszczyńska', '44-100', 44, 54)
+
+INSERT Addresses VALUES (3, 'Przyszowice', 'Sezamkowa', '43-100', 18, 54)
+
+INSERT Addresses VALUES (4, 'Gliwice', 'Burgundowa', '44-100', 1109, 54)
+
+INSERT Addresses VALUES (5, 'Gliwice', 'Budownicza', '44-100', 32, 54)
+
+INSERT Addresses VALUES (6, 'Chudów', 'Barysiowata', '44-177', 934, 54)
+
+INSERT Addresses VALUES (7, 'Knurów', 'Pisarska', '44-177', 404, 54)
+
+INSERT Addresses VALUES (8, 'Gliwice', 'Mikołowska', '44-100', 2137, 54)
+
+INSERT Addresses VALUES (9, 'Gliwice', 'Janusza Pawlacza', '44-100', 2005, 54)
+
+INSERT SalesPoints VALUES (1, 'Żabka', 1)
+				   
+INSERT SalesPoints VALUES (2, 'Żabka', 2)
+				   
+INSERT SalesPoints VALUES (3, 'Alkohole u Mirka', 3)
+				   
+INSERT SalesPoints VALUES (4, 'Bogusław Łęcina - Sklep', 4)
+				   
+INSERT SalesPoints VALUES (5, 'Wies-bud', 5)
+				   
+INSERT SalesPoints VALUES (6, 'Telefony u Andrzeja', 6)
+				   
+INSERT SalesPoints VALUES (7, 'Pisek-Mobile', 7)
+				   
+INSERT SalesPoints VALUES (8, 'Piekarnia Zbigniewa Habadzibadło', 8)
+				   
+INSERT SalesPoints VALUES (9, 'Dom chleba', 9)
