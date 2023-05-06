@@ -43,19 +43,13 @@ public partial class GdziekupujaContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//         => optionsBuilder.UseSqlServer("Data source=LAPTOK; Initial Catalog = Gdziekupuja;  Trusted_Connection=True; TrustServerCertificate=True;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Addresses_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.City).HasColumnName("city");
             entity.Property(e => e.CountyId).HasColumnName("county_id");
             entity.Property(e => e.Number).HasColumnName("number");
@@ -71,9 +65,7 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Administrators_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany(p => p.Administrators)
@@ -102,9 +94,7 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Categories_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
 
@@ -117,9 +107,7 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Comments_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AdminId).HasColumnName("admin_id");
             entity.Property(e => e.Content).HasColumnName("content");
             entity.Property(e => e.CreationTime).HasColumnName("creation_time");
@@ -147,9 +135,7 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Counties_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name).HasColumnName("name");
         });
 
@@ -208,9 +194,7 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Offers_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AdminId).HasColumnName("admin_id");
             entity.Property(e => e.CreationTime).HasColumnName("creation_time");
             entity.Property(e => e.Price)
@@ -243,9 +227,7 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Products_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name).HasColumnName("name");
         });
 
@@ -254,7 +236,7 @@ public partial class GdziekupujaContext : DbContext
             entity.HasKey(e => e.Id).HasName("ProductInstances_pk");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id");
             entity.Property(e => e.AdditionalInfo).HasColumnName("additional_info");
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
@@ -263,6 +245,7 @@ public partial class GdziekupujaContext : DbContext
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.ProductInstance)
                 .HasForeignKey<ProductInstance>(d => d.Id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Has_instance");
         });
 
@@ -270,9 +253,7 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("SalesPoints_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AddressId).HasColumnName("address_id");
             entity.Property(e => e.Name).HasColumnName("name");
 
@@ -286,9 +267,7 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("id");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CanComment).HasColumnName("can_comment");
             entity.Property(e => e.Email).HasColumnName("email");
             entity.Property(e => e.Name).HasColumnName("name");
