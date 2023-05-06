@@ -17,12 +17,6 @@ public partial class User
 
     public bool CanComment { get; set; }
 
-    public string? RefreshToken { get; set; }
-
-    public DateTime? TokenCreated { get; set; }
-
-    public DateTime? TokenExpires { get; set; }
-
     public virtual ICollection<Administrator> Administrators { get; set; } = new List<Administrator>();
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
