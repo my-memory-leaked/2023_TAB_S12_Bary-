@@ -396,5 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-#/MapacenBackend/Migrations
-/.idea/.idea.MapacenBackend/.idea
+
+/.idea/
