@@ -7,7 +7,8 @@
 ![image](https://user-images.githubusercontent.com/72353213/233865757-123ebf24-6cfc-4489-8e84-6de6c65b1385.png)
 
 # ERD diagram:
-![image](https://user-images.githubusercontent.com/72353213/236623393-2f313129-d061-4a95-9a13-44d4d0e4aa2d.png)
+![image](https://user-images.githubusercontent.com/30570850/236641556-af3adbb2-f350-41ee-ab11-b8930cce0418.png)
+
 
 # UI Project
 ![image](Documents/dodawanie.jpg)
