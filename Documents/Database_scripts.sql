@@ -1,10 +1,10 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-05-06 17:04:21.746
+-- Last modification date: 2023-05-06 21:04:37.567
 
 -- tables
 -- Table: Addresses
 CREATE TABLE Addresses (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     city nvarchar(max)  NOT NULL,
     street nvarchar(max)  NOT NULL,
     postal_code nvarchar(max)  NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE Addresses (
 
 -- Table: Administrators
 CREATE TABLE Administrators (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     user_id int  NOT NULL,
     CONSTRAINT Administrators_pk PRIMARY KEY  (id)
 );
@@ -28,7 +28,7 @@ CREATE TABLE Belongs (
 
 -- Table: Categories
 CREATE TABLE Categories (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     parent_id int  NULL,
     name nvarchar(max)  NOT NULL,
     CONSTRAINT Categories_pk PRIMARY KEY  (id)
@@ -36,7 +36,7 @@ CREATE TABLE Categories (
 
 -- Table: Comments
 CREATE TABLE Comments (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     user_id int  NOT NULL,
     offer_id int  NOT NULL,
     content nvarchar(max)  NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE Comments (
 
 -- Table: Counties
 CREATE TABLE Counties (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     name nvarchar(max)  NOT NULL,
     CONSTRAINT Counties_pk PRIMARY KEY  (id)
 );
@@ -74,7 +74,7 @@ CREATE TABLE Likers (
 
 -- Table: Offers
 CREATE TABLE Offers (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     price decimal(18,2)  NOT NULL,
     product_id int  NOT NULL,
     sales_point_id int  NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE Offers (
 
 -- Table: ProductInstances
 CREATE TABLE ProductInstances (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     category_id int  NOT NULL,
     additional_info nvarchar(max)  NOT NULL,
     image_name nvarchar(max)  NOT NULL,
@@ -96,14 +96,14 @@ CREATE TABLE ProductInstances (
 
 -- Table: Products
 CREATE TABLE Products (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     name nvarchar(max)  NOT NULL,
     CONSTRAINT Products_pk PRIMARY KEY  (id)
 );
 
 -- Table: SalesPoints
 CREATE TABLE SalesPoints (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     name nvarchar(max)  NOT NULL,
     address_id int  NOT NULL,
     CONSTRAINT SalesPoints_pk PRIMARY KEY  (id)
@@ -111,15 +111,12 @@ CREATE TABLE SalesPoints (
 
 -- Table: Users
 CREATE TABLE Users (
-    id int  NOT NULL,
+    id int  NOT NULL IDENTITY,
     name nvarchar(max)  NOT NULL,
     email nvarchar(max)  NOT NULL,
     password_hash varbinary(max)  NOT NULL,
     password_salt varbinary(max)  NOT NULL,
     can_comment bit  NOT NULL,
-    refresh_token nvarchar(max)  NULL,
-    token_created datetime2(7)  NULL,
-    token_expires datetime2(7)  NULL,
     CONSTRAINT id PRIMARY KEY  (id)
 );
 
@@ -187,9 +184,7 @@ ALTER TABLE Favourites ADD CONSTRAINT Has_favourite
 -- Reference: Has_instance (table: ProductInstances)
 ALTER TABLE ProductInstances ADD CONSTRAINT Has_instance
     FOREIGN KEY (id)
-    REFERENCES Products (id)
-    ON DELETE  CASCADE 
-    ON UPDATE  CASCADE;
+    REFERENCES Products (id);
 
 -- Reference: Has_product (table: Offers)
 ALTER TABLE Offers ADD CONSTRAINT Has_product
