@@ -1,4 +1,5 @@
 using AutoMapper;
+using Gdziekupuja.Models.DTOs;
 using Gdziekupuja.Models.DTOs.AddressDtos;
 using Gdziekupuja.Models.DTOs.SalesPointDtos;
 
@@ -11,6 +12,9 @@ public class AutoMapperProfile : Profile
         // Address
         CreateMap<Address, AddressDto>();
         CreateMap<CreateAddressDto, Address>();
+
+        //County
+        CreateMap<County, CountyDto>();
 
         // SalesPoint
         CreateMap<SalesPoint, SalesPointDto>();
