@@ -15,7 +15,8 @@ public partial class ProductInstance
 
     public string Model { get; set; } = null!;
 
-    public virtual Product IdNavigation { get; set; } = null!;
+    public virtual Product Product { get; set; } = null!;
+    public virtual ICollection<Belong> Categories { get; set; } = null!;
 
     public virtual ICollection<Offer> Offers { get; set; } = new List<Offer>();
 }

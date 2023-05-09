@@ -98,7 +98,7 @@ public partial class GdziekupujaContext : DbContext
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
 
-            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
+            entity.HasOne(d => d.Parent).WithMany(p => p.Children)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("Subcategory");
         });
@@ -243,7 +243,7 @@ public partial class GdziekupujaContext : DbContext
             entity.Property(e => e.ImageName).HasColumnName("image_name");
             entity.Property(e => e.Model).HasColumnName("model");
 
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.ProductInstance)
+            entity.HasOne(d => d.Product).WithOne(p => p.ProductInstance)
                 .HasForeignKey<ProductInstance>(d => d.Id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Has_instance");
