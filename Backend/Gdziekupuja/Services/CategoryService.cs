@@ -10,6 +10,7 @@ public interface ICategoryService
 {
     int Create(CreateCategoryDto dto);
     IEnumerable<SuperiorCategoryDto> GetAllSuperiors();
+    IEnumerable<CategoryDto> GetCategoriesBySuperiorId(int superiorId, int? childrenCount);
 }
 
 public class CategoryService : ICategoryService

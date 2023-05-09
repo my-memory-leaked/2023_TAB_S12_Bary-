@@ -24,6 +24,9 @@ builder.Services.AddDbContext<GdziekupujaContext>(options =>
 builder.Services.AddScoped<DatabaseSeeder>();
 builder.Services.AddScoped<ISalesPointService, SalesPointService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductInstanceService, ProductInstanceService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
 var app = builder.Build();
