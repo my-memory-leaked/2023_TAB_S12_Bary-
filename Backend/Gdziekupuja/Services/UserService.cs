@@ -43,7 +43,7 @@ public class UserService : IUserService
             Email = dto.Email,
             CanComment = true,
             PasswordHash = passwordHash,
-            PasswordSalt = passwordSalt
+            PasswordSalt = passwordSalt,
         };
 
         if (dto.IsAdmin)
@@ -90,7 +90,7 @@ public class UserService : IUserService
 
     private string GenerateToken(User user)
     {
-        var isAdmin = _dbContext.Administrators.Any(a => a.Id == user.Id);
+        var isAdmin = _dbContext.Administrators.Any(a => a.UserId == user.Id);
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
             _configuration.GetSection("Token").Value ?? throw new InvalidOperationException()));
