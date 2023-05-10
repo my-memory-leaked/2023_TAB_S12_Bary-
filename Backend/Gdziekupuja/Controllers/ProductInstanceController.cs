@@ -1,8 +1,6 @@
-using Gdziekupuja.Models.DTOs.ProductDtos;
 using Gdziekupuja.Models.DTOs.ProductInstanceDtos;
 using Gdziekupuja.Services;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Gdziekupuja.Controllers;
 
@@ -23,5 +21,4 @@ public class ProductInstanceController : ControllerBase
         var result = _service.CreateProduct(dto);
         return Ok(result);
     }
-   
 }

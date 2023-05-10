@@ -32,6 +32,11 @@ builder.Services.AddScoped<IProductInstanceService, ProductInstanceService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+    builder.AllowAnyMethod()
+        .AllowAnyHeader()
+        .WithOrigins("*")));
+
 var app = builder.Build();
 var scope = app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
@@ -45,5 +50,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseCors("corsapp");
 app.MapControllers();
 app.Run();
