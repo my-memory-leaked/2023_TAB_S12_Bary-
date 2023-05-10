@@ -164,16 +164,13 @@ public partial class GdziekupujaContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("ProductInstances_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AdditionalInfo).HasColumnName("additional_info");
-            entity.Property(e => e.CategoryId).HasColumnName("category_id");
             entity.Property(e => e.ImageName).HasColumnName("image_name");
-            entity.Property(e => e.Model).HasColumnName("model");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
 
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.ProductInstance)
-                .HasForeignKey<ProductInstance>(d => d.Id)
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductInstances)
+                .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Has_instance");
 
@@ -185,7 +182,6 @@ public partial class GdziekupujaContext : DbContext
                         .HasConstraintName("Has_products"),
                     l => l.HasOne<ProductInstance>().WithMany()
                         .HasForeignKey("ProductInstanceId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("Belongs_to"),
                     j =>
                     {

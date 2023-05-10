@@ -9,5 +9,5 @@ public partial class Product
 
     public string Name { get; set; } = null!;
 
-    public virtual ProductInstance? ProductInstance { get; set; }
+    public virtual ICollection<ProductInstance> ProductInstances { get; set; } = new List<ProductInstance>();
 }

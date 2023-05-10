@@ -2,7 +2,6 @@ using AutoMapper;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
 using Gdziekupuja.Models.DTOs.ProductInstanceDtos;
-using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp.Processing.Processors.Transforms;
 
 namespace Gdziekupuja.Services;
@@ -31,9 +30,11 @@ public class ProductInstanceService : IProductInstanceService
         if (product is null)
             throw new NotFoundException("Produkt o podanej nazwie nie istnieje");
 
-        var path = Path.Combine(Path.GetFullPath("wwwroot"), dto.Image.FileName);
-        if (File.Exists(path))
-            throw new NotUniqueElementException("Plik o takiej nazwie już istnieje");
+        var creationTime = DateTimeOffset.Now;
+        var imageName =
+            $"{dto.Image.Name}_{creationTime:ddMMyyyyhhmmssfff}_{new Random().Next(0, 10000000)}.{dto.Image.FileName.Split('.').Last()}";
+
+        var path = Path.Combine(Path.GetFullPath("wwwroot"), imageName);
 
         using (var image = Image.Load(dto.Image.OpenReadStream()))
         {
@@ -47,33 +48,15 @@ public class ProductInstanceService : IProductInstanceService
             image.Save(path);
         }
 
-        using (var transaction = _dbContext.Database.BeginTransaction())
-        {
-            try
-            {
-                // Enable IDENTITY_INSERT
-                _dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.ProductInstances ON");
+        var productInstance = _mapper.Map<ProductInstance>(dto);
+        productInstance.Product = product;
+        productInstance.ProductId = product.Id;
+        productInstance.Categories = categories;
+        productInstance.ImageName = dto.Image.FileName;
 
-                // Perform database operations that require IDENTITY_INSERT
-                var productInstance = _mapper.Map<ProductInstance>(dto);
-                productInstance.IdNavigation = product;
-                productInstance.Categories = categories;
-                productInstance.ImageName = dto.Image.FileName;
-                _dbContext.ProductInstances.Add(productInstance);
-                _dbContext.SaveChanges();
+        _dbContext.ProductInstances.Add(productInstance);
+        _dbContext.SaveChanges();
 
-                // Commit transaction and disable IDENTITY_INSERT
-                transaction.Commit();
-                _dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.ProductInstances OFF");
-
-                return productInstance.Id;
-            }
-            catch (Exception ex)
-            {
-                // Handle exception and rollback transaction if necessary
-                transaction.Rollback();
-                throw;
-            }
-        }
+        return productInstance.Id;
     }
 }
