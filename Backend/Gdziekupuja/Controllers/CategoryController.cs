@@ -33,4 +33,10 @@ public class CategoryController : ControllerBase
     {
         return Ok(_service.GetAllSuperiors());
     }
+
+    [HttpGet("getAllCategories")]
+    public IActionResult GetAllCategories()
+    {
+        return Ok(_service.GetAllCategories());
+    }
 }

@@ -8,7 +8,7 @@ public partial class ProductInstance
     public int Id { get; set; }
 
     public int ProductId { get; set; }
-
+    
     public string AdditionalInfo { get; set; } = null!;
 
     public string ImageName { get; set; } = null!;

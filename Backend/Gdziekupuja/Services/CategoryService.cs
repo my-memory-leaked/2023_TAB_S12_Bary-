@@ -11,6 +11,7 @@ public interface ICategoryService
     int Create(CreateCategoryDto dto);
     IEnumerable<SuperiorCategoryDto> GetAllSuperiors();
     IEnumerable<CategoryDto> GetCategoriesBySuperiorId(int superiorId, int? childrenCount);
+    IEnumerable<CategoryDto> GetAllCategories();
 }
 
 public class CategoryService : ICategoryService
@@ -71,6 +72,22 @@ public class CategoryService : ICategoryService
             .Where(c => c.ParentId == null)
             .ProjectTo<SuperiorCategoryDto>(_mapper.ConfigurationProvider)
             .ToList();
+    }
+
+    public IEnumerable<CategoryDto> GetAllCategories()
+    {
+        var superiors = _dbContext.Categories
+            .Where(c => c.ParentId == null)
+            .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
+            .ToList();
+
+        var categories = new List<CategoryDto>();
+        foreach (var sup in superiors)
+        {
+            categories.AddRange(GetCategoriesBySuperiorId(sup.Id, null));
+        }
+
+        return categories;
     }
 
     public IEnumerable<CategoryDto> GetCategoriesBySuperiorId(int superiorId, int? childrenCount)

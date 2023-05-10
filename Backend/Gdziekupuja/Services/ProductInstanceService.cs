@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
@@ -28,7 +29,7 @@ public class ProductInstanceService : IProductInstanceService
 
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == dto.ProductId);
         if (product is null)
-            throw new NotFoundException("Produkt o podanej nazwie nie istnieje");
+            throw new NotFoundException("Nie istnieje taki produkt");
 
         var creationTime = DateTimeOffset.Now;
         var imageName =
@@ -49,6 +50,8 @@ public class ProductInstanceService : IProductInstanceService
         }
 
         var productInstance = _mapper.Map<ProductInstance>(dto);
+
+        productInstance.AdditionalInfo = JsonSerializer.Serialize(dto.AdditionalInfo);
         productInstance.Product = product;
         productInstance.ProductId = product.Id;
         productInstance.Categories = categories;
