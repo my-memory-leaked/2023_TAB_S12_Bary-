@@ -1,3 +1,4 @@
+using Gdziekupuja.Common;
 using Gdziekupuja.Models;
 using Gdziekupuja.Services;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,9 @@ using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+builder.Services.AddControllers(options => { options.ModelBinderProviders.Insert(0, new EnhancedDictionaryBinderProvider()); });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
