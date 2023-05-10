@@ -7,8 +7,5 @@ public class CreateProductDto
     [Required(ErrorMessage = "Pole jest wymagane")]
     [MaxLength(32, ErrorMessage = "Nazwa jest za długa")]
     [MinLength(1, ErrorMessage = "Niepoprawne dane")]
-    public string Name { get; set; }
-
-    [Required(ErrorMessage = "Pole jest wymagane")]
-    public int CategoryId { get; set; }
+    public string Name { get; set; } = null!;
 }

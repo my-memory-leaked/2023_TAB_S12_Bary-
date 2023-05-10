@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gdziekupuja.Controllers;
 
 [ApiController]
-[Route("/api/product")]
+[Route("/api/productInstance")]
 public class ProductInstanceController : ControllerBase
 {
     private readonly IProductInstanceService _service;
@@ -17,7 +17,7 @@ public class ProductInstanceController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(CreateProductInstanceDto dto)
+    public IActionResult Create([FromForm] CreateProductInstanceDto dto)
     {
         var result = _service.CreateProduct(dto);
         return Ok(result);

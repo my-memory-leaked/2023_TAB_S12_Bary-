@@ -26,4 +26,8 @@ public partial class Comment
     public virtual Offer Offer { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
+
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
+
+    public virtual ICollection<User> UsersNavigation { get; set; } = new List<User>();
 }

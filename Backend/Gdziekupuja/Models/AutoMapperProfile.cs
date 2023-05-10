@@ -1,6 +1,7 @@
 using AutoMapper;
 using Gdziekupuja.Models.DTOs;
 using Gdziekupuja.Models.DTOs.AddressDtos;
+using Gdziekupuja.Models.DTOs.CategoryDtos;
 using Gdziekupuja.Models.DTOs.ProductDtos;
 using Gdziekupuja.Models.DTOs.ProductInstanceDtos;
 using Gdziekupuja.Models.DTOs.SalesPointDtos;
@@ -15,14 +16,18 @@ public class AutoMapperProfile : Profile
         CreateMap<Address, AddressDto>();
         CreateMap<CreateAddressDto, Address>();
 
+        //Category
+        CreateMap<Category, CategoryDto>();
+
         //County
         CreateMap<County, CountyDto>();
 
         //Products
-        CreateMap<Product, CreateProductDto>();
+        CreateMap<CreateProductDto, Product>();
 
         //Product instance
-        CreateMap<ProductInstance, CreateProductInstanceDto>();
+        CreateMap<CreateProductInstanceDto, ProductInstance>();
+        //.ForMember(pi => pi.Id, dto => dto.Ignore());
 
         // SalesPoint
         CreateMap<SalesPoint, SalesPointDto>();

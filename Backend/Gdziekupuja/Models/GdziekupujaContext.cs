@@ -19,19 +19,11 @@ public partial class GdziekupujaContext : DbContext
 
     public virtual DbSet<Administrator> Administrators { get; set; }
 
-    public virtual DbSet<Belong> Belongs { get; set; }
-
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Comment> Comments { get; set; }
 
     public virtual DbSet<County> Counties { get; set; }
-
-    public virtual DbSet<Disliker> Dislikers { get; set; }
-
-    public virtual DbSet<Favourite> Favourites { get; set; }
-
-    public virtual DbSet<Liker> Likers { get; set; }
 
     public virtual DbSet<Offer> Offers { get; set; }
 
@@ -42,6 +34,10 @@ public partial class GdziekupujaContext : DbContext
     public virtual DbSet<SalesPoint> SalesPoints { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data source=LAPTOK; Initial Catalog = Gdziekupuja;  Trusted_Connection=True; TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -74,22 +70,6 @@ public partial class GdziekupujaContext : DbContext
                 .HasConstraintName("Administrators_Users");
         });
 
-        modelBuilder.Entity<Belong>(entity =>
-        {
-            entity.HasNoKey();
-
-            entity.Property(e => e.CategoryId).HasColumnName("category_id");
-            entity.Property(e => e.ProductInstanceId).HasColumnName("product_instance_id");
-
-            entity.HasOne(d => d.Category).WithMany()
-                .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("Has_products");
-
-            entity.HasOne(d => d.ProductInstance).WithMany()
-                .HasForeignKey(d => d.ProductInstanceId)
-                .HasConstraintName("Belongs_to");
-        });
-
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Categories_pk");
@@ -98,7 +78,7 @@ public partial class GdziekupujaContext : DbContext
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.ParentId).HasColumnName("parent_id");
 
-            entity.HasOne(d => d.Parent).WithMany(p => p.Children)
+            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("Subcategory");
         });
@@ -139,57 +119,6 @@ public partial class GdziekupujaContext : DbContext
             entity.Property(e => e.Name).HasColumnName("name");
         });
 
-        modelBuilder.Entity<Disliker>(entity =>
-        {
-            entity.HasNoKey();
-
-            entity.Property(e => e.CommentId).HasColumnName("comment_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.Comment).WithMany()
-                .HasForeignKey(d => d.CommentId)
-                .HasConstraintName("Disliked_by");
-
-            entity.HasOne(d => d.User).WithMany()
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Dislikes");
-        });
-
-        modelBuilder.Entity<Favourite>(entity =>
-        {
-            entity.HasNoKey();
-
-            entity.Property(e => e.OfferId).HasColumnName("offer_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.Offer).WithMany()
-                .HasForeignKey(d => d.OfferId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Favourites_Offers");
-
-            entity.HasOne(d => d.User).WithMany()
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("Has_favourite");
-        });
-
-        modelBuilder.Entity<Liker>(entity =>
-        {
-            entity.HasNoKey();
-
-            entity.Property(e => e.CommentId).HasColumnName("comment_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.Comment).WithMany()
-                .HasForeignKey(d => d.CommentId)
-                .HasConstraintName("Liked_By");
-
-            entity.HasOne(d => d.User).WithMany()
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Likes");
-        });
-
         modelBuilder.Entity<Offer>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Offers_pk");
@@ -218,7 +147,7 @@ public partial class GdziekupujaContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Provides");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Offers)
+            entity.HasOne(d => d.User).WithMany(p => p.OffersNavigation)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("Adds_offer");
         });
@@ -243,10 +172,28 @@ public partial class GdziekupujaContext : DbContext
             entity.Property(e => e.ImageName).HasColumnName("image_name");
             entity.Property(e => e.Model).HasColumnName("model");
 
-            entity.HasOne(d => d.Product).WithOne(p => p.ProductInstance)
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.ProductInstance)
                 .HasForeignKey<ProductInstance>(d => d.Id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Has_instance");
+
+            entity.HasMany(d => d.Categories).WithMany(p => p.ProductInstances)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Belong",
+                    r => r.HasOne<Category>().WithMany()
+                        .HasForeignKey("CategoryId")
+                        .HasConstraintName("Has_products"),
+                    l => l.HasOne<ProductInstance>().WithMany()
+                        .HasForeignKey("ProductInstanceId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("Belongs_to"),
+                    j =>
+                    {
+                        j.HasKey("ProductInstanceId", "CategoryId").HasName("Belongs_pk");
+                        j.ToTable("Belongs");
+                        j.IndexerProperty<int>("ProductInstanceId").HasColumnName("product_instance_id");
+                        j.IndexerProperty<int>("CategoryId").HasColumnName("category_id");
+                    });
         });
 
         modelBuilder.Entity<SalesPoint>(entity =>
@@ -273,6 +220,60 @@ public partial class GdziekupujaContext : DbContext
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
             entity.Property(e => e.PasswordSalt).HasColumnName("password_salt");
+
+            entity.HasMany(d => d.Comments1).WithMany(p => p.UsersNavigation)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Liker",
+                    r => r.HasOne<Comment>().WithMany()
+                        .HasForeignKey("CommentId")
+                        .HasConstraintName("Liked_By"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("Likes"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "CommentId").HasName("Likers_pk");
+                        j.ToTable("Likers");
+                        j.IndexerProperty<int>("UserId").HasColumnName("user_id");
+                        j.IndexerProperty<int>("CommentId").HasColumnName("comment_id");
+                    });
+
+            entity.HasMany(d => d.CommentsNavigation).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Disliker",
+                    r => r.HasOne<Comment>().WithMany()
+                        .HasForeignKey("CommentId")
+                        .HasConstraintName("Disliked_by"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("Dislikes"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "CommentId").HasName("Dislikers_pk");
+                        j.ToTable("Dislikers");
+                        j.IndexerProperty<int>("UserId").HasColumnName("user_id");
+                        j.IndexerProperty<int>("CommentId").HasColumnName("comment_id");
+                    });
+
+            entity.HasMany(d => d.Offers).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Favourite",
+                    r => r.HasOne<Offer>().WithMany()
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("Favourites_Offers"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("Has_favourite"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "OfferId").HasName("Favourites_pk");
+                        j.ToTable("Favourites");
+                        j.IndexerProperty<int>("UserId").HasColumnName("user_id");
+                        j.IndexerProperty<int>("OfferId").HasColumnName("offer_id");
+                    });
         });
 
         OnModelCreatingPartial(modelBuilder);

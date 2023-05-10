@@ -25,7 +25,7 @@ public class ProductService : IProductService
     {
         if (_dbContext.Products.Any(p => p.Name == dto.Name))
             throw new NotUniqueElementException("Produkt o podanej nazwie już istnieje");
-
+        
         var product = _mapper.Map<Product>(dto);
         _dbContext.Products.Add(product);
         _dbContext.SaveChanges();

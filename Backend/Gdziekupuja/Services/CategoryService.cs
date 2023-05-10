@@ -59,7 +59,7 @@ public class CategoryService : ICategoryService
             throw new ArgumentException("Category cannot have itself as a child");
         }
 
-        foreach (var child in category.Children)
+        foreach (var child in category.InverseParent)
         {
             CheckChildrenId(child, parentId);
         }
@@ -77,7 +77,7 @@ public class CategoryService : ICategoryService
     {
         var categories = _dbContext.Categories
             .Where(c => c.Id == superiorId)
-            .Include(c => c.Children)
+            .Include(c => c.InverseParent)
             .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
             .ToList();
 
@@ -85,7 +85,7 @@ public class CategoryService : ICategoryService
 
         foreach (var category in categories)
         {
-            FillChildren(category.Children, childrenCount.Value);
+            FillChildren(category.InverseParent, childrenCount.Value);
         }
 
         return categories;
@@ -105,9 +105,9 @@ public class CategoryService : ICategoryService
                 .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
                 .ToList();
 
-            child.Children = temp.Any() && childrenCount != 0 ? temp : null;
+            child.InverseParent = temp.Any() && childrenCount != 0 ? temp : null;
 
-            FillChildren(child.Children, childrenCount);
+            FillChildren(child.InverseParent, childrenCount);
         }
     }
 }

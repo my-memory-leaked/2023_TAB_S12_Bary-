@@ -25,7 +25,7 @@ public class ProductInstanceService : IProductInstanceService
 
     public int CreateProduct(CreateProductInstanceDto dto)
     {
-        var categories = _dbContext.Belongs.Where(b => dto.CategoryIds.Contains(b.CategoryId)).ToList();
+        var categories = _dbContext.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
 
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == dto.ProductId);
         if (product is null)
@@ -47,13 +47,33 @@ public class ProductInstanceService : IProductInstanceService
             image.Save(path);
         }
 
-        var productInstance = _mapper.Map<ProductInstance>(dto);
-        productInstance.Product = product;
-        productInstance.Categories = categories;
-        productInstance.ImageName = dto.Image.FileName;
+        using (var transaction = _dbContext.Database.BeginTransaction())
+        {
+            try
+            {
+                // Enable IDENTITY_INSERT
+                _dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.ProductInstances ON");
 
-        _dbContext.ProductInstances.Add(productInstance);
-        _dbContext.SaveChanges();
-        return productInstance.Id;
+                // Perform database operations that require IDENTITY_INSERT
+                var productInstance = _mapper.Map<ProductInstance>(dto);
+                productInstance.IdNavigation = product;
+                productInstance.Categories = categories;
+                productInstance.ImageName = dto.Image.FileName;
+                _dbContext.ProductInstances.Add(productInstance);
+                _dbContext.SaveChanges();
+
+                // Commit transaction and disable IDENTITY_INSERT
+                transaction.Commit();
+                _dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.ProductInstances OFF");
+
+                return productInstance.Id;
+            }
+            catch (Exception ex)
+            {
+                // Handle exception and rollback transaction if necessary
+                transaction.Rollback();
+                throw;
+            }
+        }
     }
 }

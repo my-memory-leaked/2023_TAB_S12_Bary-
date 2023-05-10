@@ -21,5 +21,11 @@ public partial class User
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
+    public virtual ICollection<Offer> OffersNavigation { get; set; } = new List<Offer>();
+
+    public virtual ICollection<Comment> Comments1 { get; set; } = new List<Comment>();
+
+    public virtual ICollection<Comment> CommentsNavigation { get; set; } = new List<Comment>();
+
     public virtual ICollection<Offer> Offers { get; set; } = new List<Offer>();
 }
