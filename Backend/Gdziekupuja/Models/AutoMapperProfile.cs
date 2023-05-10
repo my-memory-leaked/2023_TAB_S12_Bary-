@@ -18,6 +18,7 @@ public class AutoMapperProfile : Profile
 
         //Category
         CreateMap<Category, CategoryDto>();
+        CreateMap<Category, SuperiorCategoryDto>();
 
         //County
         CreateMap<County, CountyDto>();
