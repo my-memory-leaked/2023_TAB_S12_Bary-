@@ -45,4 +45,18 @@ public class CategoryController : ControllerBase
     {
         return Ok(_service.GetAllCategoriesFlat());
     }
+
+    [HttpPut("{id}")]
+    public ActionResult<int> UpdateCategory(int id, UpdateCategoryDto dto)
+    {
+        _service.Update(id, dto);
+        return Ok(id);
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult DeleteCategory(int id)
+    {
+        _service.Delete(id);
+        return Ok();
+    }
 }
