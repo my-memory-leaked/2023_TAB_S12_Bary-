@@ -1,15 +1,18 @@
 using System.Text.Json;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
 using Gdziekupuja.Models.DTOs.ProductInstanceDtos;
+using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp.Processing.Processors.Transforms;
 
 namespace Gdziekupuja.Services;
 
 public interface IProductInstanceService
 {
-    int CreateProduct(CreateProductInstanceDto dto);
+    int Create(CreateProductInstanceDto dto);
+    IEnumerable<ProductInstanceDto> GetAll();
 }
 
 public class ProductInstanceService : IProductInstanceService
@@ -23,7 +26,7 @@ public class ProductInstanceService : IProductInstanceService
         _mapper = mapper;
     }
 
-    public int CreateProduct(CreateProductInstanceDto dto)
+    public int Create(CreateProductInstanceDto dto)
     {
         var categories = _dbContext.Categories.Where(c => dto.CategoryIds.Contains(c.Id)).ToList();
 
@@ -35,7 +38,11 @@ public class ProductInstanceService : IProductInstanceService
         var imageName =
             $"{dto.Image.Name}_{creationTime:ddMMyyyyhhmmssfff}_{new Random().Next(0, 10000000)}.{dto.Image.FileName.Split('.').Last()}";
 
-        var path = Path.Combine(Path.GetFullPath("wwwroot"), imageName);
+        var folderName = "wwwroot";
+        if (!Directory.Exists(folderName))
+            Directory.CreateDirectory(folderName);
+
+        var path = Path.Combine(Path.GetFullPath(folderName), imageName);
 
         using (var image = Image.Load(dto.Image.OpenReadStream()))
         {
@@ -61,5 +68,14 @@ public class ProductInstanceService : IProductInstanceService
         _dbContext.SaveChanges();
 
         return productInstance.Id;
+    }
+
+    public IEnumerable<ProductInstanceDto> GetAll()
+    {
+        var p = _dbContext.ProductInstances
+            .Include(pi => pi.Product)
+            .Include(pi => pi.Categories)
+            .ProjectTo<ProductInstanceDto>(_mapper.ConfigurationProvider);
+        return p;
     }
 }

@@ -31,6 +31,7 @@ public class AutoMapperProfile : Profile
 
         //Product instance
         CreateMap<CreateProductInstanceDto, ProductInstance>();
+        CreateMap<ProductInstance, ProductInstanceDto>();
 
         // SalesPoint
         CreateMap<SalesPoint, SalesPointDto>();
