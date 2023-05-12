@@ -12,6 +12,7 @@ public interface ICategoryService
     IEnumerable<SuperiorCategoryDto> GetAllSuperiors();
     IEnumerable<CategoryDto> GetCategoriesBySuperiorId(int superiorId, int? childrenCount);
     IEnumerable<CategoryDto> GetAllCategories();
+    IEnumerable<CategoryFlatDto> GetAllCategoriesFlat();
 }
 
 public class CategoryService : ICategoryService
@@ -88,6 +89,12 @@ public class CategoryService : ICategoryService
         }
 
         return categories;
+    }
+
+    public IEnumerable<CategoryFlatDto> GetAllCategoriesFlat()
+    {
+        return _dbContext.Categories
+            .ProjectTo<CategoryFlatDto>(_mapper.ConfigurationProvider);
     }
 
     public IEnumerable<CategoryDto> GetCategoriesBySuperiorId(int superiorId, int? childrenCount)

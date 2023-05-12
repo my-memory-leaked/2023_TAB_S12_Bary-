@@ -16,27 +16,33 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(CreateCategoryDto category)
+    public ActionResult<int> Create(CreateCategoryDto category)
     {
         var id = _service.Create(category);
         return Ok(id);
     }
 
     [HttpGet("getBySuperiorId")]
-    public IActionResult GetCategoriesBySuperiorId([FromQuery] int supId, int? childrenCount)
+    public ActionResult<IEnumerable<CategoryDto>> GetCategoriesBySuperiorId([FromQuery] int supId, int? childrenCount)
     {
         return Ok(_service.GetCategoriesBySuperiorId(supId, childrenCount));
     }
 
     [HttpGet("getAllSuperiors")]
-    public IActionResult GetAllSuperiors()
+    public ActionResult<IEnumerable<SuperiorCategoryDto>> GetAllSuperiors()
     {
         return Ok(_service.GetAllSuperiors());
     }
 
     [HttpGet("getAllCategories")]
-    public IActionResult GetAllCategories()
+    public ActionResult<IEnumerable<CategoryDto>> GetAllCategories()
     {
         return Ok(_service.GetAllCategories());
+    }
+
+    [HttpGet("getAllFlatCategories")]
+    public ActionResult<IEnumerable<CategoryFlatDto>> GetAllFlatCategories()
+    {
+        return Ok(_service.GetAllCategoriesFlat());
     }
 }

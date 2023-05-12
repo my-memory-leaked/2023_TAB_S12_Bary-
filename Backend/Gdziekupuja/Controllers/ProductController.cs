@@ -16,7 +16,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(CreateProductDto dto)
+    public ActionResult<int> Create(CreateProductDto dto)
     {
         var result = _service.CreateProduct(dto);
         return Ok(result);

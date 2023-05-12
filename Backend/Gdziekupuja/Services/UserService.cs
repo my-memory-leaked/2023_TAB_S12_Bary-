@@ -8,6 +8,7 @@ using Gdziekupuja.Common;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
 using Gdziekupuja.Models.DTOs.UserDtos;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Gdziekupuja.Services;

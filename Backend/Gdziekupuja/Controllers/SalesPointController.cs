@@ -23,13 +23,13 @@ public class SalesPointController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult GetSalesPoints([FromQuery] int? countyId)
+    public ActionResult<IEnumerable<SalesPointDto>?> GetSalesPoints([FromQuery] int? countyId)
     {
         return Ok(_service.GetSalesPoints(countyId));
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateSalesPoint([FromRoute] int id, [FromBody] UpdateSalesPointDto dto)
+    public ActionResult<int> UpdateSalesPoint([FromRoute] int id, [FromBody] UpdateSalesPointDto dto)
     {
         return Ok(_service.UpdateSalesPoint(id, dto));
     }
