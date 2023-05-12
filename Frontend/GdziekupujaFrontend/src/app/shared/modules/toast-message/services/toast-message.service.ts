@@ -14,6 +14,7 @@ export class ToastMessageService {
     this._snackBar.openFromComponent(ErrorToastComponent, {
       duration: this.durationInMilliseconds,
       data: message,
+      panelClass: 'failure-toast',
     });
   }
 
@@ -21,6 +22,7 @@ export class ToastMessageService {
     this._snackBar.openFromComponent(SuccessToastComponent, {
       duration: this.durationInMilliseconds,
       data: message,
+      panelClass: 'success-toast',
     });
   }
 }

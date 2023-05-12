@@ -15,6 +15,19 @@ export const ADMIN_FIELDS_LIST = {
     "product",
     "name",
   ],
+  AddProductInstance: [
+    "productId",
+    "categoryIds",
+    "additionalInfo",
+    "image",
+  ],
+  ModifyProductInstance: [
+    "productInstanceId",
+    "productId",
+    "categoryIds",
+    "additionalInfo",
+    "image",
+  ],
   AddSalesPoint: [
     "name",
     "address",

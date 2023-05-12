@@ -210,3 +210,21 @@ html {
 .mat-mdc-option .mdc-list-item__primary-text {
   color: white;
 }
+
+.failure-toast {
+  .mdc-snackbar__surface {
+    background-color: rgba(230, 0, 0, 0.665) !important;
+  }
+}
+
+.success-toast {
+  .mdc-snackbar__surface {
+    background-color: rgba(0, 230, 0, 0.665) !important;
+  }
+}
+
+.removeDropdownIconMargin {
+  .mat-mdc-menu-item .mat-icon {
+    margin-right: 0px !important;
+  }
+}

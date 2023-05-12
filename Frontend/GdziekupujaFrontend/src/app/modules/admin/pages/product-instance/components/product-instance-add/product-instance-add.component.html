@@ -1,0 +1,90 @@
+<div class="forms">
+  <mat-form-field
+    class="fix backgroundColor item dropdown"
+    [hideRequiredMarker]="true"
+  >
+    <mat-label class="black">Produkt</mat-label>
+    <mat-select formControlName="productId">
+      <mat-option
+        *ngFor="let item of products | async"
+        [value]="item.id"
+      >
+        {{ item.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <lz-nested-dropdown
+    class="dropdown dropdown--pad fix backgroundColor item removeDropdownIconMargin"
+    [categoriesData]="categories$ | async"
+    [inAdmin]="true"
+    name="Kategorie"
+    (dropdownChange)="addReceiptLine($event)"
+  >
+  </lz-nested-dropdown>
+
+</div>
+
+<div
+  class="forms"
+  [class.center]="!categoriesToAdd.length"
+>
+  <div class="base">
+    <lz-base64 (emitImage)="saveImage($event)"></lz-base64>
+  </div>
+  <div
+    *ngIf="categoriesToAdd.length"
+    class="list"
+  >
+    <app-list-items
+      *ngFor="let category of categoriesToAdd; let i=index"
+      [data]="'id: ' + category.id.toString() + ', kategoria: ' + category.name"
+      [lineFixer]="{ index: i, array: categoriesToAdd}"
+      (delete)="removeReceiptLine(category, i)"
+    >
+    </app-list-items>
+  </div>
+</div>
+
+<div class="forms">
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor"
+    label="Nazwa właściwości"
+    type="text"
+    controlName="part1"
+  >
+  </my-input>
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor"
+    label="Właściwość"
+    type="text"
+    controlName="part2"
+  >
+  </my-input>
+</div>
+<div class="center">
+  <button
+    class="secondaryColor white"
+    mat-raised-button
+    (click)="mergeInputs()"
+  >
+    <mat-icon>add</mat-icon>
+    Dodaj
+  </button>
+</div>
+<div class="forms fix--formatting">
+  <div
+    *ngIf="additionalProperties.length"
+    class="list"
+  >
+    <app-list-items
+      *ngFor="let property of additionalProperties; let i=index"
+      [data]="property"
+      [lineFixer]="{ index: i, array: additionalProperties}"
+    >
+      <!-- (delete)="removeReceiptLine(property, i)" -->
+    </app-list-items>
+  </div>
+</div>

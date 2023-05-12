@@ -8,7 +8,7 @@ import { AllAdminActionsType } from '@modules/admin/types/admin-actions.types';
 import { Actions } from '@modules/admin/interfaces/admin-form-response.interface';
 import { AdminStorageService } from '@modules/admin/services/admin-storage.service';
 import { ToastMessageService } from '@shared/modules/toast-message/services/toast-message.service';
-import { Category, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
+import { Category, Product, ProductInstance, SalesPoint } from '@modules/offers/interfaces/offers.interface';
 import { DropDownText } from '@shared/modules/lz-nested-dropdown/interfaces/nested-dropdown.interface';
 
 @Component({
@@ -39,6 +39,12 @@ export class AdminShowTableComponent implements OnInit {
       }
       else if (value === 'ModifyProduct') {
         this.toastMessageService.notifyOfSuccess("Zaktualizowano produkt");
+      }
+      else if (value === 'AddProductInstance') {
+        this.toastMessageService.notifyOfSuccess("Dodano nową instancję produktu");
+      }
+      else if (value === 'ModifyProductInstance') {
+        this.toastMessageService.notifyOfSuccess("Zaktualizowano instancję produktu");
       }
       else if (value === 'AddSalesPoint') {
         this.toastMessageService.notifyOfSuccess("Dodano nowy punkt sprzedaży");
@@ -145,6 +151,24 @@ export class AdminShowTableComponent implements OnInit {
           this.displayedColumns = ['id', 'productName', 'categoryName', 'delete'];
           break;
         }
+        case 'Instancja produktu': {
+          this.adminStorageService.getDataForTable(this.operationText).subscribe((res: ProductInstance[]) => this.tempData = res);
+          this.tempData.map((res: ProductInstance) => {
+            const categoriesFormatted = res.categories.map((category) => {
+              return category.id + ', ' + category.name;
+            })
+            console.log(categoriesFormatted);
+            this.data.push({
+              id: res.id,
+              product: res.product.name,
+              additionalInfo: res.additionalInfo,//TODO jak sformatowac
+              categories: categoriesFormatted,
+            })
+          });
+
+          this.displayedColumns = ['id', 'productName', 'additionalInfo', 'categories'];
+          break;
+        }
         default: {
           break;
         }
@@ -182,6 +206,21 @@ export class AdminShowTableComponent implements OnInit {
               this.data.push({
                 id: res.id,
                 productName: res.name,
+              })
+            });
+            break;
+          }
+          case 'Instancja produktu': {
+            result.map((res: ProductInstance) => {
+              const categoriesFormatted = res.categories.map((category) => {
+                return category.id + ', ' + category.name;
+              })
+              console.log(categoriesFormatted);
+              this.data.push({
+                id: res.id,
+                product: res.product.name,
+                additionalInfo: res.additionalInfo,//TODO jak sformatowac
+                categories: categoriesFormatted,
               })
             });
             break;

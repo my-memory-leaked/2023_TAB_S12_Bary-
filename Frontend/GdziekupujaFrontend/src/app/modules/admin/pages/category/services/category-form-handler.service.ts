@@ -19,8 +19,8 @@ export class CategoryFormHandlerService {
 
   setFormGroupForCategoryModify(formGroup: FormGroup): void {
     formGroup.addControl('category', this.fb.control(null, [Validators.required]));
-    formGroup.addControl('name', this.fb.control(null, [Validators.required]));//TODO co ma byc obowiazkowe a co nie 
-    formGroup.addControl('parentId', this.fb.control(null));//TODO co ma byc obowiazkowe a co nie 
+    formGroup.addControl('name', this.fb.control(null));
+    formGroup.addControl('parentId', this.fb.control(null));
   }
 
   clearControls(form: FormGroup, previousType: AddModifyCategoryType): void {

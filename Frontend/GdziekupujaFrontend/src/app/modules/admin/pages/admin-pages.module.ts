@@ -29,6 +29,16 @@ import { ProductModifyComponent } from './product/components/product-modify/prod
 import { ProductSetActionComponent } from './product/components/product-set-action/product-set-action.component';
 import { ProductTypeSwitchComponent } from './product/components/product-type-switch/product-type-switch.component';
 import { ProductComponent } from './product/product.component';
+import { ProductInstanceAddComponent } from './product-instance/components/product-instance-add/product-instance-add.component';
+import { ProductInstanceModifyComponent } from './product-instance/components/product-instance-modify/product-instance-modify.component';
+import { ProductInstanceSetActionComponent } from './product-instance/components/product-instance-set-action/product-instance-set-action.component';
+import { ProductInstanceTypeSwitchComponent } from './product-instance/components/product-instance-type-switch/product-instance-type-switch.component';
+import { ProductInstanceFormHandlerService } from './product-instance/services/product-instance-form-handler.service';
+import { ProductInstanceComponent } from './product-instance/product-instance.component';
+import { Base64Component } from './product-instance/components/base64/base64.component';
+import { LzNestedDropdownModule } from '@shared/modules/lz-nested-dropdown/lz-nested-dropdown.module';
+import { TopMenuService } from '@modules/top-menu/api/top-menu.service';
+import { ListItemsComponent } from './product-instance/components/list-items/list-items.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +57,6 @@ import { ProductComponent } from './product/product.component';
     ProductModifyComponent,
     ProductSetActionComponent,
     ProductTypeSwitchComponent,
-    // Base64Component,
     // UserComponent,
     // UserBanComponent,
     // UserUnbanComponent,
@@ -58,11 +67,13 @@ import { ProductComponent } from './product/product.component';
     // OfferModifyComponent,
     // OfferSetActionComponent,
     // OfferTypeSwitchComponent,
-    // ProductInstanceComponent,
-    // ProductInstanceAddComponent,
-    // ProductInstanceModifyComponent,
-    // ProductInstanceSetActionComponent,
-    // ProductInstanceTypeSwitchComponent,
+    Base64Component,
+    ProductInstanceComponent,
+    ProductInstanceAddComponent,
+    ProductInstanceModifyComponent,
+    ProductInstanceSetActionComponent,
+    ProductInstanceTypeSwitchComponent,
+    ListItemsComponent,
   ],
   imports: [
     SharedModule,
@@ -78,6 +89,7 @@ import { ProductComponent } from './product/product.component';
     MatSlideToggleModule,
     MatButtonToggleModule,
     MatButtonToggleModule,
+    LzNestedDropdownModule,
   ],
   providers: [
     ProductFormHandlerService,
@@ -85,7 +97,8 @@ import { ProductComponent } from './product/product.component';
     SalesPointFormHandlerService,
     // UserFormHandlerService,
     // OfferFormHandlerService,
-    // ProductInstanceFormHandlerService,
+    ProductInstanceFormHandlerService,
+    TopMenuService,
   ]
 })
 export class AdminPagesModule { }

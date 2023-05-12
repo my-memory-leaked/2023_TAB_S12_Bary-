@@ -46,15 +46,14 @@
 
       <div class="line--container">
         <div class="line"></div>
-        <ng-container *ngIf="categories$ | async as categories">
-          <lz-nested-dropdown
-            class="dropdown fix--kategoria kategoria dropdownNoLeftBorder"
-            [categoriesData]="categories"
-            name="Kategorie"
-            (dropdownChange)="handleDropdownChange($event)"
-          >
-          </lz-nested-dropdown>
-        </ng-container>
+        <lz-nested-dropdown
+          class="dropdown fix--kategoria kategoria dropdownNoLeftBorder removeDropdownIconMargin"
+          [categoriesData]="categories$ | async"
+          [addClear]="true"
+          name="Kategorie"
+          (dropdownChange)="handleDropdownChange($event)"
+        >
+        </lz-nested-dropdown>
       </div>
 
       <div

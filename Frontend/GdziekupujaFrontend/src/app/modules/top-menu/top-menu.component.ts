@@ -68,7 +68,7 @@ export class TopMenuComponent implements OnInit {
     this.logged = this.myLocalStorageService.isLogged();
   }
 
-  handleDropdownChange(chosenCategory: NestedDropdown<unknown>): void {
+  handleDropdownChange(chosenCategory: Categories): void {
     console.log(chosenCategory);
   }
 

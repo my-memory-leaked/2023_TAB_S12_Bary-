@@ -1,0 +1,29 @@
+<div class="box">
+  <mat-button-toggle-group
+    class="buttons"
+    name="action-type"
+    (change)="handleActionTypeChange($event)"
+    value="AddProductInstance"
+  >
+    <mat-button-toggle
+      value="AddProductInstance"
+      class="button button--left"
+      [ngClass]="prevType === 'ModifyProductInstance' ? 'color-clicked' : 'color-default'"
+    >
+      Dodaj
+    </mat-button-toggle>
+    <mat-button-toggle
+      value="ModifyProductInstance"
+      class="button button--right"
+      [ngClass]="prevType === 'AddProductInstance' ? 'color-clicked' : 'color-default'"
+    >
+      Modyfikuj
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<product-instance-type-switch
+  class="form"
+  [toggleValue]="prevType"
+>
+</product-instance-type-switch>

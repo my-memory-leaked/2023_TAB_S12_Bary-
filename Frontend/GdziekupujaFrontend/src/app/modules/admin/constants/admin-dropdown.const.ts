@@ -6,6 +6,8 @@ import { SalesPointService } from "@modules/admin/pages/sales-point/services/sal
 import { NestedDropdown } from "@shared/modules/lz-nested-dropdown/interfaces/nested-dropdown.interface";
 import { ProductComponent } from "../pages/product/product.component";
 import { ProductService } from "../pages/product/services/product.service";
+import { ProductInstanceComponent } from "../pages/product-instance/product-instance.component";
+import { ProductInstanceService } from "../pages/product-instance/services/product-instance.service";
 
 export const AdminDropDown: NestedDropdown<AdminDropdownData>[] =
   [
@@ -44,11 +46,11 @@ export const AdminDropDown: NestedDropdown<AdminDropdownData>[] =
     //     formProvider: UserService,
     //   },
     // },
-    // {
-    //   name: 'Instancja produktu',
-    //   data: {
-    //     formComponent: ProductInstanceComponent,
-    //     formProvider: ProductInstanceService,
-    //   },
-    // },
+    {
+      name: 'Instancja produktu',
+      data: {
+        formComponent: ProductInstanceComponent,
+        formProvider: ProductInstanceService,
+      },
+    },
   ];

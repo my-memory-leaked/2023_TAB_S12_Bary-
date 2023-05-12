@@ -1,0 +1,14 @@
+.forms {
+  display: flex;
+  margin: 30px 0 25px 0;
+  gap: 18px;
+}
+
+.fix {
+  border: solid 1px white;
+  border-radius: 16px;
+}
+
+.item {
+  width: calc(100%/2);
+}

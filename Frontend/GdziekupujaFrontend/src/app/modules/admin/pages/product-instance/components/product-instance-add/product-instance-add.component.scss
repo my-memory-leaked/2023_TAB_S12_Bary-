@@ -1,0 +1,45 @@
+.forms {
+  margin: 30px 0 25px 0;
+  gap: 18px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown {
+  height: 56px;
+}
+
+.fix {
+  border: solid 1px white;
+  border-radius: 16px;
+  width: 50%;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 47%;
+  height: 100%;
+  max-height: 224px;
+  border: solid 1px white;
+  border-radius: 16px;
+  padding: 8px;
+  overflow: auto;
+}
+
+.fix--formatting {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.base {
+  width: 45%;
+}

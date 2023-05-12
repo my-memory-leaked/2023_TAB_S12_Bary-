@@ -2,7 +2,7 @@
   <button
     mat-menu-item
     [matMenuTriggerFor]="show1"
-    class="button--categories"
+    [ngClass]="inAdmin ? 'button--categories--admin' : 'button--categories--home'"
   >
     {{ functionName }}
     <mat-icon class="icon">
@@ -21,12 +21,12 @@
           [matMenuTriggerFor]="menu.childMenu"
           #mouseTrigger="matMenuTrigger"
           (mouseover)="mouseTrigger.openMenu()"
-          (click)="changeDropdown(item)"
+          (click)="changeDropdown(item, true)"
         >
           {{ item.name }}
         </button>
         <lz-dropdown-item-categories
-          (emitChild)="changeDropdown($event)"
+          (emitChild)="changeDropdown($event, true)"
           #menu
           [childData]="item.inverseParent"
         >
@@ -35,7 +35,7 @@
       <ng-container *ngIf="!item.inverseParent || item.inverseParent.length === 0">
         <button
           mat-menu-item
-          (click)="changeDropdown(item)"
+          (click)="changeDropdown(item, true)"
         >
           {{ item.name }}
         </button>
@@ -43,15 +43,6 @@
     </ng-container>
   </mat-menu>
 </ng-container>
-
-
-
-
-
-
-
-
-
 
 
 <ng-template #normal>
@@ -73,7 +64,7 @@
     <ng-container *ngFor="let item of navData">
       <button
         mat-menu-item
-        (click)="changeDropdown(item)"
+        (click)="changeDropdown(item, false)"
       >
         {{ item.name }}
       </button>

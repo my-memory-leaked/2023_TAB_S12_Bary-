@@ -1,0 +1,32 @@
+<div class="image">
+  <img
+    *ngIf="file; else noFile"
+    [src]="file"
+    width="288px"
+    height="162px"
+  >
+  <ng-template #noFile><span class="font">Dodaj zdjęcie</span></ng-template>
+</div>
+
+<input
+  class="file-input"
+  type="file"
+  #fileInput
+>
+
+<div class="container">
+  <button
+    type="button"
+    mat-icon-button
+    (click)="$event.stopPropagation(); fileInput.click()"
+  >
+    <mat-icon>upload</mat-icon>
+  </button>
+
+  <button
+    mat-icon-button
+    (click)="deleteImage()"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

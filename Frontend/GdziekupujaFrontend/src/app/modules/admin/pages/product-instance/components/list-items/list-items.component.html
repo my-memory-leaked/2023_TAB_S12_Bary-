@@ -1,0 +1,20 @@
+<div class="content">
+  <button
+    mat-icon-button
+    type="button"
+    (click)="deleteItem()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="flex">
+    <p class="flex__item">
+      {{ data }}
+    </p>
+  </div>
+</div>
+<div
+  *ngIf="lineFixer.index+1 !== lineFixer.array.length"
+  class="line"
+>
+</div>

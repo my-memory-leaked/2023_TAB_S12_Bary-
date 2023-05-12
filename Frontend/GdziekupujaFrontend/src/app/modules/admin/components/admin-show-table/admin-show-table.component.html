@@ -109,6 +109,25 @@
   </ng-container>
 
   <ng-container
+    *ngIf="displayedColumns.includes('categories')"
+    matColumnDef="categories"
+  >
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+    >
+      Kategorie
+    </th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+    >
+      {{ element.categories }}
+    </td>
+  </ng-container>
+
+  <ng-container
     *ngIf="displayedColumns.includes('email')"
     matColumnDef="email"
   >
@@ -124,6 +143,25 @@
       *matCellDef="let element"
     >
       {{ element.email }}
+    </td>
+  </ng-container>
+
+  <ng-container
+    *ngIf="displayedColumns.includes('additionalInfo')"
+    matColumnDef="additionalInfo"
+  >
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+    >
+      Dodatkowe informacje
+    </th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+    >
+      {{ element.additionalInfo }}
     </td>
   </ng-container>
 
