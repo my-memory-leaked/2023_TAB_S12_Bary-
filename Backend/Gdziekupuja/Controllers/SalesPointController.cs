@@ -27,4 +27,17 @@ public class SalesPointController : ControllerBase
     {
         return Ok(_service.GetSalesPoints(countyId));
     }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateSalesPoint([FromRoute] int id, [FromBody] UpdateSalesPointDto dto)
+    {
+        return Ok(_service.UpdateSalesPoint(id, dto));
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult Delete([FromRoute] int id)
+    {
+        _service.DeleteSalesPoint(id);
+        return Ok();
+    }
 }

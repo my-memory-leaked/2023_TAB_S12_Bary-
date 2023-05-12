@@ -10,6 +10,8 @@ public interface ISalesPointService
 {
     int CreateSalesPoint(CreateSalesPointDto dto);
     IEnumerable<SalesPointDto>? GetSalesPoints(int? countyId);
+    int UpdateSalesPoint(int id, UpdateSalesPointDto dto);
+    void DeleteSalesPoint(int id);
 }
 
 public class SalesPointService : ISalesPointService
@@ -50,5 +52,42 @@ public class SalesPointService : ISalesPointService
             .OrderBy(s => s.Name);
 
         return _mapper.Map<IEnumerable<SalesPointDto>>(salesPoints);
+    }
+
+    public int UpdateSalesPoint(int id, UpdateSalesPointDto dto)
+    {
+        var salesPoint = _dbContext
+            .SalesPoints
+            .Include(s => s.Address)
+            .FirstOrDefault(s => s.Id == id);
+
+        if (salesPoint == null)
+            throw new NotFoundException("Wybrany punkt sprzedaży nie istnieje");
+
+        salesPoint.Name = dto?.Name ?? salesPoint.Name;
+
+        if (dto?.Address != null)
+        {
+            salesPoint.Address.City = dto?.Address.City ?? salesPoint.Address.City;
+            salesPoint.Address.Street = dto?.Address.Street ?? salesPoint.Address.Street;
+            salesPoint.Address.PostalCode = dto?.Address.PostalCode ?? salesPoint.Address.PostalCode;
+            salesPoint.Address.Number = dto?.Address.Number ?? salesPoint.Address.Number;
+            salesPoint.Address.CountyId = dto?.Address.CountyId ?? salesPoint.Address.CountyId;
+        }
+
+        _dbContext.SaveChanges();
+        return id;
+    }
+
+    public void DeleteSalesPoint(int id)
+    {
+        var salesPoint = _dbContext
+                             .SalesPoints
+                             .Include(s => s.Address)
+                             .FirstOrDefault(p => p.Id == id)
+                         ?? throw new NotFoundException("Produkt nie istnieje");
+
+        _dbContext.Remove(salesPoint.Address);
+        _dbContext.SaveChanges();
     }
 }

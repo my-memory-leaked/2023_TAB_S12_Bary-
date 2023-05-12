@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
 using Gdziekupuja.Models.DTOs.ProductDtos;
@@ -8,6 +9,7 @@ namespace Gdziekupuja.Services;
 public interface IProductService
 {
     int CreateProduct(CreateProductDto dto);
+    IEnumerable<ProductDto>? GetAllProducts();
 }
 
 public class ProductService : IProductService
@@ -25,11 +27,16 @@ public class ProductService : IProductService
     {
         if (_dbContext.Products.Any(p => p.Name == dto.Name))
             throw new NotUniqueElementException("Produkt o podanej nazwie już istnieje");
-        
+
         var product = _mapper.Map<Product>(dto);
         _dbContext.Products.Add(product);
         _dbContext.SaveChanges();
 
         return product.Id;
+    }
+
+    public IEnumerable<ProductDto>? GetAllProducts()
+    {
+        return _dbContext.Products.ProjectTo<ProductDto>(_mapper.ConfigurationProvider);
     }
 }

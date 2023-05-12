@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Gdziekupuja.Common;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
@@ -15,6 +16,7 @@ public interface IUserService
 {
     int RegisterUser(CreateUserDto dto);
     TokenToReturn LoginUser(LoginUserDto dto);
+    IEnumerable<UserDto> GetAllUsers();
 }
 
 public class UserService : IUserService
@@ -72,6 +74,11 @@ public class UserService : IUserService
             throw new InvalidDataException("Niepoprawny login lub hasło");
 
         return new TokenToReturn(GenerateToken(user));
+    }
+
+    public IEnumerable<UserDto> GetAllUsers()
+    {
+        return _dbContext.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider);
     }
 
     private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

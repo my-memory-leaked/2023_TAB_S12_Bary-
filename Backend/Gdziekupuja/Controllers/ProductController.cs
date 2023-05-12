@@ -21,4 +21,10 @@ public class ProductController : ControllerBase
         var result = _service.CreateProduct(dto);
         return Ok(result);
     }
+
+    [HttpGet]
+    public ActionResult<ProductDto> GetAllProducts()
+    {
+        return Ok(_service.GetAllProducts());
+    }
 }
