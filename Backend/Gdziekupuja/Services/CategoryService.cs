@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
 using Gdziekupuja.Models.DTOs.CategoryDtos;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,8 @@ public interface ICategoryService
     IEnumerable<CategoryDto> GetCategoriesBySuperiorId(int superiorId, int? childrenCount);
     IEnumerable<CategoryDto> GetAllCategories();
     IEnumerable<CategoryFlatDto> GetAllCategoriesFlat();
+    int Update(int id, UpdateCategoryDto dto);
+    void Delete(int id);
 }
 
 public class CategoryService : ICategoryService
@@ -52,6 +55,57 @@ public class CategoryService : ICategoryService
         _dbContext.Categories.Add(category);
         _dbContext.SaveChanges();
         return category.Id;
+    }
+
+    public int Update(int id, UpdateCategoryDto dto)
+    {
+        var category = _dbContext.Categories.FirstOrDefault(c => c.Id == id) ??
+                       throw new NotFoundException("Kategoria nie istnieje");
+
+        if (dto.Name is not null)
+        {
+            category.Name = dto.Name;
+        }
+
+        if (dto.ParentId is not null)
+        {
+            var parent = _dbContext.Categories.FirstOrDefault(c => c.Id == dto.ParentId);
+            if (parent is null)
+            {
+                throw new NotFoundException("Kategoria nadrzędna nie istnieje");
+            }
+
+            var currentCategory = (_dbContext.Categories
+                .Include(c => c.InverseParent)
+                .ToList()).FirstOrDefault(c => c.Id == id);
+
+            CheckChildrenId(currentCategory!, dto.ParentId.Value);
+
+            category.Parent = parent;
+            category.ParentId = dto.ParentId;
+        }
+        else
+        {
+            category.ParentId = null;
+            category.Parent = null;
+        }
+
+        _dbContext.Categories.Update(category);
+        _dbContext.SaveChanges();
+        return category.Id;
+    }
+
+    public void Delete(int id)
+    {
+        var categoryToRemove = _dbContext.Categories
+            .FirstOrDefault(c => c.Id == id) ?? throw new NotFoundException("Kategoria nie istnieje");
+
+        _dbContext.Categories
+            .Where(c => c.ParentId == id)
+            .ForEachAsync(c => c.ParentId = null);
+
+        _dbContext.Categories.Remove(categoryToRemove);
+        _dbContext.SaveChanges();
     }
 
     private void CheckChildrenId(Category category, int parentId)
@@ -96,6 +150,7 @@ public class CategoryService : ICategoryService
         return _dbContext.Categories
             .ProjectTo<CategoryFlatDto>(_mapper.ConfigurationProvider);
     }
+
 
     public IEnumerable<CategoryDto> GetCategoriesBySuperiorId(int superiorId, int? childrenCount)
     {
