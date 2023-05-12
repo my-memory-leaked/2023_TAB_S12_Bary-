@@ -198,7 +198,6 @@ public partial class GdziekupujaContext : DbContext
 
             entity.HasOne(d => d.Address).WithMany(p => p.SalesPoints)
                 .HasForeignKey(d => d.AddressId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("SalesPoints_Addresses");
         });
 
