@@ -1,0 +1,4 @@
+<ng-container [ngSwitch]="toggleValue">
+  <category-add *ngSwitchCase="'AddCategory'"></category-add>
+  <category-modify *ngSwitchCase="'ModifyCategory'"></category-modify>
+</ng-container>

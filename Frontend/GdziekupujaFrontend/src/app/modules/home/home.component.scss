@@ -1,0 +1,23 @@
+@use '/src/styles/colors' as color;
+
+.admin-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background-color: color.$secondaryColor;
+  color: black;
+}
+
+.center {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(1.04);
+  width: 98%;
+}
+
+.size {
+  width: 100%;
+  margin: 0 18%;
+}

@@ -1,0 +1,10 @@
+<div class="container">
+  <span class="message">{{ data ? data : "Przepraszamy, coś poszło nie tak" }}</span>
+  <button
+    mat-flat-button
+    class="button"
+    (click)="snackBarRef.dismiss()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

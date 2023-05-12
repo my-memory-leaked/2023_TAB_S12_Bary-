@@ -1,0 +1,172 @@
+@use '/src/styles/colors' as color;
+
+app-top-menu {
+
+  * {
+    color: black;
+  }
+
+  .top {
+    padding: 0 16px;
+    margin: 5px 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    justify-content: space-between;
+    height: 66px;
+  }
+
+  .title {
+    width: 200px;
+    position: relative;
+    bottom: 5px;
+    cursor: pointer;
+    font-family: 'SiteTitle';
+    font-size: 38px;
+    display: flex;
+    align-items: center;
+    color: color.$secondaryColor;
+  }
+
+  .button {
+    cursor: pointer;
+    min-height: 45px;
+    min-width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    gap: 39px;
+  }
+
+  .powiat {
+    cursor: pointer;
+    min-width: 240px;
+  }
+
+  .kategoria {
+    cursor: pointer;
+    min-width: 240px;
+    position: relative;
+    right: 41px;
+  }
+
+  .fix-icon {
+    position: relative;
+    left: 10px;
+    display: flex;
+    justify-content: flex-start !important;
+  }
+
+  .find {
+    position: relative;
+    right: 70px;
+  }
+
+  .produkt {
+    min-width: 250px;
+    width: 100%;
+  }
+
+  .login {
+    cursor: pointer;
+    height: 45px !important;
+    background-color: color.$secondaryColor;
+    border-radius: 16px;
+    font-size: 18px;
+  }
+
+  .offer {
+    cursor: pointer;
+    height: 45px !important;
+    background-color: color.$secondaryColor;
+    border-radius: 12px;
+    font-size: 15px;
+  }
+
+  .iconLogged {
+    font-size: 40px;
+    width: fit-content;
+    height: fit-content;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dropdown {
+    margin: 5px 0px 10px 0px;
+  }
+
+  .userIcon {
+    transform: scale(1.7);
+  }
+
+  .user {
+    position: absolute;
+    width: 280px;
+    z-index: 10;
+    top: 7%;
+    right: 1%;
+    display: flex;
+    align-items: center;
+    background-color: color.$primaryColor;
+    border-radius: 12px;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 17px;
+    margin-bottom: 10px !important;
+  }
+
+  .fix {
+    border: solid 1px white;
+
+    &--powiat {
+      border-radius: 16px;
+    }
+
+    &--produkt {
+      border-radius: 16px 0 0 16px;
+      border-right: 0px;
+    }
+
+    &--kategoria {
+      border-left: 0px;
+      border-radius: 0 16px 16px 0;
+    }
+  }
+
+  .oszukanie {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .wbok {
+    position: relative;
+    left: 20px;
+  }
+
+  .line {
+    z-index: 99999;
+    position: relative;
+    right: 45px;
+    height: 38px;
+    border-left: 2px solid black;
+
+    &--container {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+<app-top-menu></app-top-menu>
+
+<button
+  *ngIf="admin"
+  mat-fab
+  class="admin-button"
+  (click)="onAdminButtonClick();"
+>
+  <mat-icon class="white">construction</mat-icon>
+</button>

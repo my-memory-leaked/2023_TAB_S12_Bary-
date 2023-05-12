@@ -1,0 +1,41 @@
+:host {
+  padding: 0px !important;
+}
+
+.button {
+  height: 56px;
+  border-radius: 18px;
+}
+
+.icon {
+  padding-left: 8px;
+}
+
+.buttons {
+  position: relative;
+  bottom: 31px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: max-content;
+  gap: 40px;
+  float: right;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
+  margin: 0px !important;
+}
+
+.table {
+  position: relative;
+  bottom: 30px;
+}
+
+.margin {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,13 @@
+<div [class.container]="formResponse.dropdown" class="width">
+  <lz-nested-dropdown
+    class="dropdown dropdownNormalBorder"
+    [navigationData]="navData"
+    name="Wybierz"
+    (dropdownChange)="handleDropdownChange($event)"
+  >
+  </lz-nested-dropdown>
+</div>
+
+<ng-container *ngIf="adminOperationType">
+  <ng-component *ngComponentOutlet="AdminOperationDetails; injector: myInjector"></ng-component>
+</ng-container>

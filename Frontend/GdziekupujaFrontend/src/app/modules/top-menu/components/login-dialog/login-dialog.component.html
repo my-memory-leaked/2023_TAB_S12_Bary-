@@ -1,0 +1,158 @@
+<div class="mainColor container">
+  <h1
+    mat-dialog-title
+    class="title"
+  >
+    <span
+      *ngIf="login"
+      class="black"
+    >
+      Logowanie
+    </span>
+    <span
+      *ngIf="!login"
+      class="black"
+    >
+      Rejestracja
+    </span>
+  </h1>
+  <div *ngIf="login; else register">
+    <form [formGroup]="loginForm">
+      <div mat-dialog-content>
+        <div class="fix backgroundColor">
+          <my-input
+            class="fix-input"
+            appearance="fill"
+            controlName="email"
+            type="email"
+            label="E-mail"
+          >
+          </my-input>
+        </div>
+        <div class="fix backgroundColor">
+          <my-input
+            class="fix-input"
+            appearance="fill"
+            controlName="password"
+            type="text"
+            label="Hasło"
+            [type]="passwordMode"
+            [suffixTemplate]="icon"
+          >
+          </my-input>
+        </div>
+      </div>
+    </form>
+  </div>
+  <ng-template #register>
+    <form [formGroup]="registerForm">
+      <div mat-dialog-content>
+        <div class="fix backgroundColor">
+          <my-input
+            class="fix-input"
+            appearance="fill"
+            controlName="email"
+            type="email"
+            label="E-mail"
+          >
+          </my-input>
+        </div>
+        <div class="fix backgroundColor">
+          <my-input
+            class="fix-input"
+            appearance="fill"
+            controlName="name"
+            type="text"
+            label="Nazwa użytkownika"
+            placeholder="5-18 znaków"
+          >
+          </my-input>
+        </div>
+
+        <div class="fix backgroundColor">
+          <my-input
+            appearance="fill"
+            class="fix-input"
+            controlName="password"
+            type="text"
+            label="Hasło"
+            [type]="passwordMode"
+            [suffixTemplate]="icon"
+            placeholder="8-30 znaków"
+          >
+          </my-input>
+        </div>
+        <div class="fix backgroundColor">
+          <my-input
+            appearance="fill"
+            class="fix-input"
+            controlName="confirmedPassword"
+            type="text"
+            label="Powtórz hasło"
+            [type]="passwordMode"
+            [suffixTemplate]="icon"
+          >
+          </my-input>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <div class="position">
+    <button
+      *ngIf="login"
+      [disabled]="!loginValid"
+      class="button"
+      mat-stroked-button
+      (click)="handleFormSubmit()"
+      [mat-dialog-close]="'logged'"
+    >
+      <span class="white">
+        Zaloguj się
+      </span>
+    </button>
+    <button
+      *ngIf="!login"
+      [disabled]="!registerValid"
+      class="button"
+      mat-stroked-button
+      (click)="handleFormSubmit()"
+    >
+      <span class="white">
+        Zarejestruj się
+      </span>
+    </button>
+  </div>
+  <div class="position--gap">
+    <hr class="hr">
+    <div class="position position--gap">
+      <span *ngIf="login">
+        Nie masz konta w serwisie?
+      </span>
+      <span *ngIf="!login">
+        Masz już konto?
+      </span>
+      <button
+        class="changeButton"
+        mat-stroked-button
+        (click)="change()"
+      >
+        <span *ngIf="login">
+          Zarejestruj się
+        </span>
+        <span *ngIf="!login">
+          Zaloguj się
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #icon>
+  <mat-icon
+    class="icon"
+    matSuffix
+    (click)="togglePasswordVisibility()"
+  >
+    {{ hiddenPassword ? 'visibility_off' : 'visibility' }}
+  </mat-icon>
+</ng-template>

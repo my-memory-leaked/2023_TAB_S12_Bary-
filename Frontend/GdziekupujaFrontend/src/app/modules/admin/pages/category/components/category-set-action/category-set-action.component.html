@@ -1,0 +1,29 @@
+<div class="box">
+  <mat-button-toggle-group
+    class="buttons"
+    name="action-type"
+    (change)="handleActionTypeChange($event)"
+    value="AddCategory"
+  >
+    <mat-button-toggle
+      value="AddCategory"
+      class="button button--left"
+      [ngClass]="prevType === 'ModifyCategory' ? 'color-clicked' : 'color-default'"
+    >
+      Dodaj
+    </mat-button-toggle>
+    <mat-button-toggle
+      value="ModifyCategory"
+      class="button button--right"
+      [ngClass]="prevType === 'AddCategory' ? 'color-clicked' : 'color-default'"
+    >
+      Modyfikuj
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<category-type-switch
+  class="form"
+  [toggleValue]="prevType"
+>
+</category-type-switch>

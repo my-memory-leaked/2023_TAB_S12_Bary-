@@ -1,0 +1,4 @@
+<ng-container [ngSwitch]="toggleValue">
+  <product-add *ngSwitchCase="'AddProduct'"></product-add>
+  <product-modify *ngSwitchCase="'ModifyProduct'"></product-modify>
+</ng-container>

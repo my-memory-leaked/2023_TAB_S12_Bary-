@@ -1,0 +1,44 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  align-content: center;
+}
+
+.icon {
+  position: relative;
+  bottom: 1px;
+}
+
+::ng-deep .nestedDropdownMenu {
+  max-height: 500px !important;
+
+  &::-webkit-scrollbar {
+    width: 9px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.18);
+  }
+}
+
+.button--categories {
+  height: 57.8px !important;
+  position: relative;
+  top: 2.5px;
+  border: solid 1px white;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 0px;
+}
+
+.button--admin {
+  border: solid 1px white;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 0px;
+}

@@ -1,0 +1,82 @@
+<ng-container *ngIf="categoryItems.length; else normal">
+  <button
+    mat-menu-item
+    [matMenuTriggerFor]="show1"
+    class="button--categories"
+  >
+    {{ functionName }}
+    <mat-icon class="icon">
+      arrow_drop_down
+    </mat-icon>
+  </button>
+
+  <mat-menu
+    #show1="matMenu"
+    class="nestedDropdownMenu"
+  >
+    <ng-container *ngFor="let item of categoryItems">
+      <ng-container *ngIf="item.inverseParent && item.inverseParent.length > 0">
+        <button
+          mat-menu-item
+          [matMenuTriggerFor]="menu.childMenu"
+          #mouseTrigger="matMenuTrigger"
+          (mouseover)="mouseTrigger.openMenu()"
+          (click)="changeDropdown(item)"
+        >
+          {{ item.name }}
+        </button>
+        <lz-dropdown-item-categories
+          (emitChild)="changeDropdown($event)"
+          #menu
+          [childData]="item.inverseParent"
+        >
+        </lz-dropdown-item-categories>
+      </ng-container>
+      <ng-container *ngIf="!item.inverseParent || item.inverseParent.length === 0">
+        <button
+          mat-menu-item
+          (click)="changeDropdown(item)"
+        >
+          {{ item.name }}
+        </button>
+      </ng-container>
+    </ng-container>
+  </mat-menu>
+</ng-container>
+
+
+
+
+
+
+
+
+
+
+
+<ng-template #normal>
+  <button
+    mat-menu-item
+    [matMenuTriggerFor]="show2"
+    class="button"
+  >
+    {{ functionName }}
+    <mat-icon class="icon">
+      arrow_drop_down
+    </mat-icon>
+  </button>
+
+  <mat-menu
+    #show2="matMenu"
+    class="nestedDropdownMenu"
+  >
+    <ng-container *ngFor="let item of navData">
+      <button
+        mat-menu-item
+        (click)="changeDropdown(item)"
+      >
+        {{ item.name }}
+      </button>
+    </ng-container>
+  </mat-menu>
+</ng-template>

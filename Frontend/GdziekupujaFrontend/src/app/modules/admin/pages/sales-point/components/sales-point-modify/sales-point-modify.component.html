@@ -1,0 +1,78 @@
+<div class="forms">
+
+  <mat-form-field
+    class="fix backgroundColor item"
+    [hideRequiredMarker]="true"
+  >
+    <mat-label class="black">Punkt sprzedaży</mat-label>
+    <mat-select formControlName="salesPoint">
+      <mat-option
+        *ngFor="let item of salesPointsFixedNames"
+        [value]="item.id"
+      >
+        {{ item.changedName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor item"
+    label="Nazwa"
+    type="text"
+    controlName="name"
+  >
+  </my-input>
+
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor item"
+    label="Miasto"
+    type="text"
+    controlName="city"
+  >
+  </my-input>
+
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor item"
+    label="Ulica"
+    type="text"
+    controlName="street"
+  >
+  </my-input>
+
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor item"
+    label="Number budynku"
+    type="number"
+    controlName="number"
+  >
+  </my-input>
+
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor item"
+    label="Kod pocztowy"
+    type="text"
+    controlName="postalCode"
+    mask="post-code"
+  >
+  </my-input>
+
+  <mat-form-field
+    class="fix backgroundColor item"
+    [hideRequiredMarker]="true"
+  >
+    <mat-label class="black">Powiat</mat-label>
+    <mat-select formControlName="countyId">
+      <mat-option
+        *ngFor="let item of counties"
+        [value]="item.id"
+      >
+        {{ item.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

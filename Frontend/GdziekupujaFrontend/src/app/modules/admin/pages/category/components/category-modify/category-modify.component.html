@@ -1,0 +1,34 @@
+<div class="forms">
+  <mat-form-field
+    class="fix backgroundColor item"
+    [hideRequiredMarker]="true"
+  >
+    <mat-label class="black">Kategoria</mat-label>
+    <mat-select formControlName="category">
+      <mat-option
+        *ngFor="let item of categories | async"
+        [value]="item.id"
+      >
+        {{ item.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor item"
+    label="Nazwa"
+    type="text"
+    controlName="name"
+  >
+  </my-input>
+
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor item"
+    label="ID rodzica"
+    type="number"
+    controlName="parentId"
+  >
+  </my-input>
+</div>

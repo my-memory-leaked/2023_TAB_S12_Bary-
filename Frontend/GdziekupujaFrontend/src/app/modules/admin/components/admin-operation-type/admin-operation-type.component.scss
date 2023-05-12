@@ -1,0 +1,19 @@
+@use '/src/styles/colors' as color;
+
+.dropdown {
+  margin: 5px 0px 10px 0px;
+}
+
+.title {
+  margin-top: 12px;
+  font-size: 22px;
+}
+
+.container {
+  position: relative;
+  top: 21px;
+}
+
+.width {
+  width: max-content;
+}

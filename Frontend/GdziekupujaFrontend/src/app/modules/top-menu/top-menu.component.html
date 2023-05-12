@@ -1,0 +1,128 @@
+<div class="top mainColor">
+  <span
+    (click)="reload()"
+    class="title"
+  >
+    gdziekupuja.pl
+  </span>
+
+  <div class="wbok">
+    <form
+      [formGroup]="form"
+      class="container"
+    >
+      <div
+        class="button"
+        (click)="emitFavourites()"
+      >
+        <mat-icon class="iconLogged fix-icon">favorite_outlined</mat-icon>
+      </div>
+
+      <mat-form-field class="fix fix--powiat backgroundColor powiat">
+        <mat-label class="black">Wybierz powiat</mat-label>
+        <mat-select
+          [value]="userCounty"
+          formControlName="county"
+          (selectionChange)="selectedCounty()"
+        >
+          <mat-option
+            *ngFor="let item of counties"
+            [value]="item.name"
+          >
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="fix fix--produkt produkt backgroundColor">
+        <my-input
+          appearance="fill"
+          controlName="product"
+          type="text"
+          label="Wpisz nazwę produktu"
+        >
+        </my-input>
+      </div>
+
+      <div class="line--container">
+        <div class="line"></div>
+        <ng-container *ngIf="categories$ | async as categories">
+          <lz-nested-dropdown
+            class="dropdown fix--kategoria kategoria dropdownNoLeftBorder"
+            [categoriesData]="categories"
+            name="Kategorie"
+            (dropdownChange)="handleDropdownChange($event)"
+          >
+          </lz-nested-dropdown>
+        </ng-container>
+      </div>
+
+      <div
+        class="button find"
+        (click)="search()"
+      >
+        <mat-icon class="iconLogged">search</mat-icon>
+      </div>
+    </form>
+  </div>
+
+  <button
+    *ngIf="logged"
+    mat-stroked-button
+    class="offer"
+    (click)="addOffer()"
+  >
+    <span class="white">
+      Dodaj ofertę
+    </span>
+  </button>
+
+  <button
+    *ngIf="!logged; else log"
+    mat-stroked-button
+    class="login"
+    (click)="logIn()"
+  >
+    <span class="white">
+      Zaloguj
+    </span>
+  </button>
+
+  <ng-template #log>
+    <div class="oszukanie">
+      <button
+        mat-icon-button
+        (click)="showUserInfo = !showUserInfo"
+      >
+        <mat-icon
+          class="userIcon"
+          svgIcon="ziomek"
+        ></mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+  <mat-card
+    class="user"
+    *ngIf="showUserInfo"
+  >
+    <mat-card-header>
+      <mat-card-title>Informacje o koncie</mat-card-title>
+    </mat-card-header><br>
+    <mat-card-content>
+      <div class="info">
+        <span>Pseudonim: {{ userName }}</span>
+        <span>E-mail: {{ userEmail }}</span>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        class="login"
+        mat-button
+        (click)="logout()"
+      >
+        Wyloguj
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

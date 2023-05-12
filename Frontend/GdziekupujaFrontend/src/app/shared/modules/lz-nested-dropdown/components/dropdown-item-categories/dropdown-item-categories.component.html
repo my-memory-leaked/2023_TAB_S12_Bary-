@@ -1,0 +1,29 @@
+<mat-menu #childMenu="matMenu">
+  <ng-container *ngFor="let child of childData">
+    <ng-container *ngIf="child.inverseParent && child.inverseParent.length > 0">
+      <button
+        mat-menu-item
+        [matMenuTriggerFor]="menu.childMenu"
+        #mouseTrigger="matMenuTrigger"
+        (mouseover)="mouseTrigger.openMenu()"
+        (click)="changeItem(child)"
+      >
+        {{ child.name }}
+      </button>
+      <lz-dropdown-item-categories
+        (emitChild)="changeItem($event)"
+        #menu
+        [childData]="child.inverseParent"
+      >
+      </lz-dropdown-item-categories>
+    </ng-container>
+    <ng-container *ngIf="!child.inverseParent || child.inverseParent.length === 0">
+      <button
+        mat-menu-item
+        (click)="changeItem(child)"
+      >
+        {{ child.name }}
+      </button>
+    </ng-container>
+  </ng-container>
+</mat-menu>
