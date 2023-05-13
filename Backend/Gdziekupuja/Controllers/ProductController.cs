@@ -34,4 +34,11 @@ public class ProductController : ControllerBase
         _service.Delete(id);
         return Ok();
     }
+
+    [HttpPut("{id}")]
+    public ActionResult<int> Update(int id, UpdateProductDto dto)
+    {
+        _service.Update(id, dto);
+        return Ok(id);
+    }
 }
