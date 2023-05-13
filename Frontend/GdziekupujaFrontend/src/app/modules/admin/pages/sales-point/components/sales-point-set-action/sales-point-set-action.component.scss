@@ -8,18 +8,18 @@
 }
 
 .button {
-  height: 56px;
+  height: 48px;
   width: 130px;
   display: flex;
   justify-content: center;
   align-items: center;
 
   &--left {
-    border-radius: 18px 0 0 18px;
+    border-radius: 12px 0 0 12px;
   }
 
   &--right {
-    border-radius: 0 18px 18px 0;
+    border-radius: 0 12px 12px 0;
   }
 }
 
@@ -37,7 +37,7 @@
   display: flex;
   justify-content: center;
   position: relative;
-  bottom: 88px;
+  bottom: 75px;
   width: max-content;
   border: 0;
 }

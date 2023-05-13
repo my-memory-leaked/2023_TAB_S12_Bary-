@@ -23,7 +23,8 @@ export class ProductInstanceAddComponent implements OnInit {
   form: FormGroup;
   products: Observable<Product[]>;
   categories$: Observable<Categories[]>;
-  categoriesToAdd: Categories[] = [];
+  categoriesIdsToAdd: number[] = [];
+  categoriesToDisplay: Categories[] = [];
   additionalProperties: string[] = [];
 
   constructor(
@@ -64,32 +65,38 @@ export class ProductInstanceAddComponent implements OnInit {
     return this.form.get('additionalInfo');
   }
 
-  addReceiptLine(category: Categories): void {
-    if (this.categoriesToAdd.findIndex((res) => res.id === category.id) !== -1)
+  addCategory(category: Categories): void {
+    if (this.categoriesIdsToAdd.findIndex((id) => id === category.id) !== -1)
       return;
 
-    const categoryIds = this.categoryIds.value as number[];
-    this.categoryIds.setValue([...categoryIds, category.id]);
+    this.categoriesToDisplay.push(category);
+    this.categoriesIdsToAdd.push(category.id);
+    this.categoryIds.setValue(this.categoriesIdsToAdd);
 
-    this.categoriesToAdd.push(category);
   }
 
-  removeReceiptLine(category: Categories, indexToDelete: number) {
-    const categoryIds = this.categoryIds.value as number[];
-    this.categoryIds.setValue(categoryIds.filter((_, index) => index !== indexToDelete));
-
-    this.categoriesToAdd = this.categoriesToAdd.filter((res) => res.id !== category.id);
+  removeCategory(category: Categories) {
+    this.categoriesToDisplay = this.categoriesToDisplay.filter((res) => res.id !== category.id);
+    this.categoriesIdsToAdd = this.categoriesIdsToAdd.filter((id) => id !== category.id);
+    this.categoryIds.setValue(this.categoriesIdsToAdd);
   }
 
-  mergeInputs(): void {
+  mergeAndAddAdditionalInfo(): void {
     if (this.part1.value && this.part2.value) {
-      this.additionalProperties.push('"' + this.part1.value + '": ' + '"' + this.part2.value + '"')
+      const merged = '"' + this.part1.value + '": ' + '"' + this.part2.value + '"';
+      if (this.additionalProperties.findIndex((res) => res === merged) !== -1)
+        return;
+
+      this.additionalProperties.push(merged);
       this.additionalInfo.setValue(this.additionalProperties);
 
       this.part1.reset();
       this.part2.reset();
     }
+  }
 
-    console.log(this.additionalInfo.value)
+  removeAdditionalInfo(info: string): void {
+    this.additionalProperties = this.additionalProperties.filter((res) => res !== info);
+    this.additionalInfo.setValue(this.additionalProperties);
   }
 }

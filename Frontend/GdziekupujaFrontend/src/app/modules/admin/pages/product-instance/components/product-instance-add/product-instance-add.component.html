@@ -19,34 +19,12 @@
     [categoriesData]="categories$ | async"
     [inAdmin]="true"
     name="Kategorie"
-    (dropdownChange)="addReceiptLine($event)"
+    (dropdownChange)="addCategory($event)"
   >
   </lz-nested-dropdown>
-
 </div>
 
-<div
-  class="forms"
-  [class.center]="!categoriesToAdd.length"
->
-  <div class="base">
-    <lz-base64 (emitImage)="saveImage($event)"></lz-base64>
-  </div>
-  <div
-    *ngIf="categoriesToAdd.length"
-    class="list"
-  >
-    <app-list-items
-      *ngFor="let category of categoriesToAdd; let i=index"
-      [data]="'id: ' + category.id.toString() + ', kategoria: ' + category.name"
-      [lineFixer]="{ index: i, array: categoriesToAdd}"
-      (delete)="removeReceiptLine(category, i)"
-    >
-    </app-list-items>
-  </div>
-</div>
-
-<div class="forms">
+<div class="forms fix--formatting">
   <my-input
     appearance="fill"
     class="fix backgroundColor"
@@ -55,6 +33,13 @@
     controlName="part1"
   >
   </my-input>
+  <button
+    class="secondaryColor white"
+    mat-icon-button
+    (click)="mergeAndAddAdditionalInfo()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
   <my-input
     appearance="fill"
     class="fix backgroundColor"
@@ -64,27 +49,35 @@
   >
   </my-input>
 </div>
-<div class="center">
-  <button
-    class="secondaryColor white"
-    mat-raised-button
-    (click)="mergeInputs()"
+
+<div class="forms">
+  <div
+    *ngIf="categoriesToDisplay.length"
+    class="list"
   >
-    <mat-icon>add</mat-icon>
-    Dodaj
-  </button>
-</div>
-<div class="forms fix--formatting">
+    <h3>Kategorie</h3>
+    <app-list-items
+      *ngFor="let category of categoriesToDisplay; let i=index"
+      [data]="'id: ' + category.id.toString() + ', kategoria: ' + category.name"
+      [lineFixer]="{ index: i, array: categoriesToDisplay}"
+      (delete)="removeCategory(category)"
+    >
+    </app-list-items>
+  </div>
+
   <div
     *ngIf="additionalProperties.length"
     class="list"
   >
+    <h3>Dodatkowe informacje</h3>
     <app-list-items
       *ngFor="let property of additionalProperties; let i=index"
       [data]="property"
       [lineFixer]="{ index: i, array: additionalProperties}"
+      (delete)="removeAdditionalInfo(property)"
     >
-      <!-- (delete)="removeReceiptLine(property, i)" -->
     </app-list-items>
   </div>
 </div>
+
+<lz-base64 (emitImage)="saveImage($event)"></lz-base64>

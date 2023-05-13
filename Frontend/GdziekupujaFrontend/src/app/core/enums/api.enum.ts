@@ -1,5 +1,6 @@
 export enum Api {
-  POST_CATEGORIES = '/api/category',
+  CATEGORIES = '/api/category',
+  CATEGORY_ID = '/api/category/:id',
   GET_CATEGORIES_ALL = '/api/category/getAllCategories',
   GET_CATEGORIES_ALL_FLAT = '/api/category/getAllFlatCategories',
   GET_CATEGORIES_BY_SUPERIOR = '/api/category/getBySuperiorId',

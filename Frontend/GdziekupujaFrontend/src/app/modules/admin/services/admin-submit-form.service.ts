@@ -31,10 +31,10 @@ export class AdminSubmitFormService {
         this.data = this.addCategory(form);
         break;
       }
-      // case 'ModifyCategory': {
-      //   this.data = this.modifyCategory(form);
-      //   break;
-      // }
+      case 'ModifyCategory': {
+        this.data = this.modifyCategory(form);
+        break;
+      }
       case 'AddProduct': {
         this.data = this.addProduct(form);
         break;
@@ -43,10 +43,10 @@ export class AdminSubmitFormService {
       //   this.data = this.modifyProduct(form);
       //   break;
       // }
-      // case 'AddProductInstance': {
-      //   this.data = this.addProductInstance(form);
-      //   break;
-      // }
+      case 'AddProductInstance': {
+        this.data = this.addProductInstance(form);
+        break;
+      }
       // case 'ModifyProductInstance': {
       //   this.data = this.modifyProductInstance(form);
       //   break;
@@ -75,7 +75,6 @@ export class AdminSubmitFormService {
   }
 
   addProduct(form: FormGroup): Observable<number> {
-    console.log(form.value);
     const name = form.value.name;
 
     return this.http.post<number>(`${environment.httpBackend}${Api.PRODUCTS}`, { name }).pipe(
@@ -86,14 +85,49 @@ export class AdminSubmitFormService {
     );
   }
 
+  addProductInstance(form: FormGroup): Observable<number> {
+    const obj: { [key: string]: string } = {};
+    form.value.additionalInfo.forEach((item: string) => {
+      const [key, value] = item.split(':').map(str => str.replace(/"/g, '').trim());
+      obj[key] = value;
+    });
+    const additionalInfo = JSON.stringify(obj);
+
+    const formData = new FormData();
+    formData.append('ProductId', form.value.productId);
+    formData.append('CategoryIds', form.value.categoryIds);
+    formData.append('AdditionalInfo', additionalInfo);
+    formData.append('Image', form.value.image);
+
+    console.log(formData)
+
+    return this.http.post<number>(`${environment.httpBackend}${Api.PRODUCT_INSTANCE}`, formData).pipe(
+      catchError((err) => {
+        this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się dodać produktu');
+        return of();
+      }),
+    );
+  }
+
   addCategory(form: FormGroup): Observable<number> {
-    console.log(form.value);
     const name = form.value.name;
     const parentId = form.value.parentId;
 
-    return this.http.post<number>(`${environment.httpBackend}${Api.POST_CATEGORIES}`, { name, parentId }).pipe(
+    return this.http.post<number>(`${environment.httpBackend}${Api.CATEGORIES}`, { name, parentId }).pipe(
       catchError((err) => {
         this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się dodać kategorii');
+        return of();
+      }),
+    );
+  }
+
+  modifyCategory(form: FormGroup): Observable<number> {
+    const name = form.value.name;
+    const parentId = form.value.parentId;
+
+    return this.http.put<number>(`${environment.httpBackend}${Api.CATEGORY_ID}`.replace(':id', form.value.category), { name, parentId }).pipe(
+      catchError((err) => {
+        this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się zmodyfikować kategorii');
         return of();
       }),
     );

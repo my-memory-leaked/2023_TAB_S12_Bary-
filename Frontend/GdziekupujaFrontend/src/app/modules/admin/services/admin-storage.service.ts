@@ -7,7 +7,7 @@ import { AllAdminActionsType } from '@modules/admin/types/admin-actions.types';
 import { MyLocalStorageService } from '@shared/services/my-local-storage.service';
 import { idNameOnly, UserInfo } from '@modules/top-menu/interfaces/top-menu.interface';
 import { ToastMessageService } from '@shared/modules/toast-message/services/toast-message.service';
-import { Category, Product, SalesPoint, Offers } from '@modules/offers/interfaces/offers.interface';
+import { Category, Product, SalesPoint, Offers, ProductInstance } from '@modules/offers/interfaces/offers.interface';
 import { DropDownText } from '@shared/modules/lz-nested-dropdown/interfaces/nested-dropdown.interface';
 
 @Injectable({
@@ -25,6 +25,7 @@ export class AdminStorageService {
   salesPoints$ = new BehaviorSubject<SalesPoint[]>([]);
   categories$ = new BehaviorSubject<Category[]>([]);
   products$ = new BehaviorSubject<Product[]>([]);
+  productInstances$ = new BehaviorSubject<ProductInstance[]>([]);
   users$ = new BehaviorSubject<UserInfo[]>([]);
   offers$ = new BehaviorSubject<Offers[]>([]);
   currentAction: AllAdminActionsType;
@@ -39,6 +40,10 @@ export class AdminStorageService {
 
     this.getAllProducts().subscribe((res) => {
       this.products$.next(res);
+    });
+
+    this.getAllProductInstances().subscribe((res) => {
+      this.productInstances$.next(res);
     });
 
     this.getAllCategories().subscribe((res) => {
@@ -73,6 +78,16 @@ export class AdminStorageService {
       tap((res) => this.products$.next(res)),
       catchError(() => {
         this.toastMessageService.notifyOfError('Nie udało się pobrać produktów');
+        return of([]);
+      }),
+    );
+  }
+
+  getAllProductInstances(): Observable<ProductInstance[]> {
+    return this.http.get<ProductInstance[]>(`${environment.httpBackend}${Api.PRODUCT_INSTANCE}`).pipe(
+      tap((res) => this.productInstances$.next(res)),
+      catchError(() => {
+        this.toastMessageService.notifyOfError('Nie udało się pobrać instancji produktów');
         return of([]);
       }),
     );
@@ -134,6 +149,9 @@ export class AdminStorageService {
     else if (operationText === 'Produkt') {
       return this.getAllProducts();
     }
+    else if (operationText === 'Instancja produktu') {
+      return this.getAllProductInstances();
+    }
     else if (operationText === 'Punkt sprzedaży') {
       return this.getAllSalesPoints();
     }
@@ -153,6 +171,9 @@ export class AdminStorageService {
     }
     else if (operationText === 'Produkt') {
       return this.products$.asObservable();
+    }
+    else if (operationText === 'Instancja produktu') {
+      return this.productInstances$.asObservable();
     }
     else if (operationText === 'Punkt sprzedaży') {
       return this.salesPoints$.asObservable();

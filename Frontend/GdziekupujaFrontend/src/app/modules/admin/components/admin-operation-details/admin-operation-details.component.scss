@@ -3,8 +3,13 @@
 }
 
 .button {
-  height: 56px;
-  border-radius: 18px;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.fixButton {
+  width: 48px;
+  height: 48px;
 }
 
 .icon {
@@ -13,7 +18,7 @@
 
 .buttons {
   position: relative;
-  bottom: 31px;
+  bottom: 27px;
   display: flex;
   justify-content: space-around;
   align-items: center;

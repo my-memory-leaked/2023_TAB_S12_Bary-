@@ -53,10 +53,10 @@ export class AdminShowTableComponent implements OnInit {
         this.toastMessageService.notifyOfSuccess("Zaktualizowano punkt sprzedaży");
       }
       else if (value === 'BanUser') {
-        this.toastMessageService.notifyOfSuccess("Zbanowano użytkownika");//i do ofert i do komentowania
+        this.toastMessageService.notifyOfSuccess("Zbanowano użytkownika");//do ofert i komentowania
       }
       else if (value === 'UnbanUser') {
-        this.toastMessageService.notifyOfSuccess("Odbanowano użytkownika");//i do ofert i do komentowania
+        this.toastMessageService.notifyOfSuccess("Odbanowano użytkownika");//do ofert i komentowania
       }
 
       this.emitClear.emit();
@@ -120,6 +120,7 @@ export class AdminShowTableComponent implements OnInit {
           });
 
           this.displayedColumns = ['id', 'categoryName', 'delete'];
+          this.deleteApi = Api.CATEGORY_ID;
           break;
         }
         case 'Punkt sprzedaży': {
@@ -161,7 +162,7 @@ export class AdminShowTableComponent implements OnInit {
             this.data.push({
               id: res.id,
               product: res.product.name,
-              additionalInfo: res.additionalInfo,//TODO jak sformatowac
+              additionalInfo: res.additionalInfo,//TODO jak sformatować?
               categories: categoriesFormatted,
             })
           });
@@ -219,7 +220,7 @@ export class AdminShowTableComponent implements OnInit {
               this.data.push({
                 id: res.id,
                 product: res.product.name,
-                additionalInfo: res.additionalInfo,//TODO jak sformatowac
+                additionalInfo: res.additionalInfo,//TODO jak sformatować?
                 categories: categoriesFormatted,
               })
             });
