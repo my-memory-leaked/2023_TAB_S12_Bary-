@@ -10,6 +10,7 @@ public interface IProductService
 {
     int CreateProduct(CreateProductDto dto);
     IEnumerable<ProductDto>? GetAllProducts();
+    void Delete(int id);
 }
 
 public class ProductService : IProductService
@@ -38,5 +39,15 @@ public class ProductService : IProductService
     public IEnumerable<ProductDto>? GetAllProducts()
     {
         return _dbContext.Products.ProjectTo<ProductDto>(_mapper.ConfigurationProvider);
+    }
+
+    public void Delete(int id)
+    {
+        var product = _dbContext
+            .Products
+            .FirstOrDefault(p => p.Id == id) ?? throw new NotFoundException("Nie istnieje");
+
+        _dbContext.Products.Remove(product);
+        _dbContext.SaveChanges();
     }
 }

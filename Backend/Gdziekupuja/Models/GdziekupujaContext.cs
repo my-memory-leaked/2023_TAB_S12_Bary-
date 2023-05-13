@@ -140,7 +140,6 @@ public partial class GdziekupujaContext : DbContext
 
             entity.HasOne(d => d.SalesPoint).WithMany(p => p.Offers)
                 .HasForeignKey(d => d.SalesPointId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Provides");
 
             entity.HasOne(d => d.User).WithMany(p => p.OffersNavigation)
@@ -167,7 +166,6 @@ public partial class GdziekupujaContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductInstances)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Has_instance");
 
             entity.HasMany(d => d.Categories).WithMany(p => p.ProductInstances)
