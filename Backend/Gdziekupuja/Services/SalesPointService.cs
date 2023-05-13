@@ -8,10 +8,10 @@ namespace Gdziekupuja.Services;
 
 public interface ISalesPointService
 {
-    int CreateSalesPoint(CreateSalesPointDto dto);
-    IEnumerable<SalesPointDto>? GetSalesPoints(int? countyId);
-    int UpdateSalesPoint(int id, UpdateSalesPointDto dto);
-    void DeleteSalesPoint(int id);
+    int Create(CreateSalesPointDto dto);
+    IEnumerable<SalesPointDto>? GetAll(int? countyId);
+    int Update(int id, UpdateSalesPointDto dto);
+    void Delete(int id);
 }
 
 public class SalesPointService : ISalesPointService
@@ -25,7 +25,7 @@ public class SalesPointService : ISalesPointService
         _mapper = mapper;
     }
 
-    public int CreateSalesPoint(CreateSalesPointDto dto)
+    public int Create(CreateSalesPointDto dto)
     {
         var salesPoint = _mapper.Map<SalesPoint>(dto);
 
@@ -42,7 +42,7 @@ public class SalesPointService : ISalesPointService
         return salesPoint.Id;
     }
 
-    public IEnumerable<SalesPointDto>? GetSalesPoints(int? countyId)
+    public IEnumerable<SalesPointDto>? GetAll(int? countyId)
     {
         var salesPoints = _dbContext
             .SalesPoints
@@ -54,7 +54,7 @@ public class SalesPointService : ISalesPointService
         return _mapper.Map<IEnumerable<SalesPointDto>>(salesPoints);
     }
 
-    public int UpdateSalesPoint(int id, UpdateSalesPointDto dto)
+    public int Update(int id, UpdateSalesPointDto dto)
     {
         var salesPoint = _dbContext
             .SalesPoints
@@ -79,7 +79,7 @@ public class SalesPointService : ISalesPointService
         return id;
     }
 
-    public void DeleteSalesPoint(int id)
+    public void Delete(int id)
     {
         var salesPoint = _dbContext
                              .SalesPoints

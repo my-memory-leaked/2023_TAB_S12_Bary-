@@ -27,4 +27,11 @@ public class ProductController : ControllerBase
     {
         return Ok(_service.GetAllProducts());
     }
+
+    [HttpDelete("{id}")]
+    public ActionResult Delete(int id)
+    {
+        _service.Delete(id);
+        return Ok();
+    }
 }

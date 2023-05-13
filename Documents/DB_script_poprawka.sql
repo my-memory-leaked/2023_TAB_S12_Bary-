@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-05-12 12:53:54.095
+-- Last modification date: 2023-05-12 23:05:05.982
 
 -- tables
 -- Table: Addresses
@@ -187,7 +187,9 @@ ALTER TABLE Favourites ADD CONSTRAINT Has_favourite
 -- Reference: Has_instance (table: ProductInstances)
 ALTER TABLE ProductInstances ADD CONSTRAINT Has_instance
     FOREIGN KEY (product_id)
-    REFERENCES Products (id);
+    REFERENCES Products (id)
+    ON DELETE  CASCADE 
+    ON UPDATE  CASCADE;
 
 -- Reference: Has_product (table: Offers)
 ALTER TABLE Offers ADD CONSTRAINT Has_product
@@ -225,7 +227,9 @@ ALTER TABLE Likers ADD CONSTRAINT Likes
 -- Reference: Provides (table: Offers)
 ALTER TABLE Offers ADD CONSTRAINT Provides
     FOREIGN KEY (sales_point_id)
-    REFERENCES SalesPoints (id);
+    REFERENCES SalesPoints (id)
+    ON DELETE  CASCADE 
+    ON UPDATE  CASCADE;
 
 -- Reference: SalesPoints_Addresses (table: SalesPoints)
 ALTER TABLE SalesPoints ADD CONSTRAINT SalesPoints_Addresses

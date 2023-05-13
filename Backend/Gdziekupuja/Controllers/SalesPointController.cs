@@ -18,26 +18,26 @@ public class SalesPointController : ControllerBase
     [HttpPost]
     public ActionResult<int> CreateSalesPoint([FromBody] CreateSalesPointDto dto)
     {
-        var salesPointId = _service.CreateSalesPoint(dto);
+        var salesPointId = _service.Create(dto);
         return Created($"/api/salesPoint/{salesPointId}", salesPointId);
     }
 
     [HttpGet]
     public ActionResult<IEnumerable<SalesPointDto>?> GetSalesPoints([FromQuery] int? countyId)
     {
-        return Ok(_service.GetSalesPoints(countyId));
+        return Ok(_service.GetAll(countyId));
     }
 
     [HttpPut("{id}")]
     public ActionResult<int> UpdateSalesPoint([FromRoute] int id, [FromBody] UpdateSalesPointDto dto)
     {
-        return Ok(_service.UpdateSalesPoint(id, dto));
+        return Ok(_service.Update(id, dto));
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete([FromRoute] int id)
     {
-        _service.DeleteSalesPoint(id);
+        _service.Delete(id);
         return Ok();
     }
 }

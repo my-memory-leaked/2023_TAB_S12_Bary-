@@ -7,7 +7,8 @@
 ![image](https://user-images.githubusercontent.com/72353213/233865757-123ebf24-6cfc-4489-8e84-6de6c65b1385.png)
 
 # ERD diagram:
-![image](https://user-images.githubusercontent.com/30570850/236647023-c3b0e69e-f330-4db1-906b-e32fd8142927.png)
+![ERD-diagram](https://github.com/my-memory-leaked/2023_TAB_S12_Barys/assets/30570850/ce942e72-6ded-4154-bdd0-15f84979cba5)
+
 
 
 # UI Project

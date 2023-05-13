@@ -34,15 +34,13 @@ public class ProductInstanceService : IProductInstanceService
         if (product is null)
             throw new NotFoundException("Nie istnieje taki produkt");
 
-        var creationTime = DateTimeOffset.Now;
-        var imageName =
-            $"{dto.Image.Name}_{creationTime:ddMMyyyyhhmmssfff}_{new Random().Next(0, 10000000)}.{dto.Image.FileName.Split('.').Last()}";
+        // var creationTime = DateTimeOffset.Now;
+        // var imageName =
+        //     $"{dto.Image.Name}_{creationTime:ddMMyyyyhhmmssfff}_{new Random().Next(0, 10000000)}.{dto.Image.FileName.Split('.').Last()}";
 
-        var folderName = "wwwroot";
-        if (!Directory.Exists(folderName))
-            Directory.CreateDirectory(folderName);
-
-        var path = Path.Combine(Path.GetFullPath(folderName), imageName);
+        var path = Path.Combine(Path.GetFullPath("wwwroot"), dto.Image.FileName);
+        if (File.Exists(path))
+            throw new ArgumentException("Niepoprawny obraz");
 
         using (var image = Image.Load(dto.Image.OpenReadStream()))
         {
