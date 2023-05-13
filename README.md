@@ -4,10 +4,10 @@
 ![image](https://user-images.githubusercontent.com/72353213/233865452-1967a7d7-838a-47ac-94e3-2501fa4d35c4.png)
 
 # Use case diagram:
-![image](https://user-images.githubusercontent.com/72353213/233865757-123ebf24-6cfc-4489-8e84-6de6c65b1385.png)
+![image](https://github.com/my-memory-leaked/2023_TAB_S12_Barys/assets/72353213/9fad70dd-13d1-4c69-a0e0-d7f8fc0be2c1)
 
 # ERD diagram:
-![ERD-diagram](https://github.com/my-memory-leaked/2023_TAB_S12_Barys/assets/30570850/ce942e72-6ded-4154-bdd0-15f84979cba5)
+![image](https://github.com/my-memory-leaked/2023_TAB_S12_Barys/assets/30570850/ce942e72-6ded-4154-bdd0-15f84979cba5)
 
 
 
