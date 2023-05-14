@@ -381,6 +381,62 @@ SET IDENTITY_INSERT Categories ON
         INSERT Categories (id, name, parent_id) VALUES (17, 'Akcesoria GSM',10)
             INSERT Categories (id, name, parent_id) VALUES (27, 'Ładowarki',10)
             INSERT Categories (id, name, parent_id) VALUES (28, 'Etui',10)
+            
+--Nowe kategorie, wymagają zweryfikowania             
+--Podkategorie dla Moda
+SET IDENTITY_INSERT Categories ON
+    INSERT Categories (id, name, parent_id) VALUES (29, 'Odzież',2)
+        INSERT Categories (id, name, parent_id) VALUES (30, 'Odzież damska',29)
+            INSERT Categories (id, name, parent_id) VALUES (35, 'Sukienki',30)
+            INSERT Categories (id, name, parent_id) VALUES (36, 'Bluzki',30)
+        INSERT Categories (id, name, parent_id) VALUES (31, 'Odzież męska',29)
+            INSERT Categories (id, name, parent_id) VALUES (37, 'Koszule',31)
+            INSERT Categories (id, name, parent_id) VALUES (38, 'Spodnie',31)
+        INSERT Categories (id, name, parent_id) VALUES (32, 'Akcesoria',29)
+            INSERT Categories (id, name, parent_id) VALUES (39, 'Torebki',32)
+            INSERT Categories (id, name, parent_id) VALUES (40, 'Biżuteria',32)
+
+--Podkategorie dla Budowa i remont
+    INSERT Categories (id, name, parent_id) VALUES (33, 'Materiały budowlane',3)
+        INSERT Categories (id, name, parent_id) VALUES (41, 'Cegły i bloczki',33)
+        INSERT Categories (id, name, parent_id) VALUES (42, 'Płytki i glazura',33)
+    INSERT Categories (id, name, parent_id) VALUES (34, 'Narzędzia',3)
+        INSERT Categories (id, name, parent_id) VALUES (43, 'Wiertarki',34)
+        INSERT Categories (id, name, parent_id) VALUES (44, 'Młotki',34)
+
+--Podkategorie dla Sport
+    INSERT Categories (id, name, parent_id) VALUES (45, 'Sprzęt sportowy',4)
+        INSERT Categories (id, name, parent_id) VALUES (46, 'Piłki',45)
+        INSERT Categories (id, name, parent_id) VALUES (47, 'Rakiety do tenisa',45)
+    INSERT Categories (id, name, parent_id) VALUES (48, 'Odzież sportowa',4)
+        INSERT Categories (id, name, parent_id) VALUES (49, 'Buty sportowe',48)
+        INSERT Categories (id, name, parent_id) VALUES (50, 'Dresy',48)
+
+--Podkategorie dla Artykuły spożywcze
+    INSERT Categories (id, name, parent_id) VALUES (51, 'Nabiał',5)
+        INSERT Categories (id, name, parent_id) VALUES (52, 'Mleko',51)
+        INSERT Categories (id, name, parent_id) VALUES (53, 'Ser',51)
+    INSERT Categories (id, name, parent_id) VALUES (54, 'Pieczywo',5)
+        INSERT Categories (id, name, parent_id) VALUES (55, 'Chleb',54)
+        INSERT Categories (id, name, parent_id) VALUES (56, 'Bułki',54)
+
+--Podkategorie dla Motoryzacja
+    INSERT Categories (id, name, parent_id) VALUES (57, 'Części samochodowe',6)
+    INSERT Categories (id, name, parent_id) VALUES (58, 'Filtry',57)
+        INSERT Categories (id, name, parent_id) VALUES (59, 'Opony',57)
+    INSERT Categories (id, name, parent_id) VALUES (60, 'Akcesoria samochodowe',6)
+        INSERT Categories (id, name, parent_id) VALUES (61, 'Alfombrillas',60)
+        INSERT Categories (id, name, parent_id) VALUES (62, 'Pokrowce',60)
+
+--Podkategorie dla Kultura i rozrywka
+    INSERT Categories (id, name, parent_id) VALUES (63, 'Książki i komiksy',7)
+        INSERT Categories (id, name, parent_id) VALUES (64, 'Powieści',63)
+        INSERT Categories (id, name, parent_id) VALUES (65, 'Komiksy',63)
+    INSERT Categories (id, name, parent_id) VALUES (66, 'Gry',7)
+        INSERT Categories (id, name, parent_id) VALUES (67, 'Gry planszowe',66)
+        INSERT Categories (id, name, parent_id) VALUES (68, 'Gry komputerowe',66)
+
+
 
 SET IDENTITY_INSERT Categories OFF
 
