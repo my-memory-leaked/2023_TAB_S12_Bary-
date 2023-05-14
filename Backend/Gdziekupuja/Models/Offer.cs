@@ -15,11 +15,11 @@ public partial class Offer
 
     public DateTime CreationTime { get; set; }
 
-    public int AdminId { get; set; }
+    public int? AdminId { get; set; }
 
     public int UserId { get; set; }
 
-    public virtual Administrator Admin { get; set; } = null!;
+    public virtual Administrator? Admin { get; set; }
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 

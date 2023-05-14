@@ -6,6 +6,8 @@ using Gdziekupuja.Models.DTOs.ProductDtos;
 using Gdziekupuja.Models.DTOs.ProductInstanceDtos;
 using Gdziekupuja.Models.DTOs.SalesPointDtos;
 using Gdziekupuja.Models.DTOs.UserDtos;
+using Newtonsoft.Json;
+using NuGet.Protocol;
 
 namespace Gdziekupuja.Models;
 
@@ -27,7 +29,9 @@ public class AutoMapperProfile : Profile
 
         //Products
         CreateMap<CreateProductDto, Product>();
-        CreateMap<Product, ProductDto>();
+        CreateMap<Product, ProductDto>()
+            .ForMember(dest => dest.AvailableProps, opt
+                => opt.MapFrom(src => ToJson(src.AvailableProps)));
 
         //Product instance
         CreateMap<CreateProductInstanceDto, ProductInstance>();
@@ -39,5 +43,10 @@ public class AutoMapperProfile : Profile
 
         //User
         CreateMap<User, UserDto>();
+    }
+
+    private static IDictionary<string, List<string>> ToJson(string props)
+    {
+        return JsonConvert.DeserializeObject<IDictionary<string, List<string>>>(props)!;
     }
 }

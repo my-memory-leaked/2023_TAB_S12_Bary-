@@ -8,4 +8,6 @@ public class CreateProductDto
     [MaxLength(32, ErrorMessage = "Nazwa jest za długa")]
     [MinLength(1, ErrorMessage = "Niepoprawne dane")]
     public string Name { get; set; } = null!;
+
+    public IDictionary<string, List<string>> AvailableProps { get; set; } = null!;
 }

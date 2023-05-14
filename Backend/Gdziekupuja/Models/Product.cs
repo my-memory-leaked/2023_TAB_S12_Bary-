@@ -9,5 +9,7 @@ public partial class Product
 
     public string Name { get; set; } = null!;
 
+    public string AvailableProps { get; set; } = null!;
+
     public virtual ICollection<ProductInstance> ProductInstances { get; set; } = new List<ProductInstance>();
 }

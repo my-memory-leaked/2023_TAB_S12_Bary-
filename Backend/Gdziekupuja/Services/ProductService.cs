@@ -3,6 +3,8 @@ using AutoMapper.QueryableExtensions;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
 using Gdziekupuja.Models.DTOs.ProductDtos;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Gdziekupuja.Services;
 
@@ -31,6 +33,8 @@ public class ProductService : IProductService
             throw new NotUniqueElementException("Produkt o podanej nazwie już istnieje");
 
         var product = _mapper.Map<Product>(dto);
+        product.AvailableProps = JsonSerializer.Serialize(dto.AvailableProps);
+
         _dbContext.Products.Add(product);
         _dbContext.SaveChanges();
 

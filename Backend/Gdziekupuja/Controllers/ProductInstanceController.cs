@@ -15,12 +15,12 @@ public class ProductInstanceController : ControllerBase
         _service = service;
     }
 
-    [HttpPost]
-    public ActionResult<int> Create([FromForm] CreateProductInstanceDto dto)
-    {
-        var result = _service.Create(dto);
-        return Ok(result);
-    }
+    // [HttpPost]
+    // public ActionResult<int> Create([FromForm] CreateProductInstanceDto dto)
+    // {
+    //     var result = _service.Create(dto);
+    //     return Ok(result);
+    // }
 
     [HttpGet]
     public ActionResult<IEnumerable<ProductInstanceDto>> GetAll()

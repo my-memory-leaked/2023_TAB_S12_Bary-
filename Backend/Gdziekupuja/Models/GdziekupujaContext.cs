@@ -35,6 +35,10 @@ public partial class GdziekupujaContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data source=LAPTOK; Initial Catalog = Gdziekupuja;  Trusted_Connection=True; TrustServerCertificate=True;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>(entity =>
@@ -131,7 +135,6 @@ public partial class GdziekupujaContext : DbContext
 
             entity.HasOne(d => d.Admin).WithMany(p => p.Offers)
                 .HasForeignKey(d => d.AdminId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("ban");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Offers)
@@ -152,6 +155,7 @@ public partial class GdziekupujaContext : DbContext
             entity.HasKey(e => e.Id).HasName("Products_pk");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AvailableProps).HasColumnName("available_props");
             entity.Property(e => e.Name).HasColumnName("name");
         });
 

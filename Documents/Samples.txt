@@ -386,9 +386,5 @@ SET IDENTITY_INSERT Categories OFF
 
 --Produkty
 SET IDENTITY_INSERT Products ON
-    INSERT Products (id, name) VALUES (1, 'iPhone 14');
-    INSERT Products (id, name) VALUES (2, 'Samsung s22');
-    INSERT Products (id, name) VALUES (3, 'Amarena');
-    INSERT Products (id, name) VALUES (4, 'Chleb');
-    INSERT Products (id, name) VALUES (5, 'Dwumas Passat');
+    
 SET IDENTITY_INSERT Products OFF
