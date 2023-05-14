@@ -39,10 +39,10 @@ export class AdminSubmitFormService {
         this.data = this.addProduct(form);
         break;
       }
-      // case 'ModifyProduct': {
-      //   this.data = this.modifyProduct(form);
-      //   break;
-      // }
+      case 'ModifyProduct': {
+        this.data = this.modifyProduct(form);
+        break;
+      }
       case 'AddProductInstance': {
         this.data = this.addProductInstance(form);
         break;
@@ -85,6 +85,17 @@ export class AdminSubmitFormService {
     );
   }
 
+  modifyProduct(form: FormGroup): Observable<number> {
+    const name = form.value.name;
+
+    return this.http.put<number>(`${environment.httpBackend}${Api.PRODUCT_ID}`.replace(':id', form.value.product), { name }).pipe(
+      catchError((err) => {
+        this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się zmodyfikować produktu');
+        return of();
+      }),
+    );
+  }
+
   addProductInstance(form: FormGroup): Observable<number> {
     const obj: { [key: string]: string } = {};
     form.value.additionalInfo.forEach((item: string) => {
@@ -99,8 +110,6 @@ export class AdminSubmitFormService {
     formData.append('AdditionalInfo', additionalInfo);
     formData.append('Image', form.value.image);
 
-    console.log(formData)
-
     return this.http.post<number>(`${environment.httpBackend}${Api.PRODUCT_INSTANCE}`, formData).pipe(
       catchError((err) => {
         this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się dodać produktu');
@@ -111,7 +120,7 @@ export class AdminSubmitFormService {
 
   addCategory(form: FormGroup): Observable<number> {
     const name = form.value.name;
-    const parentId = form.value.parentId;
+    const parentId = form.value.parentId !== '' ? form.value.parentId : null;
 
     return this.http.post<number>(`${environment.httpBackend}${Api.CATEGORIES}`, { name, parentId }).pipe(
       catchError((err) => {

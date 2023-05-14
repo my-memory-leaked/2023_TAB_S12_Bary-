@@ -16,21 +16,19 @@
   }
 }
 
-.button--categories {
-  &--home {
-    height: 57.8px !important;
-    position: relative;
-    top: 2.5px;
-    border: solid 1px white;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    border-left: 0px;
-  }
+.home {
+  height: 57.8px !important;
+  position: relative;
+  top: 2.5px;
+  border: solid 1px white;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  border-left: 0px;
+}
 
-  &--admin {
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    position: relative;
-    top: 5px;
-  }
+.admin {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  position: relative;
+  top: 5px;
 }

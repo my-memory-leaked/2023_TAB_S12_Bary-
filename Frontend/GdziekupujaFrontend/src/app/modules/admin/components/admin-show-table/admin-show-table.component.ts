@@ -116,10 +116,11 @@ export class AdminShowTableComponent implements OnInit {
             this.data.push({
               id: res.id,
               categoryName: res.name,
+              parentId: res.parentId,
             })
           });
 
-          this.displayedColumns = ['id', 'categoryName', 'delete'];
+          this.displayedColumns = ['id', 'categoryName', 'parentId', 'delete'];
           this.deleteApi = Api.CATEGORY_ID;
           break;
         }
@@ -149,7 +150,8 @@ export class AdminShowTableComponent implements OnInit {
             })
           });
 
-          this.displayedColumns = ['id', 'productName', 'categoryName', 'delete'];
+          this.displayedColumns = ['id', 'productName', 'delete'];
+          this.deleteApi = Api.PRODUCT_ID;
           break;
         }
         case 'Instancja produktu': {
@@ -185,6 +187,7 @@ export class AdminShowTableComponent implements OnInit {
               this.data.push({
                 id: res.id,
                 categoryName: res.name,
+                parentId: res.parentId,
               })
             });
             break;

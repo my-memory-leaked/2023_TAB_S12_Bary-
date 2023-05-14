@@ -147,6 +147,25 @@
   </ng-container>
 
   <ng-container
+    *ngIf="displayedColumns.includes('parentId')"
+    matColumnDef="parentId"
+  >
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+    >
+      Id rodzica
+    </th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+    >
+      {{ element.parentId }}
+    </td>
+  </ng-container>
+
+  <ng-container
     *ngIf="displayedColumns.includes('additionalInfo')"
     matColumnDef="additionalInfo"
   >

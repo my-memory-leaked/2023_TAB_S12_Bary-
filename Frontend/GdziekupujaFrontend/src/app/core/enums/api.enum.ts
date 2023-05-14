@@ -10,6 +10,7 @@ export enum Api {
   COUNTY = '/api/county/:id',
 
   PRODUCTS = '/api/product',
+  PRODUCT_ID = '/api/product/:id',
   
   PRODUCT_INSTANCE = '/api/productInstance',
 

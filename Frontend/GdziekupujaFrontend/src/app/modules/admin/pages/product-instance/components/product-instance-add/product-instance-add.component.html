@@ -1,6 +1,6 @@
 <div class="forms">
   <mat-form-field
-    class="fix backgroundColor item dropdown"
+    class="fix backgroundColor dropdown"
     [hideRequiredMarker]="true"
   >
     <mat-label class="black">Produkt</mat-label>
@@ -15,7 +15,7 @@
   </mat-form-field>
 
   <lz-nested-dropdown
-    class="dropdown dropdown--pad fix backgroundColor item removeDropdownIconMargin"
+    class="dropdown fix backgroundColor removeDropdownIconMargin"
     [categoriesData]="categories$ | async"
     [inAdmin]="true"
     name="Kategorie"

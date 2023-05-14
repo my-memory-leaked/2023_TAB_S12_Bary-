@@ -72,7 +72,6 @@ export class ProductInstanceAddComponent implements OnInit {
     this.categoriesToDisplay.push(category);
     this.categoriesIdsToAdd.push(category.id);
     this.categoryIds.setValue(this.categoriesIdsToAdd);
-
   }
 
   removeCategory(category: Categories) {

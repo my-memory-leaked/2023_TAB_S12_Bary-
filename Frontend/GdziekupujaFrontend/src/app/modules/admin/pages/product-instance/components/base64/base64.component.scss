@@ -12,11 +12,10 @@
   border-radius: 10px;
   align-items: center;
   justify-content: space-between;
-  min-width: 200px;
+  min-width: 300px;
   min-height: 200px;
   
-  width: 48%;
-  max-width: 48%;
+  width: fit-content;
   max-height: fit-content;
 }
 
