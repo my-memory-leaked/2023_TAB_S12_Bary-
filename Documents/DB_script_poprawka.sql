@@ -83,7 +83,7 @@ CREATE TABLE Offers (
     product_id int  NOT NULL,
     sales_point_id int  NOT NULL,
     creation_time datetime2(7)  NOT NULL,
-    admin_id int  NOT NULL,
+    admin_id int,
     user_id int  NOT NULL,
     CONSTRAINT Offers_pk PRIMARY KEY  (id)
 );
@@ -101,6 +101,7 @@ CREATE TABLE ProductInstances (
 CREATE TABLE Products (
     id int  NOT NULL IDENTITY(1, 1),
     name nvarchar(max)  NOT NULL,
+    available_props nvarchar(max)  NOT NULL,
     CONSTRAINT Products_pk PRIMARY KEY  (id)
 );
 
