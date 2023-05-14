@@ -33,6 +33,8 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.AvailableProps, opt
                 => opt.MapFrom(src => ToJson(src.AvailableProps)));
 
+        CreateMap<Product, ProductDtoFlat>();
+
         //Product instance
         CreateMap<CreateProductInstanceDto, ProductInstance>();
         CreateMap<ProductInstance, ProductInstanceDto>();

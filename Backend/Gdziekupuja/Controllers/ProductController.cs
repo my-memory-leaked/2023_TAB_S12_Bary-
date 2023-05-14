@@ -28,6 +28,19 @@ public class ProductController : ControllerBase
         return Ok(_service.GetAllProducts());
     }
 
+
+    [HttpGet("{id}")]
+    public ActionResult<IDictionary<string, List<string>>> GetProductProps(int id)
+    {
+        return Ok(_service.GetProductProps(id));
+    }
+
+    [HttpGet("flat")]
+    public ActionResult<IEnumerable<ProductDtoFlat>>? GetAllProductsFlat()
+    {
+        return Ok(_service.GetAllProductsFlat());
+    }
+
     [HttpDelete("{id}")]
     public ActionResult Delete(int id)
     {

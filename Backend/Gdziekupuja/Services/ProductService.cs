@@ -14,6 +14,8 @@ public interface IProductService
     IEnumerable<ProductDto>? GetAllProducts();
     void Delete(int id);
     int Update(int id, UpdateProductDto dto);
+    IEnumerable<ProductDtoFlat>? GetAllProductsFlat();
+    IDictionary<string, List<string>> GetProductProps(int id);
 }
 
 public class ProductService : IProductService
@@ -41,9 +43,22 @@ public class ProductService : IProductService
         return product.Id;
     }
 
+    //akcja do pobierania wszystkich produktów wraz z ich dostępnymi właściwościami 
     public IEnumerable<ProductDto>? GetAllProducts()
     {
         return _dbContext.Products.ProjectTo<ProductDto>(_mapper.ConfigurationProvider);
+    }
+
+    public IEnumerable<ProductDtoFlat>? GetAllProductsFlat()
+    {
+        return _dbContext.Products.ProjectTo<ProductDtoFlat>(_mapper.ConfigurationProvider);
+    }
+
+    public IDictionary<string, List<string>> GetProductProps(int id)
+    {
+        var productProps = _dbContext.Products.FirstOrDefault(p => p.Id == id)?.AvailableProps ??
+                           throw new NotFoundException("nie isnieje");
+        return JsonConvert.DeserializeObject<IDictionary<string, List<string>>>(productProps)!;
     }
 
     public void Delete(int id)
@@ -60,7 +75,13 @@ public class ProductService : IProductService
     {
         var product = _dbContext.Products
             .FirstOrDefault(p => p.Id == id) ?? throw new NotFoundException("Nie istnieje");
+
         product.Name = dto?.Name ?? product.Name;
+
+        if (dto?.AvailableProps is not null)
+            product.AvailableProps = JsonSerializer.Serialize(dto?.AvailableProps);
+
+        _dbContext.Products.Update(product);
         _dbContext.SaveChanges();
         return id;
     }

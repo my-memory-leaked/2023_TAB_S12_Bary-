@@ -10,5 +10,5 @@ public class CreateProductInstanceDto
 
     public IDictionary<string, string> AdditionalInfo { get; set; } = null!;
 
-    public IFormFile Image { get; set; } = null!;
+    [Required] public IFormFile Image { get; set; } = null!;
 }
