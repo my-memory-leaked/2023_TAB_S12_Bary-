@@ -3,27 +3,27 @@
     class="buttons"
     name="action-type"
     (change)="handleActionTypeChange($event)"
-    value="AddProductInstance"
+    value="AddOffer"
   >
     <mat-button-toggle
-      value="AddProductInstance"
+      value="AddOffer"
       class="button button--left"
-      [ngClass]="prevType === 'ModifyProductInstance' ? 'color-clicked' : 'color-default'"
+      [ngClass]="prevType === 'ModifyOffer' ? 'color-clicked' : 'color-default'"
     >
       Dodaj
     </mat-button-toggle>
     <mat-button-toggle
-      value="ModifyProductInstance"
+      value="ModifyOffer"
       class="button button--right"
-      [ngClass]="prevType === 'AddProductInstance' ? 'color-clicked' : 'color-default'"
+      [ngClass]="prevType === 'AddOffer' ? 'color-clicked' : 'color-default'"
     >
       Modyfikuj
     </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
 
-<product-instance-type-switch
+<offer-type-switch
   class="form"
   [toggleValue]="prevType"
 >
-</product-instance-type-switch>
+</offer-type-switch>

@@ -14,11 +14,19 @@ export class ProductFormHandlerService {
 
   setFormGroupForProductAdd(formGroup: FormGroup): void {
     formGroup.addControl('name', this.fb.control(null, [Validators.required]));
+    formGroup.addControl('availableProps', this.fb.control(null, [Validators.required]));
+  
+    formGroup.addControl('propertyName', this.fb.control(null));
+    formGroup.addControl('property', this.fb.control(null));
   }
 
   setFormGroupForProductModify(formGroup: FormGroup): void {
     formGroup.addControl('product', this.fb.control(null, [Validators.required]));
     formGroup.addControl('name', this.fb.control(null, [Validators.required]));
+    formGroup.addControl('availableProps', this.fb.control(null, [Validators.required]));
+
+    formGroup.addControl('propertyName', this.fb.control(null));
+    formGroup.addControl('property', this.fb.control(null));
   }
 
   clearControls(form: FormGroup, previousType: AddModifyProductType): void {

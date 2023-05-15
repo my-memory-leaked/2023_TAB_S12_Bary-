@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdminFormService } from '@modules/admin/services/admin-form.service';
 
 @Injectable()
-export class ProductInstanceService extends AdminFormService {
+export class OfferService extends AdminFormService {
   constructor(
     @Optional() private formBuilder: FormBuilder,
   ) {

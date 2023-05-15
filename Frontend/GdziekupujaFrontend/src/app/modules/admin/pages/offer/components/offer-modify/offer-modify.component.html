@@ -3,13 +3,13 @@
     class="fix backgroundColor item"
     [hideRequiredMarker]="true"
   >
-    <mat-label class="black">Produkt</mat-label>
-    <mat-select formControlName="product">
+    <mat-label class="black">Oferta</mat-label>
+    <mat-select formControlName="offer">
       <mat-option
-        *ngFor="let item of products | async"
+        *ngFor="let item of offersFixedNames"
         [value]="item.id"
       >
-        {{ item.name }}
+        {{ item.changedName }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -17,9 +17,9 @@
   <my-input
     appearance="fill"
     class="fix backgroundColor item"
-    label="Nazwa"
+    label="Cena"
     type="text"
-    controlName="name"
+    controlName="price"
   >
   </my-input>
 </div>

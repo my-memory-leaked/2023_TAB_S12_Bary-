@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 
 @Component({
-  selector: 'my-product-instance',
-  templateUrl: './product-instance.component.html',
-  styleUrls: ['./product-instance.component.scss'],
+  selector: 'my-offer',
+  templateUrl: './offer.component.html',
+  styleUrls: ['./offer.component.scss'],
   viewProviders: [
     {
       provide: ControlContainer,
@@ -13,4 +13,4 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
   ],
 })
 
-export class ProductInstanceComponent { }
+export class OfferComponent { }

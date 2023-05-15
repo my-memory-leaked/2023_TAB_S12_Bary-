@@ -1,15 +1,16 @@
+import { Observable, tap } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { ProductInstanceFormHandlerService } from '@modules/admin/pages/product-instance/services/product-instance-form-handler.service';
+import { Categories, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
 import { AdminStorageService } from '@modules/admin/services/admin-storage.service';
-import { Categories, Product } from '@modules/offers/interfaces/offers.interface';
+import { ChangedNames } from '@modules/admin/interfaces/admin-form-response.interface';
+import { OfferFormHandlerService } from '@modules/admin/pages/offer/services/offer-form-handler.service';
 import { TopMenuService } from '@modules/top-menu/api/top-menu.service';
-import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'product-instance-add',
-  templateUrl: './product-instance-add.component.html',
-  styleUrls: ['./product-instance-add.component.scss'],
+  selector: 'offer-add',
+  templateUrl: './offer-add.component.html',
+  styleUrls: ['./offer-add.component.scss'],
   viewProviders: [
     {
       provide: ControlContainer,
@@ -18,28 +19,47 @@ import { Observable } from 'rxjs';
   ],
 })
 
-export class ProductInstanceAddComponent implements OnInit {
+export class OfferAddComponent implements OnInit {
 
   form: FormGroup;
-  products: Observable<Product[]>;
+  products$: Observable<Product[]>;
   categories$: Observable<Categories[]>;
+
   categoriesIdsToAdd: number[] = [];
   categoriesToDisplay: Categories[] = [];
   additionalProperties: string[] = [];
 
+  salesPoints$: Observable<SalesPoint[]>;
+  salesPointsFixedNames: ChangedNames[] = [];
+
   constructor(
     private controlContainer: ControlContainer,
-    private productInstanceFormHandlerService: ProductInstanceFormHandlerService,
+    private offerFormHandlerService: OfferFormHandlerService,
     private adminStorageService: AdminStorageService,
     private topMenuService: TopMenuService,
   ) { }
 
   ngOnInit(): void {
     this.form = this.controlContainer.control as FormGroup;
-    this.productInstanceFormHandlerService.setFormGroupForProductInstanceAdd(this.form);
+    this.offerFormHandlerService.setFormGroupForOfferAdd(this.form);
 
-    this.products = this.adminStorageService.products$.asObservable();
+    this.products$ = this.adminStorageService.products$.asObservable();
     this.categories$ = this.topMenuService.getAllCategories();
+
+    this.salesPoints$ = this.adminStorageService.salesPoints$.asObservable();
+
+    this.salesPoints$.subscribe((result) => result.map((res) => {
+      this.salesPointsFixedNames.push({
+        id: res.id,
+        changedName: res.name + ', ' + res.address.city + ' ul. ' + res.address.street + ' ' + res.address.number,
+      })
+    }));
+
+    this.form.get('price').valueChanges.subscribe((res) => {
+      if (Number.isNaN(Number(res))) {
+        this.form.get('price').setErrors({ 'incorrect': true });
+      }
+    });
   }
 
   saveImage(image: File): void {
@@ -51,14 +71,6 @@ export class ProductInstanceAddComponent implements OnInit {
 
   get categoryIds(): AbstractControl {
     return this.form.get('categoryIds');
-  }
-
-  get part1(): AbstractControl {
-    return this.form.get('part1');
-  }
-
-  get part2(): AbstractControl {
-    return this.form.get('part2');
   }
 
   get additionalInfo(): AbstractControl {
@@ -80,22 +92,9 @@ export class ProductInstanceAddComponent implements OnInit {
     this.categoryIds.setValue(this.categoriesIdsToAdd);
   }
 
-  mergeAndAddAdditionalInfo(): void {
-    if (this.part1.value && this.part2.value) {
-      const merged = '"' + this.part1.value + '": ' + '"' + this.part2.value + '"';
-      if (this.additionalProperties.findIndex((res) => res === merged) !== -1)
-        return;
-
-      this.additionalProperties.push(merged);
-      this.additionalInfo.setValue(this.additionalProperties);
-
-      this.part1.reset();
-      this.part2.reset();
-    }
-  }
-
-  removeAdditionalInfo(info: string): void {
-    this.additionalProperties = this.additionalProperties.filter((res) => res !== info);
-    this.additionalInfo.setValue(this.additionalProperties);
+  getProductProperties(id: number) {
+    //lepiej wyciagac z formy?
+    // console.log(id)
+    // console.log(this.form.value)
   }
 }

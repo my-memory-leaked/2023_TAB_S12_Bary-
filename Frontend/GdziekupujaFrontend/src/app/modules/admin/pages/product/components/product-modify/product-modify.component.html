@@ -23,3 +23,45 @@
   >
   </my-input>
 </div>
+
+<div class="fixer">
+  <h3 class="info">Dostępne właściwości</h3>
+  <div class="lessMargin forms fix--formatting ">
+    <my-input
+      appearance="fill"
+      class="fix backgroundColor"
+      label="Nazwa właściwości"
+      type="text"
+      controlName="propertyName"
+    >
+    </my-input>
+    <button
+      class="secondaryColor white"
+      mat-icon-button
+      (click)="mergeAndAddAdditionalInfo()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <my-input
+      appearance="fill"
+      class="fix backgroundColor"
+      label="Właściwość"
+      type="text"
+      controlName="property"
+    >
+    </my-input>
+  </div>
+
+  <div
+    *ngIf="additionalProperties.length"
+    class="list"
+  >
+    <app-list-items
+      *ngFor="let property of additionalProperties; let i=index"
+      [data]="property.displayProperty"
+      [lineFixer]="{ index: i, array: additionalProperties}"
+      (delete)="removeAdditionalInfo(property)"
+    >
+    </app-list-items>
+  </div>
+</div>

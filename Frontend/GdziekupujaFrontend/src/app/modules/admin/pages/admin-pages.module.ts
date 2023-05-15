@@ -29,16 +29,18 @@ import { ProductModifyComponent } from './product/components/product-modify/prod
 import { ProductSetActionComponent } from './product/components/product-set-action/product-set-action.component';
 import { ProductTypeSwitchComponent } from './product/components/product-type-switch/product-type-switch.component';
 import { ProductComponent } from './product/product.component';
-import { ProductInstanceAddComponent } from './product-instance/components/product-instance-add/product-instance-add.component';
-import { ProductInstanceModifyComponent } from './product-instance/components/product-instance-modify/product-instance-modify.component';
-import { ProductInstanceSetActionComponent } from './product-instance/components/product-instance-set-action/product-instance-set-action.component';
-import { ProductInstanceTypeSwitchComponent } from './product-instance/components/product-instance-type-switch/product-instance-type-switch.component';
-import { ProductInstanceFormHandlerService } from './product-instance/services/product-instance-form-handler.service';
-import { ProductInstanceComponent } from './product-instance/product-instance.component';
-import { Base64Component } from './product-instance/components/base64/base64.component';
+// import { Base64Component } from './product-instance/components/base64/base64.component';
 import { LzNestedDropdownModule } from '@shared/modules/lz-nested-dropdown/lz-nested-dropdown.module';
 import { TopMenuService } from '@modules/top-menu/api/top-menu.service';
-import { ListItemsComponent } from './product-instance/components/list-items/list-items.component';
+// import { ListItemsComponent } from './product-instance/components/list-items/list-items.component';
+import { OfferAddComponent } from './offer/components/offer-add/offer-add.component';
+import { OfferModifyComponent } from './offer/components/offer-modify/offer-modify.component';
+import { OfferSetActionComponent } from './offer/components/offer-set-action/offer-set-action.component';
+import { OfferTypeSwitchComponent } from './offer/components/offer-type-switch/offer-type-switch.component';
+import { OfferComponent } from './offer/offer.component';
+import { OfferFormHandlerService } from './offer/services/offer-form-handler.service';
+import { Base64Component } from './offer/components/base64/base64.component';
+import { ListItemsComponent } from './offer/components/list-items/list-items.component';
 
 @NgModule({
   declarations: [
@@ -62,17 +64,12 @@ import { ListItemsComponent } from './product-instance/components/list-items/lis
     // UserUnbanComponent,
     // UserSetActionComponent,
     // UserTypeSwitchComponent,
-    // OfferComponent,
-    // OfferAddComponent,
-    // OfferModifyComponent,
-    // OfferSetActionComponent,
-    // OfferTypeSwitchComponent,
+    OfferComponent,
+    OfferAddComponent,
+    OfferModifyComponent,
+    OfferSetActionComponent,
+    OfferTypeSwitchComponent,
     Base64Component,
-    ProductInstanceComponent,
-    ProductInstanceAddComponent,
-    ProductInstanceModifyComponent,
-    ProductInstanceSetActionComponent,
-    ProductInstanceTypeSwitchComponent,
     ListItemsComponent,
   ],
   imports: [
@@ -96,8 +93,7 @@ import { ListItemsComponent } from './product-instance/components/list-items/lis
     CategoryFormHandlerService,
     SalesPointFormHandlerService,
     // UserFormHandlerService,
-    // OfferFormHandlerService,
-    ProductInstanceFormHandlerService,
+    OfferFormHandlerService,
     TopMenuService,
   ]
 })

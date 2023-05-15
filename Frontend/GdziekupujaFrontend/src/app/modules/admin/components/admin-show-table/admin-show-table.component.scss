@@ -1,9 +1,5 @@
 @use '/src/styles/colors' as color;
 
-.mat-mdc-table .mat-mdc-header-cell {
-  width: 190px;
-}
-
 .icon {
   &:hover {
     cursor: pointer;
@@ -21,4 +17,19 @@
 .mat-mdc-form-field {
   background-color: color.$secondaryDarkerColor;
   border-radius: 12px 12px 0 0;
+}
+
+.mat-column {
+  &-availableProps {
+    max-width: 140px !important;
+    overflow: auto;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: color.$secondaryColor !important;
+    }
+  }
+
+  &-delete {
+    max-width: 80px !important;
+  }
 }

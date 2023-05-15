@@ -3,10 +3,10 @@
     mat-menu-item
     [matMenuTriggerFor]="show1"
     [ngClass]="inAdmin ? 'admin' : 'home'"
-    >
+  >
     {{ functionName }}
-    <mat-icon class="icon">
-      arrow_drop_down
+    <mat-icon (click)="$event.stopPropagation(); clearDropdown()">
+      {{ (addClear && functionName !== functionNameStorage) ? 'cancel' : 'arrow_drop_down' }}
     </mat-icon>
   </button>
 

@@ -38,6 +38,7 @@ export class AdminOperationDetailsComponent implements OnInit {
       this.adminSubmitFormService.sendForm(this.adminForm, this.adminStorageService.currentAction).subscribe(() => {
         this.action = this.adminStorageService.currentAction;
         this.clearForm();
+        this.adminSubmitFormService.setClearData(true);
       });
     } else {
       this.toastMessageService.notifyOfError("Źle wprowadzone dane");

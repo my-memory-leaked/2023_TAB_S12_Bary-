@@ -28,12 +28,7 @@ export class LzNestedDropdownComponent {
     this.functionNameStorage = value;
   }
   @Input() inAdmin = false;
-  @Input() set addClear(add: boolean) {
-    if (add)
-      setTimeout(() => {
-        this.categoryItems.unshift({ id: -1, name: 'Wyczyść', inverseParent: [] });
-      }, 100);
-  }
+  @Input() addClear = false;
   @Output() dropdownChange = new EventEmitter<any>();
 
   navData: NestedDropdown<unknown>[];
@@ -47,11 +42,17 @@ export class LzNestedDropdownComponent {
 
   changeDropdown(item: any, isCategory: boolean) {
     if (isCategory)
-    this.functionName = (item.id === -1) ? this.functionNameStorage : item.name;
-    
+      this.functionName = (item.id === -1) ? this.functionNameStorage : item.name;
+
     this.functionName = this.inAdmin ? this.functionNameStorage : item.name;
-    
+
     this.dropdownChange.emit(item);
-    this.menuTrigger.closeMenu()
+    this.menuTrigger.closeMenu();
+  }
+
+  clearDropdown() {
+    this.functionName = this.functionNameStorage;
+    this.dropdownChange.emit({});
+    this.menuTrigger.closeMenu();
   }
 }

@@ -1,4 +1,23 @@
 export const ADMIN_FIELDS_LIST = {
+  AddOffer: [
+    "price",
+    "salesPointId",
+    "userId",
+    "ProductId",
+    "CategoryIds",
+    "AdditionalInfo",
+    "Image",
+  ],
+  ModifyOffer: [
+    "offer",
+    "price",
+    "salesPointId",
+    "userId",
+    "ProductId",
+    "CategoryIds",
+    "AdditionalInfo",
+    "Image",
+  ],
   AddCategory: [
     "name",
     "parentId",
@@ -10,23 +29,16 @@ export const ADMIN_FIELDS_LIST = {
   ],
   AddProduct: [
     "name",
+    "availableProps",
+    "propertyName",
+    "property",
   ],
   ModifyProduct: [
     "product",
     "name",
-  ],
-  AddProductInstance: [
-    "productId",
-    "categoryIds",
-    "additionalInfo",
-    "image",
-  ],
-  ModifyProductInstance: [
-    "productInstanceId",
-    "productId",
-    "categoryIds",
-    "additionalInfo",
-    "image",
+    "availableProps",
+    "propertyName",
+    "property",
   ],
   AddSalesPoint: [
     "name",

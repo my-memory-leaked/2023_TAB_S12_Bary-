@@ -1,12 +1,41 @@
 <div class="forms">
+  <my-input
+    appearance="fill"
+    class="fix backgroundColor item"
+    label="Cena"
+    type="text"
+    controlName="price"
+  >
+  </my-input>
+
+  <mat-form-field
+    class="fix backgroundColor item"
+    [hideRequiredMarker]="true"
+  >
+    <mat-label class="black">Punkt sprzedaży</mat-label>
+    <mat-select formControlName="salesPointId">
+      <mat-option
+        *ngFor="let item of salesPointsFixedNames"
+        [value]="item.id"
+      >
+        {{ item.changedName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="forms">
   <mat-form-field
     class="fix backgroundColor dropdown"
     [hideRequiredMarker]="true"
   >
     <mat-label class="black">Produkt</mat-label>
-    <mat-select formControlName="productId">
+    <mat-select
+      formControlName="productId"
+      (selectionChange)="getProductProperties($event.value)"
+    >
       <mat-option
-        *ngFor="let item of products | async"
+        *ngFor="let item of products$ | async"
         [value]="item.id"
       >
         {{ item.name }}
@@ -24,32 +53,6 @@
   </lz-nested-dropdown>
 </div>
 
-<div class="forms fix--formatting">
-  <my-input
-    appearance="fill"
-    class="fix backgroundColor"
-    label="Nazwa właściwości"
-    type="text"
-    controlName="part1"
-  >
-  </my-input>
-  <button
-    class="secondaryColor white"
-    mat-icon-button
-    (click)="mergeAndAddAdditionalInfo()"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
-  <my-input
-    appearance="fill"
-    class="fix backgroundColor"
-    label="Właściwość"
-    type="text"
-    controlName="part2"
-  >
-  </my-input>
-</div>
-
 <div class="forms">
   <div
     *ngIf="categoriesToDisplay.length"
@@ -61,20 +64,6 @@
       [data]="'id: ' + category.id.toString() + ', kategoria: ' + category.name"
       [lineFixer]="{ index: i, array: categoriesToDisplay}"
       (delete)="removeCategory(category)"
-    >
-    </app-list-items>
-  </div>
-
-  <div
-    *ngIf="additionalProperties.length"
-    class="list"
-  >
-    <h3>Dodatkowe informacje</h3>
-    <app-list-items
-      *ngFor="let property of additionalProperties; let i=index"
-      [data]="property"
-      [lineFixer]="{ index: i, array: additionalProperties}"
-      (delete)="removeAdditionalInfo(property)"
     >
     </app-list-items>
   </div>

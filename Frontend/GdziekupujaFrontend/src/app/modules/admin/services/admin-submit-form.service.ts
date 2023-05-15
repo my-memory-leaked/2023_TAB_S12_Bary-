@@ -2,7 +2,7 @@ import { Api } from '@core/enums/api.enum';
 import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { catchError, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AllAdminActionsType } from '@modules/admin/types/admin-actions.types';
 import { ToastMessageService } from '@shared/modules/toast-message/services/toast-message.service';
@@ -11,11 +11,20 @@ import { ToastMessageService } from '@shared/modules/toast-message/services/toas
 export class AdminSubmitFormService {
 
   data: Observable<number>;
+  private clearData$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
     private toastMessageService: ToastMessageService,
   ) { }
+
+  getClearData(): Observable<boolean> {
+    return this.clearData$.asObservable();
+  }
+
+  setClearData(value: boolean): void {
+    this.clearData$.next(value);
+  }
 
   sendForm(form: FormGroup, currentAction: AllAdminActionsType): Observable<number> {
     switch (currentAction) {
@@ -43,14 +52,6 @@ export class AdminSubmitFormService {
         this.data = this.modifyProduct(form);
         break;
       }
-      case 'AddProductInstance': {
-        this.data = this.addProductInstance(form);
-        break;
-      }
-      // case 'ModifyProductInstance': {
-      //   this.data = this.modifyProductInstance(form);
-      //   break;
-      // }
       case 'AddSalesPoint': {
         this.data = this.addSalesPoint(form);
         break;
@@ -76,8 +77,9 @@ export class AdminSubmitFormService {
 
   addProduct(form: FormGroup): Observable<number> {
     const name = form.value.name;
+    const availableProps = form.value.availableProps;
 
-    return this.http.post<number>(`${environment.httpBackend}${Api.PRODUCTS}`, { name }).pipe(
+    return this.http.post<number>(`${environment.httpBackend}${Api.PRODUCTS}`, { name, availableProps }).pipe(
       catchError((err) => {
         this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się dodać produktu');
         return of();
@@ -87,32 +89,11 @@ export class AdminSubmitFormService {
 
   modifyProduct(form: FormGroup): Observable<number> {
     const name = form.value.name;
+    const availableProps = form.value.availableProps;
 
-    return this.http.put<number>(`${environment.httpBackend}${Api.PRODUCT_ID}`.replace(':id', form.value.product), { name }).pipe(
+    return this.http.put<number>(`${environment.httpBackend}${Api.PRODUCT_ID}`.replace(':id', form.value.product), { name, availableProps }).pipe(
       catchError((err) => {
         this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się zmodyfikować produktu');
-        return of();
-      }),
-    );
-  }
-
-  addProductInstance(form: FormGroup): Observable<number> {
-    const obj: { [key: string]: string } = {};
-    form.value.additionalInfo.forEach((item: string) => {
-      const [key, value] = item.split(':').map(str => str.replace(/"/g, '').trim());
-      obj[key] = value;
-    });
-    const additionalInfo = JSON.stringify(obj);
-
-    const formData = new FormData();
-    formData.append('ProductId', form.value.productId);
-    formData.append('CategoryIds', form.value.categoryIds);
-    formData.append('AdditionalInfo', additionalInfo);
-    formData.append('Image', form.value.image);
-
-    return this.http.post<number>(`${environment.httpBackend}${Api.PRODUCT_INSTANCE}`, formData).pipe(
-      catchError((err) => {
-        this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się dodać produktu');
         return of();
       }),
     );

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { AddModifyProductInstanceType } from '@modules/admin/types/admin-actions.types';
+import { AddModifyOfferType } from '@modules/admin/types/admin-actions.types';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { AdminStorageService } from '@modules/admin/services/admin-storage.service';
-import { ProductInstanceFormHandlerService } from '@modules/admin/pages/product-instance/services/product-instance-form-handler.service';
+import { OfferFormHandlerService } from '@modules/admin/pages/offer/services/offer-form-handler.service';
 
 @Component({
-  selector: 'product-instance-set-action',
-  templateUrl: './product-instance-set-action.component.html',
-  styleUrls: ['./product-instance-set-action.component.scss'],
+  selector: 'offer-set-action',
+  templateUrl: './offer-set-action.component.html',
+  styleUrls: ['./offer-set-action.component.scss'],
   viewProviders: [
     {
       provide: ControlContainer,
@@ -17,25 +17,25 @@ import { ProductInstanceFormHandlerService } from '@modules/admin/pages/product-
   ],
 })
 
-export class ProductInstanceSetActionComponent implements OnInit {
+export class OfferSetActionComponent implements OnInit {
 
   form: FormGroup;
-  prevType: AddModifyProductInstanceType = 'AddProductInstance';
+  prevType: AddModifyOfferType = 'AddOffer';
 
   constructor(
     private controlContainer: ControlContainer,
-    private productInstanceFormHandlerService: ProductInstanceFormHandlerService,
+    private offerFormHandlerService: OfferFormHandlerService,
     private adminStorageService: AdminStorageService,
   ) { }
 
   ngOnInit() {
     this.form = this.controlContainer.control as FormGroup;
-    this.adminStorageService.currentAction = 'AddProductInstance';
+    this.adminStorageService.currentAction = 'AddOffer';
   }
 
   handleActionTypeChange(prevType: MatButtonToggleChange) {
     if (this.prevType) {
-      this.productInstanceFormHandlerService.clearControls(this.form, this.prevType);
+      this.offerFormHandlerService.clearControls(this.form, this.prevType);
     }
     this.prevType = prevType.value;
   }

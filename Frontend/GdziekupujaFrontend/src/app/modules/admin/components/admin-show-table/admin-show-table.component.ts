@@ -40,12 +40,6 @@ export class AdminShowTableComponent implements OnInit {
       else if (value === 'ModifyProduct') {
         this.toastMessageService.notifyOfSuccess("Zaktualizowano produkt");
       }
-      else if (value === 'AddProductInstance') {
-        this.toastMessageService.notifyOfSuccess("Dodano nową instancję produktu");
-      }
-      else if (value === 'ModifyProductInstance') {
-        this.toastMessageService.notifyOfSuccess("Zaktualizowano instancję produktu");
-      }
       else if (value === 'AddSalesPoint') {
         this.toastMessageService.notifyOfSuccess("Dodano nowy punkt sprzedaży");
       }
@@ -144,32 +138,21 @@ export class AdminShowTableComponent implements OnInit {
         case 'Produkt': {
           this.adminStorageService.getDataForTable(this.operationText).subscribe((res: Product[]) => this.tempData = res);
           this.tempData.map((res: Product) => {
+            const formattedData = JSON.stringify(res.availableProps).replaceAll(/[{["}]/g, '')
+              .replaceAll(/[,]/g, ', ')
+              .replaceAll(':', ': ')
+              .replaceAll('],', ' |')
+              .replaceAll(']', '');
+
             this.data.push({
               id: res.id,
               productName: res.name,
+              availableProps: formattedData,
             })
           });
 
-          this.displayedColumns = ['id', 'productName', 'delete'];
+          this.displayedColumns = ['id', 'productName', 'availableProps', 'delete'];
           this.deleteApi = Api.PRODUCT_ID;
-          break;
-        }
-        case 'Instancja produktu': {
-          this.adminStorageService.getDataForTable(this.operationText).subscribe((res: ProductInstance[]) => this.tempData = res);
-          this.tempData.map((res: ProductInstance) => {
-            const categoriesFormatted = res.categories.map((category) => {
-              return category.id + ', ' + category.name;
-            })
-            console.log(categoriesFormatted);
-            this.data.push({
-              id: res.id,
-              product: res.product.name,
-              additionalInfo: res.additionalInfo,//TODO jak sformatować?
-              categories: categoriesFormatted,
-            })
-          });
-
-          this.displayedColumns = ['id', 'productName', 'additionalInfo', 'categories'];
           break;
         }
         default: {
@@ -207,24 +190,16 @@ export class AdminShowTableComponent implements OnInit {
           }
           case 'Produkt': {
             result.map((res: Product) => {
+              const formattedData = JSON.stringify(res.availableProps).replaceAll(/[{["}]/g, '')
+                .replaceAll(/[,]/g, ', ')
+                .replaceAll(':', ': ')
+                .replaceAll('],', ' |')
+                .replaceAll(']', '');
+
               this.data.push({
                 id: res.id,
                 productName: res.name,
-              })
-            });
-            break;
-          }
-          case 'Instancja produktu': {
-            result.map((res: ProductInstance) => {
-              const categoriesFormatted = res.categories.map((category) => {
-                return category.id + ', ' + category.name;
-              })
-              console.log(categoriesFormatted);
-              this.data.push({
-                id: res.id,
-                product: res.product.name,
-                additionalInfo: res.additionalInfo,//TODO jak sformatować?
-                categories: categoriesFormatted,
+                availableProps: formattedData,
               })
             });
             break;

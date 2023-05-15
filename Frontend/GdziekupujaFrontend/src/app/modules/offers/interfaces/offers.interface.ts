@@ -8,6 +8,7 @@ export interface ProductInstance {
 export interface Product {
   id: number,
   name: string,
+  availableProps: Object,
 }
 
 export interface Categories {
