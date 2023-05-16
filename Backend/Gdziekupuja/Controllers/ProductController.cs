@@ -51,7 +51,6 @@ public class ProductController : ControllerBase
     [HttpPut("{id}")]
     public ActionResult<int> Update(int id, UpdateProductDto dto)
     {
-        _service.Update(id, dto);
-        return Ok(id);
+        return Ok(_service.Update(id, dto));
     }
 }

@@ -102,7 +102,7 @@ public class CategoryService : ICategoryService
 
         _dbContext.Categories
             .Where(c => c.ParentId == id)
-            .ForEachAsync(c => c.ParentId = null);
+            .ForEachAsync(c => c.ParentId = null).GetAwaiter().GetResult();
 
         _dbContext.Categories.Remove(categoryToRemove);
         _dbContext.SaveChanges();

@@ -1,6 +1,6 @@
 export const environment: Environment = {
   production: false,
-  httpBackend: 'https://localhost:7173',
+  httpBackend: 'http://localhost:5251',
 };
 
 interface Environment {

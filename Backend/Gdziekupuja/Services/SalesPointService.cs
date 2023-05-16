@@ -57,12 +57,10 @@ public class SalesPointService : ISalesPointService
     public int Update(int id, UpdateSalesPointDto dto)
     {
         var salesPoint = _dbContext
-            .SalesPoints
-            .Include(s => s.Address)
-            .FirstOrDefault(s => s.Id == id);
-
-        if (salesPoint == null)
-            throw new NotFoundException("Wybrany punkt sprzedaży nie istnieje");
+                             .SalesPoints
+                             .Include(s => s.Address)
+                             .FirstOrDefault(s => s.Id == id) ??
+                         throw new NotFoundException("Wybrany punkt sprzedaży nie istnieje");
 
         salesPoint.Name = dto?.Name ?? salesPoint.Name;
 
