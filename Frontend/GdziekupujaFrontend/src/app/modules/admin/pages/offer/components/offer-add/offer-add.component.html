@@ -25,6 +25,15 @@
 </div>
 
 <div class="forms">
+  <lz-nested-dropdown
+    class="dropdown fix backgroundColor removeDropdownIconMargin"
+    [categoriesData]="categories$ | async"
+    [inAdmin]="true"
+    name="Kategorie"
+    (dropdownChange)="addCategory($event)"
+  >
+  </lz-nested-dropdown>
+
   <mat-form-field
     class="fix backgroundColor dropdown"
     [hideRequiredMarker]="true"
@@ -42,15 +51,6 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <lz-nested-dropdown
-    class="dropdown fix backgroundColor removeDropdownIconMargin"
-    [categoriesData]="categories$ | async"
-    [inAdmin]="true"
-    name="Kategorie"
-    (dropdownChange)="addCategory($event)"
-  >
-  </lz-nested-dropdown>
 </div>
 
 <div class="forms">
@@ -67,6 +67,30 @@
     >
     </app-list-items>
   </div>
+
+  <div
+    class="list"
+    *ngIf="productPropertiesKeys.length"
+  >
+    <div
+      class="list--fix"
+      *ngFor="let key of productPropertiesKeys; let i=index"
+    >
+      <h3>{{ key }}</h3>
+      <mat-button-toggle-group (change)="toggleChange(key, $event.value)" [value]="productPropertiesAll[key][0]">
+        <ng-container *ngFor="let value of productPropertiesAll[key]">
+          <mat-button-toggle [value]="value">{{ value }}</mat-button-toggle>
+        </ng-container>
+      </mat-button-toggle-group>
+      <div
+        *ngIf="i+1 !== productPropertiesKeys.length"
+        class="line"
+      >
+      </div>
+    </div>
+  </div>
 </div>
 
-<lz-base64 (emitImage)="saveImage($event)"></lz-base64>
+<div class="base">
+  <lz-base64 (emitImage)="saveImage($event)"></lz-base64>
+</div>

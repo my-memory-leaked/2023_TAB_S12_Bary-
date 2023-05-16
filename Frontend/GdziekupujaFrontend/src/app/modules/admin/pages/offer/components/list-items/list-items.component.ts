@@ -8,9 +8,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ListItemsComponent {
 
   @Input() data: string;
-  @Input() set dataa(a: string){
-    console.log(a)
-  }
   @Input() lineFixer: { index: number, array: any[] };
   @Output() delete = new EventEmitter<void>();
 

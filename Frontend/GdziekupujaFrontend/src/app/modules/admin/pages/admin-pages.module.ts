@@ -29,10 +29,8 @@ import { ProductModifyComponent } from './product/components/product-modify/prod
 import { ProductSetActionComponent } from './product/components/product-set-action/product-set-action.component';
 import { ProductTypeSwitchComponent } from './product/components/product-type-switch/product-type-switch.component';
 import { ProductComponent } from './product/product.component';
-// import { Base64Component } from './product-instance/components/base64/base64.component';
 import { LzNestedDropdownModule } from '@shared/modules/lz-nested-dropdown/lz-nested-dropdown.module';
 import { TopMenuService } from '@modules/top-menu/api/top-menu.service';
-// import { ListItemsComponent } from './product-instance/components/list-items/list-items.component';
 import { OfferAddComponent } from './offer/components/offer-add/offer-add.component';
 import { OfferModifyComponent } from './offer/components/offer-modify/offer-modify.component';
 import { OfferSetActionComponent } from './offer/components/offer-set-action/offer-set-action.component';
@@ -84,7 +82,6 @@ import { ListItemsComponent } from './offer/components/list-items/list-items.com
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
-    MatButtonToggleModule,
     MatButtonToggleModule,
     LzNestedDropdownModule,
   ],

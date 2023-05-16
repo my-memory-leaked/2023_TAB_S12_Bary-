@@ -28,10 +28,10 @@ export class AdminSubmitFormService {
 
   sendForm(form: FormGroup, currentAction: AllAdminActionsType): Observable<number> {
     switch (currentAction) {
-      // case 'AddOffer': {
-      //   this.data = this.addOffer(form);
-      //   break;
-      // }
+      case 'AddOffer': {
+        this.data = this.addOffer(form);
+        break;
+      }
       // case 'ModifyOffer': {
       //   this.data = this.modifyOffer(form);
       //   break;
@@ -73,6 +73,38 @@ export class AdminSubmitFormService {
       }
     }
     return this.data;
+  }
+
+  addOffer(form: FormGroup): Observable<number> {
+
+    let data = '{'
+    form.value.additionalInfo.forEach((item: { key: string, value: string }) => {
+      data += `"${item.key}": "${item.value}",`;
+    });
+    data = data.slice(0, -1);
+    data += '}';
+
+    const params = new HttpParams()
+      .set('Price', Number(form.value.price))
+      .set('SalesPointId', form.value.salesPointId)
+      .set('UserId', localStorage.getItem('userId'));
+
+    const formData = new FormData();
+    formData.append('ProductId', form.value.productId);
+    formData.append('additionalInfo', data);
+    formData.append('Image', form.value.image);
+
+    const categories: number[] = form.value.categoryIds
+    categories.forEach((category) => {
+      formData.append('CategoryIds', category.toString());
+    })
+
+    return this.http.post<number>(`${environment.httpBackend}${Api.OFFERS}`, formData, { params }).pipe(
+      catchError((err) => {
+        this.toastMessageService.notifyOfError(err.error.errors?.Price ? err.error.errors.Price[0] : 'Nie udało się dodać oferty');
+        return of();
+      }),
+    );
   }
 
   addProduct(form: FormGroup): Observable<number> {

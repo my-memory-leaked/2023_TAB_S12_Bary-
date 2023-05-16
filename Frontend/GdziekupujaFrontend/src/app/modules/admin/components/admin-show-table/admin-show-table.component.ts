@@ -8,7 +8,7 @@ import { AllAdminActionsType } from '@modules/admin/types/admin-actions.types';
 import { Actions } from '@modules/admin/interfaces/admin-form-response.interface';
 import { AdminStorageService } from '@modules/admin/services/admin-storage.service';
 import { ToastMessageService } from '@shared/modules/toast-message/services/toast-message.service';
-import { Category, Product, ProductInstance, SalesPoint } from '@modules/offers/interfaces/offers.interface';
+import { Category, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
 import { DropDownText } from '@shared/modules/lz-nested-dropdown/interfaces/nested-dropdown.interface';
 
 @Component({

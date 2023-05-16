@@ -32,13 +32,13 @@ export const AdminDropDown: NestedDropdown<AdminDropdownData>[] =
         formProvider: ProductService,
       },
     },
-    // {
-    //   name: 'Oferta',
-    //   data: {
-    //     formComponent: OfferComponent,
-    //     formProvider: OfferService,
-    //   },
-    // },
+    {
+      name: 'Oferta',
+      data: {
+        formComponent: OfferComponent,
+        formProvider: OfferService,
+      },
+    },
     // {
     //   name: 'Użytkownik',
     //   data: {

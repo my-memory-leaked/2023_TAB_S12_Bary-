@@ -15,28 +15,20 @@ export class OfferFormHandlerService {
   setFormGroupForOfferAdd(formGroup: FormGroup): void {
     formGroup.addControl('price', this.fb.control(null, [Validators.required]));
     formGroup.addControl('salesPointId', this.fb.control(null, [Validators.required]));
-    formGroup.addControl('userId', this.fb.control(null, [Validators.required]));
     formGroup.addControl('productId', this.fb.control(null, [Validators.required]));
     formGroup.addControl('categoryIds', this.fb.control([] as number[], [Validators.required]));
     formGroup.addControl('additionalInfo', this.fb.control(null, [Validators.required]));
     formGroup.addControl('image', this.fb.control(null, [Validators.required]));
-
-    formGroup.addControl('part1', this.fb.control(null));
-    formGroup.addControl('part2', this.fb.control(null));  
   }
 
   setFormGroupForOfferModify(formGroup: FormGroup): void {
     formGroup.addControl('offer', this.fb.control(null, [Validators.required]));
     formGroup.addControl('price', this.fb.control(null, [Validators.required]));
     formGroup.addControl('salesPointId', this.fb.control(null, [Validators.required]));
-    formGroup.addControl('userId', this.fb.control(null, [Validators.required]));
     formGroup.addControl('productId', this.fb.control(null, [Validators.required]));
     formGroup.addControl('categoryIds', this.fb.control([] as number[], [Validators.required]));
     formGroup.addControl('additionalInfo', this.fb.control(null, [Validators.required]));
     formGroup.addControl('image', this.fb.control(null, [Validators.required]));
-
-    formGroup.addControl('part1', this.fb.control(null));
-    formGroup.addControl('part2', this.fb.control(null));  
   }
 
   clearControls(form: FormGroup, previousType: AddModifyOfferType): void {

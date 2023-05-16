@@ -28,6 +28,8 @@ export class OfferAddComponent implements OnInit {
   categoriesIdsToAdd: number[] = [];
   categoriesToDisplay: Categories[] = [];
   additionalProperties: string[] = [];
+  productPropertiesAll: unknown;
+  productPropertiesKeys: string[] = [];
 
   salesPoints$: Observable<SalesPoint[]>;
   salesPointsFixedNames: ChangedNames[] = [];
@@ -86,15 +88,39 @@ export class OfferAddComponent implements OnInit {
     this.categoryIds.setValue(this.categoriesIdsToAdd);
   }
 
-  removeCategory(category: Categories) {
+  removeCategory(category: Categories): void {
     this.categoriesToDisplay = this.categoriesToDisplay.filter((res) => res.id !== category.id);
     this.categoriesIdsToAdd = this.categoriesIdsToAdd.filter((id) => id !== category.id);
     this.categoryIds.setValue(this.categoriesIdsToAdd);
   }
 
-  getProductProperties(id: number) {
-    //lepiej wyciagac z formy?
-    // console.log(id)
-    // console.log(this.form.value)
+  getProductProperties(id: number): void {
+    this.adminStorageService.getProductProperties(id).subscribe((res) => {
+      this.productPropertiesKeys = res.keys;
+      this.productPropertiesAll = res.data;
+
+      let temp: { key: string, value: string }[] = []
+      this.productPropertiesKeys.forEach((res) => {
+        temp.push({ key: res, value: this.productPropertiesAll[res][0] });
+      })
+
+      this.additionalInfo.setValue(temp)
+    });
+  }
+
+  toggleChange(key: string, value: string): void {
+    let data: { key: string, value: string }[] = this.additionalInfo.value;
+
+    data = data.map((res) => {
+      if (res.key === key) {
+        return {
+          key: res.key,
+          value: value,
+        }
+      }
+      return res
+    })
+
+    this.additionalInfo.setValue(data);
   }
 }

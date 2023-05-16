@@ -4,4 +4,4 @@ export interface NestedDropdown<T> {
   children?: NestedDropdown<T>[];
 }
 
-export type DropDownText = 'Oferta' | 'Produkt' | 'Kategoria' | 'Punkt sprzedaży' | 'Użytkownik' | 'Instancja produktu';
+export type DropDownText = 'Oferta' | 'Produkt' | 'Kategoria' | 'Punkt sprzedaży' | 'Użytkownik';

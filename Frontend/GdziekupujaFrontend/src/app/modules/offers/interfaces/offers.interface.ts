@@ -1,10 +1,3 @@
-export interface ProductInstance {
-  id: number,
-  product: Product,
-  additionalInfo: string,
-  categories: Category[],
-}
-
 export interface Product {
   id: number,
   name: string,

@@ -9,10 +9,10 @@ export enum Api {
   COUNTIES = '/api/county',
   COUNTY = '/api/county/:id',
 
+  OFFERS = '/api/offer',
+
   PRODUCTS = '/api/product',
   PRODUCT_ID = '/api/product/:id',
-  
-  PRODUCT_INSTANCE = '/api/productInstance',
 
   SALES_POINTS = '/api/salesPoint',
   SALES_POINT_ID = '/api/salesPoint/:id',

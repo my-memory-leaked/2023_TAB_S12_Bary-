@@ -1,29 +1,30 @@
-<div class="container">
+<div class="image__wrapper">
   <img
     *ngIf="file; else noFile"
     [src]="file"
+    class="image"
   >
-  <ng-template #noFile><span class="font">Brak zdjęcia</span></ng-template>
-
-  <input
-    class="file-input"
-    type="file"
-    #fileInput
-  >
-  <div class="box">
-    <button
-      type="button"
-      mat-icon-button
-      (click)="$event.stopPropagation(); fileInput.click()"
-    >
-      <mat-icon>upload</mat-icon>
-    </button>
-
-    <button
-      mat-icon-button
-      (click)="deleteImage()"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
 </div>
+<ng-template #noFile><span class="font">Brak zdjęcia</span></ng-template>
+
+<div>
+  <button
+    mat-icon-button
+    (click)="$event.stopPropagation(); fileInput.click()"
+  >
+    <mat-icon>upload</mat-icon>
+  </button>
+
+  <button
+    mat-icon-button
+    (click)="deleteImage()"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
+
+<input
+  class="file-input"
+  type="file"
+  #fileInput
+>
