@@ -44,7 +44,7 @@ CREATE TABLE Comments (
     dislikers int  NOT NULL,
     likers int  NOT NULL,
     creation_time datetime2(7)  NOT NULL,
-    admin_id int  NOT NULL,
+    admin_id int ,
     CONSTRAINT Comments_pk PRIMARY KEY  (id)
 );
 
