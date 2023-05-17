@@ -1,13 +1,19 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Gdziekupuja.Common;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
 using Gdziekupuja.Models.DTOs.OfferDtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gdziekupuja.Services;
 
 public interface IOfferService
 {
     int Create(CreateOfferDto dto, int productInstanceId);
+
+    OffersWithTotalCount SearchOffers(int? countyId, string? productName, int? categoryId, int? pageSize, int? pageNumber,
+        int? userId);
 }
 
 public class OfferService : IOfferService
@@ -42,5 +48,51 @@ public class OfferService : IOfferService
         _dbContext.Offers.Add(offer);
         _dbContext.SaveChanges();
         return offer.Id;
+    }
+
+    public OffersWithTotalCount SearchOffers(int? countyId, string? productName, int? categoryId, int? pageSize,
+        int? pageNumber,
+        int? userId)
+    {
+        var categoriesIds = _dbContext.Database
+            .SqlQuery<int>($@"
+                WITH Subcategories AS
+				(
+		            SELECT DISTINCT Id, parent_id
+		            FROM Categories
+		            WHERE parent_id = {categoryId}
+
+		            UNION ALL
+
+		            SELECT Categories.Id, Categories.parent_id
+		            FROM Subcategories, Categories
+		            WHERE Categories.parent_id = Subcategories.Id
+				)
+
+				SELECT Id FROM Subcategories").ToList();
+        if (categoryId is not null)
+            categoriesIds.Add(categoryId.Value);
+
+        var offers = _dbContext.Offers
+            .Include(o => o.Product)
+            .ThenInclude(pi => pi.Product)
+            .Include(o => o.User)
+            .Include(o => o.SalesPoint)
+            .ThenInclude(s => s.Address)
+            .ThenInclude(a => a.County)
+            .Where(o => EF.Functions.Like(o.Product.Product.Name, $"%{productName}%"))
+            .Where(o => o.Product.Categories.Any(c => categoriesIds.Contains(c.Id)) || categoryId == null)
+            .Where(o => countyId == null || o.SalesPoint.Address.County.Id == countyId)
+            .OrderBy(o => o.CreationTime)
+            .ProjectTo<OfferDto>(_mapper.ConfigurationProvider);
+        //.ToList();
+
+        if (pageSize.HasValue && pageNumber.HasValue)
+            offers = offers.Skip(pageSize.Value * (pageNumber.Value - 1)).Take(pageSize.Value);
+
+        var offersDto = offers.ToList();
+        var totalCount = offersDto.Count;
+
+        return new OffersWithTotalCount { Count = totalCount, Offers = offersDto };
     }
 }

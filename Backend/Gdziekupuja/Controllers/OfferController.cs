@@ -25,4 +25,11 @@ public class OfferController : ControllerBase
         var offerId = _service.Create(offerDto, productInstanceId);
         return Ok(offerId);
     }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<OfferDto>> GetOffers(int? countyId, string? productName, int? categoryId, int? pageSize,
+        int? pageNumber, int? userId)
+    {
+        return Ok(_service.SearchOffers(countyId, productName, categoryId, pageSize, pageNumber, userId));
+    }
 }

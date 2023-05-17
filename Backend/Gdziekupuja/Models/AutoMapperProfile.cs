@@ -2,6 +2,7 @@ using AutoMapper;
 using Gdziekupuja.Models.DTOs;
 using Gdziekupuja.Models.DTOs.AddressDtos;
 using Gdziekupuja.Models.DTOs.CategoryDtos;
+using Gdziekupuja.Models.DTOs.OfferDtos;
 using Gdziekupuja.Models.DTOs.ProductDtos;
 using Gdziekupuja.Models.DTOs.ProductInstanceDtos;
 using Gdziekupuja.Models.DTOs.SalesPointDtos;
@@ -26,6 +27,11 @@ public class AutoMapperProfile : Profile
 
         //County
         CreateMap<County, CountyDto>();
+
+        //Offer
+        CreateMap<Offer, OfferDto>()
+            .ForMember(dest => dest.ProductInstance,
+                opt => opt.MapFrom(src => src.Product));
 
         //Products
         CreateMap<CreateProductDto, Product>();
