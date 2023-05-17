@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Gdziekupuja.Common;
 using Gdziekupuja.Exceptions;
 using Gdziekupuja.Models;
+using Gdziekupuja.Models.DTOs.CommentDtos;
 using Gdziekupuja.Models.DTOs.OfferDtos;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ public interface IOfferService
         int? userId);
 
     void AddOfferToFavourites(int offerId, int userId);
+    IEnumerable<CommentDto>? GetAllComments(int offerId, int userId);
 }
 
 public class OfferService : IOfferService
@@ -124,5 +126,10 @@ public class OfferService : IOfferService
             user.Offers.Remove(offerInFavs);
 
         _dbContext.SaveChanges();
+    }
+
+    public IEnumerable<CommentDto>? GetAllComments(int offerId, int userId)
+    {
+        throw new NotImplementedException();
     }
 }
