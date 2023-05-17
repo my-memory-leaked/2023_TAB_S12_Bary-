@@ -18,6 +18,7 @@ public interface IOfferService
 
     void AddOfferToFavourites(int offerId, int userId);
     IEnumerable<CommentDto>? GetAllComments(int offerId, int userId);
+    OffersWithTotalCount GetFavouritesOffers(int userId, int pageSize, int pageNumber);
 }
 
 public class OfferService : IOfferService
@@ -130,6 +131,48 @@ public class OfferService : IOfferService
 
     public IEnumerable<CommentDto>? GetAllComments(int offerId, int userId)
     {
-        throw new NotImplementedException();
+        // var comments = _dbContext
+        //     .Comments
+        //     .Where(c => c.OfferId == offerId)
+        //     .OrderByDescending(c => c.CreationTime)
+        //     .Include(c => c.User)
+        //     .Include(c => c.Likers)
+        //     .Include(c => c.Dislikers);
+        //
+        // foreach (var comment in comments)
+        // {
+        //     var liker = comment.Likers.FirstOrDefault(l => l.UserId == userId);
+        //     var disliker = comment.Dislikers.FirstOrDefault(l => l.UserId == userId);
+        //
+        //     var commentDto = _mapper.Map<CommentDto>(comment);
+        //     commentDto.IsLikedOrDislikedByUser = liker == null ? (disliker == null ? null : false) : true;
+        //
+        //     yield return commentDto;
+        // }
+        return null;
+    }
+
+    public OffersWithTotalCount GetFavouritesOffers(int userId, int pageSize, int pageNumber)
+    {
+        var offers = _dbContext
+            .Users
+            .Where(u => u.Id == userId)
+            .Include(u => u.Offers)
+            .SelectMany(u => u.Offers)
+            .Include(o => o.Product)
+            .ThenInclude(pi => pi.Product)
+            .Include(o => o.SalesPoint)
+            .ThenInclude(s => s.Address)
+            .ThenInclude(a => a.County)
+            .ProjectTo<OfferDto>(_mapper.ConfigurationProvider);
+
+        var offersDto = offers.ToList();
+        var count = offers.Count();
+
+        offers = offers.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+
+        offersDto.ForEach(o => o.IsFavourite = true);
+
+        return new OffersWithTotalCount { Count = count, Offers = offersDto };
     }
 }

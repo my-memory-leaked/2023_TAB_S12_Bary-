@@ -2,6 +2,7 @@ using AutoMapper;
 using Gdziekupuja.Models.DTOs;
 using Gdziekupuja.Models.DTOs.AddressDtos;
 using Gdziekupuja.Models.DTOs.CategoryDtos;
+using Gdziekupuja.Models.DTOs.CommentDtos;
 using Gdziekupuja.Models.DTOs.OfferDtos;
 using Gdziekupuja.Models.DTOs.ProductDtos;
 using Gdziekupuja.Models.DTOs.ProductInstanceDtos;
@@ -24,6 +25,9 @@ public class AutoMapperProfile : Profile
         CreateMap<Category, CategoryDto>();
         CreateMap<Category, SuperiorCategoryDto>();
         CreateMap<Category, CategoryFlatDto>();
+
+        //Comment
+        CreateMap<CreateCommentDto, Comment>();
 
         //County
         CreateMap<County, CountyDto>();

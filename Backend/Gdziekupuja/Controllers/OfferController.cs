@@ -1,3 +1,4 @@
+using Gdziekupuja.Common;
 using Gdziekupuja.Models.DTOs.OfferDtos;
 using Gdziekupuja.Models.DTOs.ProductInstanceDtos;
 using Gdziekupuja.Services;
@@ -34,9 +35,15 @@ public class OfferController : ControllerBase
     }
 
     [HttpPost("favourites")]
-    public ActionResult AddOfferToFavorites(int offerId, int userId)
+    public ActionResult<OffersWithTotalCount> AddOfferToFavorites(int offerId, int userId)
     {
         _service.AddOfferToFavourites(offerId, userId);
         return Ok();
+    }
+
+    [HttpGet("favourites/{userId}")]
+    public ActionResult<OffersWithTotalCount> GetFavouritesOffers(int userId, int pageSize, int pageNumber)
+    {
+        return Ok(_service.GetFavouritesOffers(userId, pageSize, pageNumber));
     }
 }
