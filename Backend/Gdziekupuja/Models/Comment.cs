@@ -19,9 +19,9 @@ public partial class Comment
 
     public DateTime CreationTime { get; set; }
 
-    public int AdminId { get; set; }
+    public int? AdminId { get; set; }
 
-    public virtual Administrator Admin { get; set; } = null!;
+    public virtual Administrator? Admin { get; set; }
 
     public virtual Offer Offer { get; set; } = null!;
 

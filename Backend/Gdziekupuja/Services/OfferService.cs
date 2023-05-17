@@ -17,7 +17,7 @@ public interface IOfferService
         int? userId);
 
     void AddOfferToFavourites(int offerId, int userId);
-    IEnumerable<CommentDto>? GetAllComments(int offerId, int userId);
+    IEnumerable<CommentDto>? GetAllComments(int offerId, int? userId);
     OffersWithTotalCount GetFavouritesOffers(int userId, int pageSize, int pageNumber);
 }
 
@@ -129,27 +129,29 @@ public class OfferService : IOfferService
         _dbContext.SaveChanges();
     }
 
-    public IEnumerable<CommentDto>? GetAllComments(int offerId, int userId)
+    public IEnumerable<CommentDto>? GetAllComments(int offerId, int? userId)
     {
-        // var comments = _dbContext
-        //     .Comments
-        //     .Where(c => c.OfferId == offerId)
-        //     .OrderByDescending(c => c.CreationTime)
-        //     .Include(c => c.User)
-        //     .Include(c => c.Likers)
-        //     .Include(c => c.Dislikers);
-        //
-        // foreach (var comment in comments)
-        // {
-        //     var liker = comment.Likers.FirstOrDefault(l => l.UserId == userId);
-        //     var disliker = comment.Dislikers.FirstOrDefault(l => l.UserId == userId);
-        //
-        //     var commentDto = _mapper.Map<CommentDto>(comment);
-        //     commentDto.IsLikedOrDislikedByUser = liker == null ? (disliker == null ? null : false) : true;
-        //
-        //     yield return commentDto;
-        // }
-        return null;
+        var comments = _dbContext
+            .Comments
+            .Where(c => c.OfferId == offerId)
+            .OrderByDescending(c => c.CreationTime)
+            .Include(c => c.User)
+            .Include(c => c.Users)
+            .Include(c => c.UsersNavigation);
+
+        foreach (var comment in comments)
+        {
+            var likers = comment.Users;
+            var dislikers = comment.UsersNavigation;
+
+            var liker = likers.FirstOrDefault(l => l.Id == userId);
+            var disliker = dislikers.FirstOrDefault(l => l.Id == userId);
+
+            var commentDto = _mapper.Map<CommentDto>(comment);
+            commentDto.IsLikedOrDislikedByUser = liker == null ? (disliker == null ? null : false) : true;
+
+            yield return commentDto;
+        }
     }
 
     public OffersWithTotalCount GetFavouritesOffers(int userId, int pageSize, int pageNumber)

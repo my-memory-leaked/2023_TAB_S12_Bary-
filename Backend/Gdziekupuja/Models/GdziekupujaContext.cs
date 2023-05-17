@@ -94,7 +94,6 @@ public partial class GdziekupujaContext : DbContext
 
             entity.HasOne(d => d.Admin).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.AdminId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Comments_Administrators");
 
             entity.HasOne(d => d.Offer).WithMany(p => p.Comments)

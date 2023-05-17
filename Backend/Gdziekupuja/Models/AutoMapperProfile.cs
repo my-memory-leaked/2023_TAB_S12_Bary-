@@ -28,6 +28,10 @@ public class AutoMapperProfile : Profile
 
         //Comment
         CreateMap<CreateCommentDto, Comment>();
+        CreateMap<Comment, CommentDto>()
+            .ForMember(dto => dto.Author, c => c.MapFrom(c => c.User.Name))
+            .ForMember(dto => dto.AuthorId, c => c.MapFrom(c => c.User.Id));
+
 
         //County
         CreateMap<County, CountyDto>();
@@ -49,10 +53,10 @@ public class AutoMapperProfile : Profile
 
         //Product instance
         CreateMap<CreateProductInstanceDto, ProductInstance>();
-        CreateMap<ProductInstance, ProductInstanceDto>()          
+        CreateMap<ProductInstance, ProductInstanceDto>()
             .ForMember(dest => dest.ImagePath,
-            opt => opt.MapFrom(src => 
-                Path.Combine(Path.GetFullPath("wwwroot"), src.ImageName)));
+                opt => opt.MapFrom(src =>
+                    Path.Combine(Path.GetFullPath("wwwroot"), src.ImageName)));
 
         // SalesPoint
         CreateMap<SalesPoint, SalesPointDto>();
