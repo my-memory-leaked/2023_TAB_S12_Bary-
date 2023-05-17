@@ -95,10 +95,34 @@ public class OfferService : IOfferService
         var offersDto = offers.ToList();
         var totalCount = offersDto.Count;
 
+        if (userId == null)
+            return new OffersWithTotalCount { Count = totalCount, Offers = offersDto };
+
+        var user = _dbContext.Users.Include(u => u.Offers).FirstOrDefault(u => u.Id == userId);
+
+        var userFavs = _dbContext.Users
+            .Where(u => u.Id == userId)
+            .Include(u => u.Offers)
+            .SelectMany(u => u.Offers);
+
+        offersDto.ForEach(o => { o.IsFavourite = userFavs.FirstOrDefault(uf => uf.Id == o.Id) != null; });
+
         return new OffersWithTotalCount { Count = totalCount, Offers = offersDto };
     }
 
     public void AddOfferToFavourites(int offerId, int userId)
     {
+        var user = _dbContext.Users.Include(u => u.Offers).FirstOrDefault(u => u.Id == userId) ??
+                   throw new NotFoundException("Uzytkownik nie istnieje");
+        var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == offerId) ?? throw new NotFoundException("Oferta nie istnieje");
+
+        var offerInFavs = user.Offers.FirstOrDefault(f => f.Id == offerId);
+
+        if (offerInFavs is null)
+            user.Offers.Add(offer);
+        else
+            user.Offers.Remove(offerInFavs);
+
+        _dbContext.SaveChanges();
     }
 }

@@ -32,4 +32,11 @@ public class OfferController : ControllerBase
     {
         return Ok(_service.SearchOffers(countyId, productName, categoryId, pageSize, pageNumber, userId));
     }
+
+    [HttpPost("favourites")]
+    public ActionResult AddOfferToFavorites(int offerId, int userId)
+    {
+        _service.AddOfferToFavourites(offerId, userId);
+        return Ok();
+    }
 }
