@@ -31,7 +31,9 @@ public class AutoMapperProfile : Profile
         //Offer
         CreateMap<Offer, OfferDto>()
             .ForMember(dest => dest.ProductInstance,
-                opt => opt.MapFrom(src => src.Product));
+                opt => opt.MapFrom(src => src.Product))
+            .ForMember(dest => dest.UserName,
+                opt => opt.MapFrom(src => src.User.Name));
 
         //Products
         CreateMap<CreateProductDto, Product>();

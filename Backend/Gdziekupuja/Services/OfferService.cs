@@ -14,6 +14,8 @@ public interface IOfferService
 
     OffersWithTotalCount SearchOffers(int? countyId, string? productName, int? categoryId, int? pageSize, int? pageNumber,
         int? userId);
+
+    void AddOfferToFavourites(int offerId, int userId);
 }
 
 public class OfferService : IOfferService
@@ -94,5 +96,9 @@ public class OfferService : IOfferService
         var totalCount = offersDto.Count;
 
         return new OffersWithTotalCount { Count = totalCount, Offers = offersDto };
+    }
+
+    public void AddOfferToFavourites(int offerId, int userId)
+    {
     }
 }
