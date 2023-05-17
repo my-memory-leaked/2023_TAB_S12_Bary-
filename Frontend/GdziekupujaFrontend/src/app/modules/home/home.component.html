@@ -1,4 +1,19 @@
-<app-top-menu></app-top-menu>
+<app-top-menu
+  (refreshOffers)="refreshOffers($event)"
+  (getFavourites)="getFavourites()"
+  (justRefreshOffers)="justRefreshOffers()"
+>
+</app-top-menu>
+
+<div class="center">
+  <app-offers
+    class="size"
+    [filterOffers]="offer"
+    [getFavourites]="favouritesId"
+    [refreshTrigger]="refreshTrigger"
+  >
+  </app-offers>
+</div>
 
 <button
   *ngIf="admin"

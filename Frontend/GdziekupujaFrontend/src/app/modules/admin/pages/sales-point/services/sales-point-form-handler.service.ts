@@ -19,7 +19,7 @@ export class SalesPointFormHandlerService {
     formGroup.addControl('street', this.fb.control(null, Validators.compose([Validators.required, Validators.pattern(ADDRESS_STREET_PATTERN)])));
     formGroup.addControl('postalCode', this.fb.control(null, [Validators.required]));
     formGroup.addControl('number', this.fb.control(null, Validators.compose([Validators.required, Validators.pattern(ADDRESS_NUMBER_PATTERN)])));
-    formGroup.addControl('countyId', this.fb.control(null));
+    formGroup.addControl('countyId', this.fb.control(null, [Validators.required]));
   }
 
   setFormGroupForSalesPointModify(formGroup: FormGroup): void {
@@ -29,7 +29,7 @@ export class SalesPointFormHandlerService {
     formGroup.addControl('street', this.fb.control(null, Validators.compose([Validators.required, Validators.pattern(ADDRESS_STREET_PATTERN)])));
     formGroup.addControl('postalCode', this.fb.control(null, [Validators.required]));
     formGroup.addControl('number', this.fb.control(null, Validators.compose([Validators.required, Validators.pattern(ADDRESS_NUMBER_PATTERN)])));
-    formGroup.addControl('countyId', this.fb.control(null));
+    formGroup.addControl('countyId', this.fb.control(null, [Validators.required]));
   }
 
   clearControls(form: FormGroup, previousType: AddModifySalesPointType): void {

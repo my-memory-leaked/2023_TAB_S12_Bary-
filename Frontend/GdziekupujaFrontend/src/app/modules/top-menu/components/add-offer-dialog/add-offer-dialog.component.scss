@@ -1,5 +1,9 @@
 @use '/src/styles/colors' as color;
 
+* {
+  color: black;
+}
+
 .forms {
   margin: 30px 0 25px 0;
   gap: 18px;
@@ -64,4 +68,46 @@ h3 {
   left: 18px;
   width: 90%;
   border-bottom: 1px solid rgba(90, 90, 90, 0.521);
+}
+
+
+.title {
+  display: flex;
+  padding-top: 20px;
+  justify-content: center;
+  font-size: x-large;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.mat-mdc-form-field {
+  display: flex !important;
+}
+
+.button {
+  background-color: color.$secondaryColor;
+  border-radius: 12px;
+  height: 50px !important;
+}
+
+.position {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--gap {
+    margin-top: 20px;
+  }
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.mat-mdc-dialog-content {
+  max-height: none;
 }

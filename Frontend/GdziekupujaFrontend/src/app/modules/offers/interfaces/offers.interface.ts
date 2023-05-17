@@ -35,14 +35,29 @@ export interface County {
   name: string,
 }
 
+export interface MainOffer {
+  count: number,
+  offers: Offers[],
+}
+
 export interface Offers {
   id: number,
   price: number,
-  product: Product,
-  salesPoint: SalesPoint,
   isFavourite: boolean,
+  creationTime: Date,
+  userName: string,
+  salesPoint: SalesPoint,
+  productInstance: ProductInstance,
   opened?: boolean,
   comments?: MyComment[],
+}
+
+export interface ProductInstance {
+  id: number,
+  product: Product,
+  additionalInfo: string,
+  categories: Category[],
+  imageName: string,
 }
 
 export interface MyComment {

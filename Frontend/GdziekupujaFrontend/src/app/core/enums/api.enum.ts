@@ -11,6 +11,9 @@ export enum Api {
 
   OFFERS = '/api/offer',
 
+  FAVOURITES = '/api/offer/favourites',
+  FAVOURITES_USER_ID = '/api/offer/favourites/:userId',
+
   PRODUCTS = '/api/product',
   PRODUCT_ID = '/api/product/:id',
 

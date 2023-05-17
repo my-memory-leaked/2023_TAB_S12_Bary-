@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TopMenuService } from '@modules/top-menu/api/top-menu.service';
 import { MyLocalStorageService } from '@shared/services/my-local-storage.service';
-import { idNameOnly } from '@modules/top-menu/interfaces/top-menu.interface';
+import { OfferContent, idNameOnly } from '@modules/top-menu/interfaces/top-menu.interface';
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { LoginDialogComponent } from '@modules/top-menu/components/login-dialog/login-dialog.component';
 import { Categories } from '@modules/offers/interfaces/offers.interface';
-import { BehaviorSubject, Observable, filter, map, mergeMap, of, tap } from 'rxjs';
-import { NestedDropdown } from '@shared/modules/lz-nested-dropdown/interfaces/nested-dropdown.interface';
+import { Observable } from 'rxjs';
+import { AddOfferDialogComponent } from './components/add-offer-dialog/add-offer-dialog.component';
 
 @Component({
   selector: 'app-top-menu',
@@ -18,9 +18,13 @@ import { NestedDropdown } from '@shared/modules/lz-nested-dropdown/interfaces/ne
 })
 export class TopMenuComponent implements OnInit {
 
+  @Output() refreshOffers = new EventEmitter<OfferContent>();
+  @Output() getFavourites = new EventEmitter();
+  @Output() justRefreshOffers = new EventEmitter();
+
   counties: idNameOnly[] = [];
   categories$: Observable<Categories[]>;
-  categories: Categories[];
+  categories: Categories[] = [];
   form: FormGroup;
   userName = '';
   userEmail = '';
@@ -29,7 +33,6 @@ export class TopMenuComponent implements OnInit {
 
   filteredCounties: string[];
   filteredCategories: string[];
-  alreadyAddedChildren: number[] = [];
 
   showUserInfo = false;
   logged: boolean;
@@ -69,7 +72,7 @@ export class TopMenuComponent implements OnInit {
   }
 
   handleDropdownChange(chosenCategory: Categories): void {
-    console.log(chosenCategory);
+    this.form.get('category').setValue(chosenCategory.id)
   }
 
   selectedCounty(): void {
@@ -77,9 +80,14 @@ export class TopMenuComponent implements OnInit {
   }
 
   search() {
+    this.refreshOffers.emit({
+      search: this.form.get('product').value,
+      category: this.form.get('category').value,
+    })
   }
 
   emitFavourites() {
+    this.getFavourites.emit();
   }
 
   reload() {
@@ -109,6 +117,15 @@ export class TopMenuComponent implements OnInit {
   }
 
   addOffer() {
+    const dialogRef = this.dialog.open(AddOfferDialogComponent, {
+      width: '800px',
+      height: '900px',
+    });
 
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res === 'refresh') {
+        this.justRefreshOffers.emit();
+      }
+    });
   }
 }

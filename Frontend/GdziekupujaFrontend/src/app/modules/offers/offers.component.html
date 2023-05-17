@@ -1,0 +1,269 @@
+<div class="container">
+  <div
+    class="disclaimer"
+    *ngIf="isNotLogged && !countyId; else canSeeOffers"
+  >
+    Aby korzystać z serwisu, wybierz interesujący Cię region lub zaloguj się
+  </div>
+
+  <ng-template #canSeeOffers>
+    <ng-container *ngIf="offers$ | async as offers">
+      <div class="fav">
+        <div
+          class="favourites-title"
+          *ngIf="isFavourites"
+        >
+          <mat-icon
+            (click)="leaveFavourites()"
+            class="arrow"
+          >
+            arrow_back_ios
+          </mat-icon>
+          <span>
+            Ulubione
+          </span>
+        </div>
+        <div
+          *ngIf="totalCount"
+          class="totalCount"
+        >
+          Znaleziono {{ totalCount }} ofert/y
+        </div>
+        <div
+          class="favourites-title"
+          *ngIf="isFavourites"
+        >
+        </div>
+      </div>
+      <div
+        class="isData offer"
+        *ngIf="offers?.offers?.length; else noData"
+      >
+        <mat-accordion
+          class="item"
+          *ngFor="let offer of offers.offers"
+        >
+          <mat-expansion-panel
+            class="data"
+            (opened)="offer.opened = true; getComments(offer)"
+            (closed)="offer.opened = false"
+          >
+            <mat-expansion-panel-header
+              class="header"
+              [collapsedHeight]="'125px'"
+              [expandedHeight]="'125px'"
+            >
+              <div class="max">
+                <div class="pic">
+                  <img
+                    class="photo"
+                    [src]="imageUrl + offer.productInstance.imageName"
+                  >
+                </div>
+                <span class="data--center">
+
+                  <span class="additional">
+                    <span class="name">
+                      {{ offer.productInstance.product.name }} |
+                    </span>
+                    <span>
+                      <span
+                        title="Pokaż wszystkie"
+                        class="bigger"
+                        (click)="$event.stopPropagation(); showAllAdditional(offer.productInstance.product.name, offer.productInstance.additionalInfo)"
+                      >
+                        {{ offer.productInstance.additionalInfo }}
+                      </span>
+                    </span>
+                  </span>
+
+                  <span class="price">
+                    {{ offer.price | setPrecision }} zł
+                  </span>
+                  <span class="info">
+                    <mat-icon svgIcon="ziomek"></mat-icon>
+                    {{ offer.userName }} &nbsp;|&nbsp;
+                    <mat-icon svgIcon="location"></mat-icon>
+                    {{ offer.salesPoint.name }}
+                    ul.
+                    {{ offer.salesPoint.address.street }}
+                    {{ offer.salesPoint.address.number }}, {{ offer.salesPoint.address.city }}
+                  </span>
+                </span>
+                <div class="data--side">
+                  <span class="time">
+                    <mat-icon svgIcon="clock"></mat-icon>
+                    {{ offer.creationTime | date: 'dd/MM/yyyy HH:mm' }}
+                  </span>
+                  <!-- <div class="id">
+                    <span *ngIf="isAdmin">
+                      &nbsp;Id oferty: {{ offer.id }}
+                    </span>
+                  </div> -->
+                </div>
+              </div>
+              <button
+                *ngIf="!isNotLogged"
+                mat-icon-button
+                (click)="$event.stopPropagation(); toggleFavourite(offer)"
+              >
+                <mat-icon [svgIcon]="offer.isFavourite ? 'my-heart-red' : 'my-heart-white'">
+                </mat-icon>
+              </button>
+            </mat-expansion-panel-header>
+            <div class="expanded-data">
+              <div class="comments-title">
+                Komentarze
+              </div>
+              <form
+                [formGroup]="form"
+                class="container"
+                *ngIf="canComment"
+              >
+                <div class="comment-input mainColor">
+                  <my-input
+                    appearance="fill"
+                    controlName="comment"
+                    type="text"
+                    label="Dodaj komentarz"
+                  >
+                  </my-input>
+                </div>
+              </form>
+              <div class="right">
+                <button
+                  *ngIf="canComment"
+                  mat-button
+                  class="comment-button"
+                  (click)="comment(offer)"
+                >
+                  <span class="white">Skomentuj</span>
+                </button>
+              </div>
+              <div *ngIf="offer.comments?.length; else noComments">
+                <div
+                  *ngFor="let comment of offer.comments"
+                  class="full"
+                  [ngClass]="canComment ? 'full--is-content' : 'full--no-content'"
+                >
+                  <span class="author">
+                    {{ comment.author }}
+                  </span>
+                  <span class="comment-input comment-body mainColor">
+                    <span class="com">
+                      {{ comment.content }}
+                    </span>
+
+                    <button
+                      *ngIf="isAdmin"
+                      mat-icon-button
+                      [matMenuTriggerFor]="menu"
+                    >
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button
+                        mat-menu-item
+                        class="menu"
+                        (click)="banUser(offer, comment.authorId)"
+                      >
+                        <mat-icon>comments_disabled</mat-icon>
+                        <span>Wyłącz komentowanie użytkownikowi</span>
+                      </button>
+                      <button
+                        mat-menu-item
+                        class="menu"
+                        (click)="removeComment(offer, comment)"
+                      >
+                        <mat-icon>delete</mat-icon>
+                        <span>Usuń komentarz</span>
+                      </button>
+                    </mat-menu>
+                  </span>
+                  <span class="comment-time">10.04.2021 21:37</span>
+                  <div class="likes">
+                    {{ comment.likes }}
+                    <div class="button button--like">
+                      <button
+                        [disabled]="isNotLogged"
+                        mat-icon-button
+                        (click)="like(comment)"
+                      >
+                        <mat-icon
+                          [svgIcon]="comment.isLikedOrDislikedByUser === true ? 'my-like-clicked' : 'my-like-not-clicked'"
+                        ></mat-icon>
+                      </button>
+                    </div>
+                    <button
+                      class="button--dislike"
+                      [disabled]="isNotLogged"
+                      mat-icon-button
+                      (click)="dislike(comment)"
+                    >
+                      <mat-icon
+                        [svgIcon]="comment.isLikedOrDislikedByUser === false ? 'my-dislike-clicked' : 'my-dislike-not-clicked'"
+                      ></mat-icon>
+                    </button>
+                    <!-- </div> -->
+                    {{ comment.disLikes }}
+                  </div>
+                </div>
+              </div>
+              <ng-template #noComments>
+                <span class="no-comments">
+                  Brak komentarzy
+                </span>
+              </ng-template>
+
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <div class="paging">
+          <button
+            [disabled]="page <= 1"
+            mat-icon-button
+            (click)="changePage(-1)"
+          >
+            <mat-icon svgIcon="left"></mat-icon>
+          </button>
+          <span class="paging--size">
+            Strona: {{ page }} z {{ totalSites }}
+          </span>
+          <button
+            [disabled]="page >= totalSites"
+            mat-icon-button
+            (click)="changePage(1)"
+          >
+            <mat-icon svgIcon="right"></mat-icon>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #noData>
+    <div
+      *ngIf="!isFavourites"
+      class="noData offer"
+    >
+      <span>
+        Brak ofert
+      </span>
+      <span>
+        Proszę zmienić filtrację produktów lub sprawdzić w innym powiacie
+      </span>
+    </div>
+    <div
+      *ngIf="isFavourites"
+      class="noData offer"
+    >
+      <span>
+        Brak ulubionych
+      </span>
+      <span>
+        Proszę dodać jakieś oferty do ulubionych
+      </span>
+    </div>
+  </ng-template>
+</div>

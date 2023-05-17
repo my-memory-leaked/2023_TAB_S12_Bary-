@@ -7,7 +7,7 @@ import { AllAdminActionsType } from '@modules/admin/types/admin-actions.types';
 import { MyLocalStorageService } from '@shared/services/my-local-storage.service';
 import { idNameOnly, UserInfo } from '@modules/top-menu/interfaces/top-menu.interface';
 import { ToastMessageService } from '@shared/modules/toast-message/services/toast-message.service';
-import { Category, Product, SalesPoint, Offers } from '@modules/offers/interfaces/offers.interface';
+import { Category, Product, SalesPoint, Offers, MainOffer } from '@modules/offers/interfaces/offers.interface';
 import { DropDownText } from '@shared/modules/lz-nested-dropdown/interfaces/nested-dropdown.interface';
 
 @Injectable({
@@ -33,9 +33,9 @@ export class AdminStorageService {
   onInit(): void {
     this.isServiceAdmin = this.myLocalStorageService.isServiceAdmin();
 
-    // this.getAllOffers().subscribe((res) => {
-    //   this.offers$.next(res);
-    // });
+    this.getAllOffers().subscribe((res) => {
+      this.offers$.next(res);
+    });
 
     this.getAllProducts().subscribe((res) => {
       this.products$.next(res);
@@ -56,6 +56,21 @@ export class AdminStorageService {
     this.getAllCounties().subscribe((res) => {
       this.counties = res ? res : [];
     });
+  }
+
+  getAllOffers(): Observable<Offers[]> {
+    const countyId = this.isServiceAdmin ? '' : Number(localStorage.getItem('userCountyId'));
+    const params = new HttpParams()
+      .set('countyId', countyId);
+
+    return this.http.get<MainOffer>(`${environment.httpBackend}${Api.OFFERS}`, { params }).pipe(
+      map((res) => res.offers),
+      tap((res) => this.offers$.next(res)),
+      catchError(() => {
+        this.toastMessageService.notifyOfError('Nie udało się pobrać ofert');
+        return of([]);
+      }),
+    );
   }
 
   getAllUsers(): Observable<UserInfo[]> {
@@ -94,11 +109,7 @@ export class AdminStorageService {
   }
 
   getAllSalesPoints(): Observable<SalesPoint[]> {
-    const countyId = this.isServiceAdmin ? '' : Number(localStorage.getItem('userCountyId'));
-    const params = new HttpParams()
-      .set('countyId', countyId);
-
-    return this.http.get<SalesPoint[]>(`${environment.httpBackend}${Api.SALES_POINTS}`, { params })
+    return this.http.get<SalesPoint[]>(`${environment.httpBackend}${Api.SALES_POINTS}`)
       .pipe(
         tap((res) => this.salesPoints$.next(res)),
         catchError(() => {
@@ -137,10 +148,9 @@ export class AdminStorageService {
       );
   }
 
-
   getData(operationText: DropDownText): Observable<any> {
     if (operationText === 'Oferta') {
-      // return this.getAllOffers();
+      return this.getAllOffers();
     }
     else if (operationText === 'Kategoria') {
       return this.getAllCategories();

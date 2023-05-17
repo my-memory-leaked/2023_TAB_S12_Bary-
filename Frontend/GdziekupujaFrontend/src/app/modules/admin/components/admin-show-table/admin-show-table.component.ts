@@ -3,12 +3,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { UserInfo } from '@modules/top-menu/interfaces/top-menu.interface';
 import { AllAdminActionsType } from '@modules/admin/types/admin-actions.types';
 import { Actions } from '@modules/admin/interfaces/admin-form-response.interface';
 import { AdminStorageService } from '@modules/admin/services/admin-storage.service';
 import { ToastMessageService } from '@shared/modules/toast-message/services/toast-message.service';
-import { Category, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
+import { Category, Offers, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
 import { DropDownText } from '@shared/modules/lz-nested-dropdown/interfaces/nested-dropdown.interface';
 
 @Component({
@@ -118,6 +117,31 @@ export class AdminShowTableComponent implements OnInit {
           this.deleteApi = Api.CATEGORY_ID;
           break;
         }
+        case 'Oferta': {
+          this.adminStorageService.getDataForTable(this.operationText).subscribe((res: Offers[]) => this.tempData = res);
+          this.tempData.map((res: Offers) => {
+            const categories: string[] = [];
+
+            res.productInstance.categories.forEach((category) => {
+              categories.push(category.name)
+            })
+
+            this.data.push({
+              id: res.id,
+              productName: res.productInstance.product.name,
+              additionalInfo: res.productInstance.additionalInfo.replaceAll('{', '').replaceAll('}', ''),
+              price: res.price,
+              creationTime: res.creationTime,
+              userCreated: res.userName,
+              categoryName: categories,
+              salesPointName: res.salesPoint.name,
+            })
+          });
+
+          this.displayedColumns = ['id', 'userCreated', 'productName', 'price', 'creationTime', 'categoryName', 'additionalInfo', 'salesPointName', 'delete'];
+          // this.deleteApi = Api.OFFER_DELETE;
+          break;
+        }
         case 'Punkt sprzedaży': {
           this.adminStorageService.getDataForTable(this.operationText).subscribe((res: SalesPoint[]) => this.tempData = res);
           this.tempData.map((res: SalesPoint) => {
@@ -171,6 +195,27 @@ export class AdminShowTableComponent implements OnInit {
                 id: res.id,
                 categoryName: res.name,
                 parentId: res.parentId,
+              })
+            });
+            break;
+          }
+          case 'Oferta': {
+            result.map((res: Offers) => {
+              const categories: string[] = [];
+
+              res.productInstance.categories.forEach((category) => {
+                categories.push(category.name)
+              })
+
+              this.data.push({
+                id: res.id,
+                productName: res.productInstance.product.name,
+                additionalInfo: res.productInstance.additionalInfo.replaceAll('{', '').replaceAll('}', ''),
+                price: res.price,
+                creationTime: res.creationTime,
+                userCreated: res.userName,
+                categoryName: categories,
+                salesPointName: res.salesPoint.name,
               })
             });
             break;

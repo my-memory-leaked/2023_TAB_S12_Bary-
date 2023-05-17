@@ -180,7 +180,7 @@ export class AdminSubmitFormService {
       street: form.value.street,
       postalCode: form.value.postalCode,
       number: Number(form.value.number),
-      countyId: form.value.countyId ? form.value.countyId : Number(localStorage.getItem('userProfileCountyId')),
+      countyId: form.value.countyId ? form.value.countyId : Number(localStorage.getItem('userCountyId')),
     };
 
     return this.http.put<number>(`${environment.httpBackend}${Api.SALES_POINT_ID}`.replace(':id', form.value.salesPoint), { name, address }).pipe(

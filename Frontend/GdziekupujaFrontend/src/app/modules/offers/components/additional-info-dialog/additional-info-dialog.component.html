@@ -1,0 +1,9 @@
+<div class="mainColor container">
+  <h2>Dodatkowe informacje</h2>
+  <h4>Oferta: {{ additionalInfo.name }}</h4>
+  <ul *ngFor="let item of additionalInfo.info">
+    <li class="text">
+      {{ item }}
+    </li>
+  </ul>
+</div>

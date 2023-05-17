@@ -28,6 +28,11 @@ export interface TokenContent {
   exp: number,
 }
 
+export interface OfferContent {
+  search: string,
+  category: string,
+}
+
 export interface UserInfo {
   id: number,
   email: string,

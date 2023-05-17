@@ -37,8 +37,8 @@ import { OfferSetActionComponent } from './offer/components/offer-set-action/off
 import { OfferTypeSwitchComponent } from './offer/components/offer-type-switch/offer-type-switch.component';
 import { OfferComponent } from './offer/offer.component';
 import { OfferFormHandlerService } from './offer/services/offer-form-handler.service';
-import { Base64Component } from './offer/components/base64/base64.component';
-import { ListItemsComponent } from './offer/components/list-items/list-items.component';
+import { ListItemsModule } from '@shared/modules/list-items/list-items.module';
+import { Base64Module } from '@shared/modules/base64/base64.module';
 
 @NgModule({
   declarations: [
@@ -67,8 +67,6 @@ import { ListItemsComponent } from './offer/components/list-items/list-items.com
     OfferModifyComponent,
     OfferSetActionComponent,
     OfferTypeSwitchComponent,
-    Base64Component,
-    ListItemsComponent,
   ],
   imports: [
     SharedModule,
@@ -84,6 +82,8 @@ import { ListItemsComponent } from './offer/components/list-items/list-items.com
     MatSlideToggleModule,
     MatButtonToggleModule,
     LzNestedDropdownModule,
+    ListItemsModule,
+    Base64Module,
   ],
   providers: [
     ProductFormHandlerService,

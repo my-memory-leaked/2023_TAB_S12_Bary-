@@ -29,6 +29,24 @@
     }
   }
 
+  &-additionalInfo {
+    max-width: 200px !important;
+    overflow: auto;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: color.$secondaryColor !important;
+    }
+  }
+
+  &-categoryName {
+    max-width: 200px !important;
+    overflow: auto;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: color.$secondaryColor !important;
+    }
+  }
+
   &-delete {
     max-width: 80px !important;
   }

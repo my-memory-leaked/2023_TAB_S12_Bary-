@@ -23,16 +23,6 @@
   }
 }
 
-.color {
-  &-default {
-    background-color: color.$secondaryColor;
-  }
-
-  &-clicked {
-    background-color: color.$secondaryColorClicked;
-  }
-}
-
 .buttons {
   display: flex;
   justify-content: center;

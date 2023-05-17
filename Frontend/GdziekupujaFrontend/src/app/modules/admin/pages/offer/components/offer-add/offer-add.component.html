@@ -77,7 +77,10 @@
       *ngFor="let key of productPropertiesKeys; let i=index"
     >
       <h3>{{ key }}</h3>
-      <mat-button-toggle-group (change)="toggleChange(key, $event.value)" [value]="productPropertiesAll[key][0]">
+      <mat-button-toggle-group
+        (change)="toggleChange(key, $event.value)"
+        [value]="productPropertiesAll[key][0]"
+      >
         <ng-container *ngFor="let value of productPropertiesAll[key]">
           <mat-button-toggle [value]="value">{{ value }}</mat-button-toggle>
         </ng-container>

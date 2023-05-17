@@ -17,11 +17,16 @@ import { LoginDialogComponent } from '@modules/top-menu/components/login-dialog/
 import { AdminSubmitFormService } from '@modules/admin/services/admin-submit-form.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { LzNestedDropdownModule } from '@shared/modules/lz-nested-dropdown/lz-nested-dropdown.module';
+import { AddOfferDialogComponent } from '@modules/top-menu/components/add-offer-dialog/add-offer-dialog.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ListItemsModule } from '@shared/modules/list-items/list-items.module';
+import { Base64Module } from '@shared/modules/base64/base64.module';
 
 @NgModule({
   declarations: [
     TopMenuComponent,
     LoginDialogComponent,
+    AddOfferDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -39,6 +44,9 @@ import { LzNestedDropdownModule } from '@shared/modules/lz-nested-dropdown/lz-ne
     MatSelectModule,
     MatMenuModule,
     LzNestedDropdownModule,
+    MatButtonToggleModule,
+    ListItemsModule,
+    Base64Module,
   ],
   exports: [
     TopMenuComponent,
