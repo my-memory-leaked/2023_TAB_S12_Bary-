@@ -18,6 +18,8 @@ public interface IUserService
     int RegisterUser(CreateUserDto dto);
     TokenToReturn LoginUser(LoginUserDto dto);
     IEnumerable<UserDto> GetAllUsers();
+    void Ban(int adminId, int userId);
+    void Unban(int adminId, int userId);
 }
 
 public class UserService : IUserService
@@ -53,6 +55,7 @@ public class UserService : IUserService
         {
             var admin = new Administrator
             {
+                Id = user.Id,
                 User = user,
                 UserId = user.Id
             };
@@ -118,5 +121,45 @@ public class UserService : IUserService
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public void Ban(int adminId, int userId)
+    {
+        var admin = _dbContext.Administrators.FirstOrDefault(a => a.UserId == adminId)
+            ?? throw new InvalidDataException("Nie jestes administratorem");
+        
+        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId)
+                   ?? throw new NotFoundException("Nie znaleziono użytkownika");
+        
+        user.CanComment = false;
+
+        var comments = _dbContext.Comments.Where(c => c.UserId == userId).ToList();
+        comments.ForEach(c =>
+        {
+            c.AdminId = adminId;
+            c.Admin = admin;
+        }); 
+        
+        _dbContext.SaveChanges();
+    }
+    
+    public void Unban(int adminId, int userId)
+    {
+        _ = _dbContext.Administrators.FirstOrDefault(a => a.UserId == adminId)
+            ?? throw new InvalidDataException("Nie jestes administratorem");
+        
+        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId)
+                   ?? throw new NotFoundException("Nie znaleziono użytkownika");
+        
+        user.CanComment = true;
+        
+        var comments = _dbContext.Comments.Where(c => c.UserId == userId).ToList();
+        comments.ForEach(c =>
+        {
+            c.AdminId = null;
+            c.Admin = null;
+        }); 
+        
+        _dbContext.SaveChanges();
     }
 }

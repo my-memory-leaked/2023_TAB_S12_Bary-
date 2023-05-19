@@ -53,4 +53,24 @@ public class OfferController : ControllerBase
     {
         return Ok(_service.GetAllComments(offerId, userId));
     }
+    
+    [HttpPut("{id}")]
+    public ActionResult<int> UpdateOffer(int id, decimal? price)
+    {
+        return Ok( _service.UpdateOffer(id, price));
+    }
+    
+    [HttpPut("ban")]
+    public ActionResult BanOffer(int adminId, int offerId)
+    {
+        _service.Ban(adminId, offerId);
+        return Ok();
+    }
+    
+    [HttpPut("unban")]
+    public ActionResult UnbanOffer(int adminId, int offerId)
+    {
+        _service.Unban(adminId, offerId);
+        return Ok();
+    }
 }

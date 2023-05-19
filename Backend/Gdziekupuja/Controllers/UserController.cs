@@ -32,4 +32,18 @@ public class UserController : ControllerBase
     {
         return Ok(_service.GetAllUsers());
     }
+    
+    [HttpPut("ban")]
+    public ActionResult BanUser(int adminId, int userId)
+    {
+        _service.Ban(adminId, userId);
+        return Ok();
+    }
+    
+    [HttpPut("unban")]
+    public ActionResult UnbanUser(int adminId, int userId)
+    {
+        _service.Unban(adminId, userId);
+        return Ok();
+    }
 }

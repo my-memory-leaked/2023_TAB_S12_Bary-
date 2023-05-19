@@ -11,6 +11,8 @@ public interface ICommentService
     int CreateComment(CreateCommentDto dto);
     void DislikeComment(int commentId, int userId);
     void LikeComment(int commentId, int userId);
+    void Ban(int adminId, int commentId);
+    void Unban(int adminId, int commentId);
 }
 
 public class CommentService : ICommentService
@@ -143,5 +145,33 @@ public class CommentService : ICommentService
             .Include(c => c.Users)
             .SelectMany(l => l.Users)
             .FirstOrDefault(u => u.Id == userId);
+    }
+    
+    public void Ban(int adminId, int commentId)
+    {
+        var admin = _dbContext.Administrators.FirstOrDefault(u => u.UserId == adminId)
+                    ?? throw new NotFoundException("Nie jestes administratorem");
+
+        var comment = _dbContext.Comments.FirstOrDefault(c => c.Id == commentId)
+                      ?? throw new NotFoundException("Komentarz nie istnieje");
+
+        comment.Admin = admin;
+        comment.AdminId = adminId;
+
+        _dbContext.SaveChanges();
+    }
+
+    public void Unban(int adminId, int commentId)
+    {
+        _ = _dbContext.Administrators.FirstOrDefault(u => u.UserId == adminId)
+            ?? throw new NotFoundException("Nie jestes administratorem");
+
+        var comment = _dbContext.Comments.FirstOrDefault(c => c.Id == commentId)
+                      ?? throw new NotFoundException("Komentarz nie istnieje");
+
+        comment.Admin = null;
+        comment.AdminId = null;
+
+        _dbContext.SaveChanges();
     }
 }
