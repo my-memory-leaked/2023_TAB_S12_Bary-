@@ -42,11 +42,4 @@ public class CommentController : ControllerBase
         _service.Ban(adminId, commentId);
         return Ok();
     }
-    
-    [HttpPut("unban")]
-    public ActionResult UnbanComment(int adminId, int commentId)
-    {
-        _service.Unban(adminId, commentId);
-        return Ok();
-    }
 }

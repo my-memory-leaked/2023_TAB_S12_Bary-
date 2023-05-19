@@ -66,11 +66,4 @@ public class OfferController : ControllerBase
         _service.Ban(adminId, offerId);
         return Ok();
     }
-    
-    [HttpPut("unban")]
-    public ActionResult UnbanOffer(int adminId, int offerId)
-    {
-        _service.Unban(adminId, offerId);
-        return Ok();
-    }
 }
