@@ -141,8 +141,8 @@ public class OfferService : IOfferService
 
         foreach (var comment in comments)
         {
-            var likers = comment.Users;
-            var dislikers = comment.UsersNavigation;
+            var dislikers = comment.Users;
+            var likers = comment.UsersNavigation;
 
             var liker = likers.FirstOrDefault(l => l.Id == userId);
             var disliker = dislikers.FirstOrDefault(l => l.Id == userId);

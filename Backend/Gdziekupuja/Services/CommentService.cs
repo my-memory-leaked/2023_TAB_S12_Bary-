@@ -33,6 +33,7 @@ public class CommentService : ICommentService
         if (!user.CanComment) throw new ArgumentException("Użytkownik nie może komentować");
 
         var comment = _mapper.Map<Comment>(dto);
+        comment.CreationTime = DateTime.Now;
 
         _dbContext.Comments.Add(comment);
         _dbContext.SaveChanges();

@@ -14,6 +14,4 @@ public class CreateCommentDto
 
     [Required(ErrorMessage = "Pole jest wymagane")]
     public int OfferId { get; set; }
-
-    public DateTime CreationDate { get; set; } = DateTime.Now;
 }

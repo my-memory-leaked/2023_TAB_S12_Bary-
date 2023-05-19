@@ -53,10 +53,7 @@ public class AutoMapperProfile : Profile
 
         //Product instance
         CreateMap<CreateProductInstanceDto, ProductInstance>();
-        CreateMap<ProductInstance, ProductInstanceDto>()
-            .ForMember(dest => dest.ImagePath,
-                opt => opt.MapFrom(src =>
-                    Path.Combine(Path.GetFullPath("wwwroot"), src.ImageName)));
+        CreateMap<ProductInstance, ProductInstanceDto>();
 
         // SalesPoint
         CreateMap<SalesPoint, SalesPointDto>();
