@@ -32,10 +32,10 @@ export class AdminSubmitFormService {
         this.data = this.addOffer(form);
         break;
       }
-      // case 'ModifyOffer': {
-      //   this.data = this.modifyOffer(form);
-      //   break;
-      // }
+      case 'ModifyOffer': {
+        this.data = this.modifyOffer(form);
+        break;
+      }
       case 'AddCategory': {
         this.data = this.addCategory(form);
         break;
@@ -60,14 +60,14 @@ export class AdminSubmitFormService {
         this.data = this.modifySalesPoint(form);
         break;
       }
-      // case 'BanUser': {
-      //   this.data = this.banUser(form);
-      //   break;
-      // }
-      // case 'UnbanUser': {
-      //   this.data = this.unbanUser(form);
-      //   break;
-      // }
+      case 'BanUser': {
+        this.data = this.banUser(form);
+        break;
+      }
+      case 'UnbanUser': {
+        this.data = this.unbanUser(form);
+        break;
+      }
       default: {
         break;
       }
@@ -76,7 +76,6 @@ export class AdminSubmitFormService {
   }
 
   addOffer(form: FormGroup): Observable<number> {
-
     let data = '{'
     form.value.additionalInfo.forEach((item: { key: string, value: string }) => {
       data += `"${item.key}": "${item.value}",`;
@@ -102,6 +101,18 @@ export class AdminSubmitFormService {
     return this.http.post<number>(`${environment.httpBackend}${Api.OFFERS}`, formData, { params }).pipe(
       catchError((err) => {
         this.toastMessageService.notifyOfError(err.error.errors?.Price ? err.error.errors.Price[0] : 'Nie udało się dodać oferty');
+        return of();
+      }),
+    );
+  }
+
+  modifyOffer(form: FormGroup): Observable<number> {
+    const params = new HttpParams()
+      .set('price', Number(form.value.price))
+
+    return this.http.put<number>(`${environment.httpBackend}${Api.OFFER_ID}`.replace(':id', form.value.offer.toString()), {}, { params }).pipe(
+      catchError((err) => {
+        this.toastMessageService.notifyOfError(err.error.errors?.Price ? err.error.errors.Price[0] : 'Nie udało się zmodyfikować oferty');
         return of();
       }),
     );
@@ -186,6 +197,32 @@ export class AdminSubmitFormService {
     return this.http.put<number>(`${environment.httpBackend}${Api.SALES_POINT_ID}`.replace(':id', form.value.salesPoint), { name, address }).pipe(
       catchError((err) => {
         this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się zmodyfikować punktu sprzedaży');
+        return of();
+      }),
+    );
+  }
+
+  banUser(form: FormGroup): Observable<any> {
+    const params = new HttpParams()
+      .set('adminId', Number(localStorage.getItem('userId')))
+      .set('userId', form.value.id)
+
+    return this.http.put<any>(`${environment.httpBackend}${Api.USER_BAN}`, {}, { params }).pipe(
+      catchError(() => {
+        this.toastMessageService.notifyOfError('Nie udało się zbanować użytkownika');
+        return of();
+      }),
+    );
+  }
+
+  unbanUser(form: FormGroup): Observable<number> {
+    const params = new HttpParams()
+      .set('adminId', Number(localStorage.getItem('userId')))
+      .set('userId', form.value.id)
+
+    return this.http.put<any>(`${environment.httpBackend}${Api.USER_UNBAN}`, {}, { params }).pipe(
+      catchError((err) => {
+        this.toastMessageService.notifyOfError(err.error.errors?.Name ? err.error.errors.Name[0] : 'Nie udało się odbanować użytkownika');
         return of();
       }),
     );

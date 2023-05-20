@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ProductFormHandlerService } from '@modules/admin/pages/product/services/product-form-handler.service';
 import { AdminSubmitFormService } from '@modules/admin/services/admin-submit-form.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'product-add',
@@ -30,7 +31,9 @@ export class ProductAddComponent implements OnInit {
     this.form = this.controlContainer.control as FormGroup;
     this.productFormHandlerService.setFormGroupForProductAdd(this.form);
 
-    this.adminSubmitFormService.getClearData().subscribe(() => {
+    this.adminSubmitFormService.getClearData().pipe(
+      filter((res) => !!res),
+    ).subscribe(() => {
       this.form.reset();
       this.additionalProperties = [];
     });

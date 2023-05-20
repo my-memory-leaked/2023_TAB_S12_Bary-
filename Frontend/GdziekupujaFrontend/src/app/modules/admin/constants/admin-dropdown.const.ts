@@ -8,6 +8,8 @@ import { ProductComponent } from "../pages/product/product.component";
 import { ProductService } from "../pages/product/services/product.service";
 import { OfferComponent } from "../pages/offer/offer.component";
 import { OfferService } from "../pages/offer/services/offer.service";
+import { UserComponent } from "../pages/user/user.component";
+import { UserService } from "../pages/user/services/user.service";
 
 export const AdminDropDown: NestedDropdown<AdminDropdownData>[] =
   [
@@ -39,11 +41,11 @@ export const AdminDropDown: NestedDropdown<AdminDropdownData>[] =
         formProvider: OfferService,
       },
     },
-    // {
-    //   name: 'Użytkownik',
-    //   data: {
-    //     formComponent: UserComponent,
-    //     formProvider: UserService,
-    //   },
-    // },
+    {
+      name: 'Użytkownik',
+      data: {
+        formComponent: UserComponent,
+        formProvider: UserService,
+      },
+    },
   ];

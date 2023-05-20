@@ -9,6 +9,7 @@ import { AdminStorageService } from '@modules/admin/services/admin-storage.servi
 import { ToastMessageService } from '@shared/modules/toast-message/services/toast-message.service';
 import { Category, Offers, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
 import { DropDownText } from '@shared/modules/lz-nested-dropdown/interfaces/nested-dropdown.interface';
+import { UserInfo } from '@modules/top-menu/interfaces/top-menu.interface';
 
 @Component({
   selector: 'app-admin-show-table',
@@ -84,10 +85,18 @@ export class AdminShowTableComponent implements OnInit {
 
   delete(event: any) {
     if (event?.id) {
-      this.adminStorageService.deleteData(event?.id, this.deleteApi).subscribe(() => {
-        this.getData('Refresh');
-        this.toastMessageService.notifyOfSuccess("Usuwanie powiodło się");
-      });
+      if (this.deleteApi === Api.OFFER_BAN) {
+        this.adminStorageService.banOffer(event?.id).subscribe(() => {
+          this.getData('Refresh');
+          this.toastMessageService.notifyOfSuccess("Zbanowano ofertę");
+        });
+      }
+      else {
+        this.adminStorageService.deleteData(event?.id, this.deleteApi).subscribe(() => {
+          this.getData('Refresh');
+          this.toastMessageService.notifyOfSuccess("Usuwanie powiodło się");
+        });
+      }
     }
   }
 
@@ -139,7 +148,7 @@ export class AdminShowTableComponent implements OnInit {
           });
 
           this.displayedColumns = ['id', 'userCreated', 'productName', 'price', 'creationTime', 'categoryName', 'additionalInfo', 'salesPointName', 'delete'];
-          // this.deleteApi = Api.OFFER_DELETE;
+          this.deleteApi = Api.OFFER_BAN;
           break;
         }
         case 'Punkt sprzedaży': {
@@ -177,6 +186,21 @@ export class AdminShowTableComponent implements OnInit {
 
           this.displayedColumns = ['id', 'productName', 'availableProps', 'delete'];
           this.deleteApi = Api.PRODUCT_ID;
+          break;
+        }
+        case 'Użytkownik': {
+          this.adminStorageService.getDataForTable(this.operationText).subscribe((res: Product[]) => this.tempData = res);
+          this.tempData.map((res: UserInfo) => {
+            this.data.push({
+              id: res.id,
+              email: res.email,
+              userName: res.name,
+              canComment: res.canComment,
+              isAdmin: res.isAdmin,
+            })
+          });
+
+          this.displayedColumns = ['id', 'email', 'userName', 'canComment', 'isAdmin'];
           break;
         }
         default: {
@@ -245,6 +269,19 @@ export class AdminShowTableComponent implements OnInit {
                 id: res.id,
                 productName: res.name,
                 availableProps: formattedData,
+              })
+            });
+            break;
+          }
+          case 'Użytkownik': {
+            this.adminStorageService.getDataForTable(this.operationText).subscribe((res: Product[]) => this.tempData = res);
+            this.tempData.map((res: UserInfo) => {
+              this.data.push({
+                id: res.id,
+                email: res.email,
+                userName: res.name,
+                canComment: res.canComment,
+                isAdmin: res.isAdmin,
               })
             });
             break;

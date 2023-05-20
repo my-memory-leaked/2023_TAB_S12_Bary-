@@ -10,6 +10,14 @@ export enum Api {
   COUNTY = '/api/county/:id',
 
   OFFERS = '/api/offer',
+  OFFER_ID = '/api/offer/:id',
+  OFFER_COMMENTS = '/api/offer/comments',
+  OFFER_BAN = '/api/offer/ban',
+  
+  COMMENT = '/api/comment',
+  COMMENT_LIKE = '/api/comment/like',
+  COMMENT_DISLIKE = '/api/comment/dislike',
+  COMMENT_BAN = '/api/comment/ban',
 
   FAVOURITES = '/api/offer/favourites',
   FAVOURITES_USER_ID = '/api/offer/favourites/:userId',
@@ -23,4 +31,6 @@ export enum Api {
   REGISTER = '/user/register',
   LOGIN = '/user/login',
   USERS = '/user',
+  USER_BAN = '/user/ban',
+  USER_UNBAN = '/user/unban',
 }

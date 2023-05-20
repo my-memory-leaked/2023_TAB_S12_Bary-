@@ -1,0 +1,4 @@
+<ng-container [ngSwitch]="toggleValue">
+  <user-ban *ngSwitchCase="'BanUser'"></user-ban>
+  <user-unban *ngSwitchCase="'UnbanUser'"></user-unban>
+</ng-container>

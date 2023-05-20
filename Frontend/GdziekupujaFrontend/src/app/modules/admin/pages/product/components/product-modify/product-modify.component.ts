@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Category, Product } from '@modules/offers/interfaces/offers.interface';
 import { AbstractControl, ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
@@ -37,7 +37,9 @@ export class ProductModifyComponent implements OnInit {
 
     this.products = this.adminStorageService.products$.asObservable();
 
-    this.adminSubmitFormService.getClearData().subscribe(() => {
+    this.adminSubmitFormService.getClearData().pipe(
+      filter((res) => !!res),
+    ).subscribe(() => {
       this.form.reset();
       this.additionalProperties = [];
     });

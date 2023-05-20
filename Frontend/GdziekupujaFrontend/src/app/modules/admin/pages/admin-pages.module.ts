@@ -39,6 +39,12 @@ import { OfferComponent } from './offer/offer.component';
 import { OfferFormHandlerService } from './offer/services/offer-form-handler.service';
 import { ListItemsModule } from '@shared/modules/list-items/list-items.module';
 import { Base64Module } from '@shared/modules/base64/base64.module';
+import { UserSetActionComponent } from './user/components/user-set-action/user-set-action.component';
+import { UserTypeSwitchComponent } from './user/components/user-type-switch/user-type-switch.component';
+import { UserFormHandlerService } from './user/services/user-form-handler.service';
+import { UserComponent } from './user/user.component';
+import { UserBanComponent } from './user/components/user-ban/user-ban.component';
+import { UserUnbanComponent } from './user/components/user-unban/user-unban.component';
 
 @NgModule({
   declarations: [
@@ -57,11 +63,11 @@ import { Base64Module } from '@shared/modules/base64/base64.module';
     ProductModifyComponent,
     ProductSetActionComponent,
     ProductTypeSwitchComponent,
-    // UserComponent,
-    // UserBanComponent,
-    // UserUnbanComponent,
-    // UserSetActionComponent,
-    // UserTypeSwitchComponent,
+    UserComponent,
+    UserBanComponent,
+    UserUnbanComponent,
+    UserSetActionComponent,
+    UserTypeSwitchComponent,
     OfferComponent,
     OfferAddComponent,
     OfferModifyComponent,
@@ -89,7 +95,7 @@ import { Base64Module } from '@shared/modules/base64/base64.module';
     ProductFormHandlerService,
     CategoryFormHandlerService,
     SalesPointFormHandlerService,
-    // UserFormHandlerService,
+    UserFormHandlerService,
     OfferFormHandlerService,
     TopMenuService,
   ]

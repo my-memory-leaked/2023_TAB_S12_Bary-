@@ -10,11 +10,6 @@ export const ADMIN_FIELDS_LIST = {
   ModifyOffer: [
     "offer",
     "price",
-    "salesPointId",
-    "productId",
-    "categoryIds",
-    "additionalInfo",
-    "image",
   ],
   AddCategory: [
     "name",
@@ -46,5 +41,13 @@ export const ADMIN_FIELDS_LIST = {
     "salesPoint",
     "name",
     "address",
+  ],
+  BanUser: [
+    "userId",
+    "action",
+  ],
+  UnbanUser: [
+    "userId",
+    "action",
   ],
 };

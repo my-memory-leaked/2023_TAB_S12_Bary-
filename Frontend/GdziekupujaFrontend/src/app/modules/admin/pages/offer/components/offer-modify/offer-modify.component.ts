@@ -43,10 +43,10 @@ export class OfferModifyComponent implements OnInit {
         additionalZero = '0';
       }
 
-      // this.offersFixedNames.push({
-      //   id: res.id,
-      //   changedName: 'id: ' + res.id + ' | ' + res.product.name + ' | ' + res.price + additionalZero + 'zł',
-      // })
+      this.offersFixedNames.push({
+        id: res.id,
+        changedName: 'id: ' + res.id + ' | ' + res.productInstance.product.name + ' | ' + res.price + additionalZero + 'zł',
+      })
     }));
 
     this.form.get('price').valueChanges.subscribe((res) => {

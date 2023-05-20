@@ -1,9 +1,9 @@
 <div class="container">
   <div
     class="disclaimer"
-    *ngIf="isNotLogged && !countyId; else canSeeOffers"
+    *ngIf="!countyId; else canSeeOffers"
   >
-    Aby korzystać z serwisu, wybierz interesujący Cię region lub zaloguj się
+    Aby korzystać z serwisu, wybierz interesujący Cię region
   </div>
 
   <ng-template #canSeeOffers>
@@ -95,11 +95,6 @@
                     <mat-icon svgIcon="clock"></mat-icon>
                     {{ offer.creationTime | date: 'dd/MM/yyyy HH:mm' }}
                   </span>
-                  <!-- <div class="id">
-                    <span *ngIf="isAdmin">
-                      &nbsp;Id oferty: {{ offer.id }}
-                    </span>
-                  </div> -->
                 </div>
               </div>
               <button
@@ -180,9 +175,9 @@
                       </button>
                     </mat-menu>
                   </span>
-                  <span class="comment-time">10.04.2021 21:37</span>
+                  <span class="comment-time">{{ comment.creationTime | date: 'dd/MM/yyyy HH:mm' }}</span>
                   <div class="likes">
-                    {{ comment.likes }}
+                    {{ comment.likers }}
                     <div class="button button--like">
                       <button
                         [disabled]="isNotLogged"
@@ -204,8 +199,7 @@
                         [svgIcon]="comment.isLikedOrDislikedByUser === false ? 'my-dislike-clicked' : 'my-dislike-not-clicked'"
                       ></mat-icon>
                     </button>
-                    <!-- </div> -->
-                    {{ comment.disLikes }}
+                    {{ comment.disLikers }}
                   </div>
                 </div>
               </div>

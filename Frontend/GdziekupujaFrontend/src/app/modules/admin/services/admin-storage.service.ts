@@ -148,6 +148,20 @@ export class AdminStorageService {
       );
   }
 
+  banOffer(id: number): Observable<any> {
+    const params = new HttpParams()
+      .set('adminId', Number(localStorage.getItem('userId')))
+      .set('offerId', id)
+
+    return this.http.put<any>(`${environment.httpBackend}${Api.OFFER_BAN}`, {}, { params })
+      .pipe(
+        catchError((err) => {
+          this.toastMessageService.notifyOfError('Usuwanie nie powiodło się');
+          return of();
+        }),
+      );
+  }
+
   getData(operationText: DropDownText): Observable<any> {
     if (operationText === 'Oferta') {
       return this.getAllOffers();

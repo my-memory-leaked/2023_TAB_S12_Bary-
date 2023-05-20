@@ -90,28 +90,28 @@ export class OffersComponent implements OnInit {
   }
 
   getComments(offer: Offers): void {
-    // this.offersService.getComments(offer.id, Number(localStorage.getItem('userId'))).subscribe((res) => {
-    //   offer.comments = res
-    // });
+    this.offersService.getComments(offer.id, Number(localStorage.getItem('userId'))).subscribe((res) => {
+      offer.comments = res
+    });
   }
 
   comment(offer: Offers): void {
-    // const value = this.form.get('comment').value;
-    // const userId = Number(localStorage.getItem('userId'));
-    // if (value) {
-    //   this.offersService.addComment(value, userId, offer.id).subscribe(() => this.getComments(offer));
-    //   this.form.reset();
-    // }
+    const value = this.form.get('comment').value;
+    const userId = Number(localStorage.getItem('userId'));
+    if (value) {
+      this.offersService.addComment(value, userId, offer.id).subscribe(() => this.getComments(offer));
+      this.form.reset();
+    }
   }
 
   banUser(offer: Offers, id: number) {
-    // if (id !== Number(localStorage.getItem('userId'))) {
-    //   this.offersService.banUser(id).subscribe(() => this.getComments(offer));
-    // }
+    if (id !== Number(localStorage.getItem('userId'))) {
+      this.offersService.banUser(id).subscribe(() => this.getComments(offer));
+    }
   }
 
   removeComment(offer: Offers, comment: MyComment) {
-    // this.offersService.deleteComment(comment.id).subscribe(() => this.getComments(offer));
+    this.offersService.deleteComment(comment.id).subscribe(() => this.getComments(offer));
   }
 
   toggleFavourite(offer: Offers): void {
@@ -125,39 +125,39 @@ export class OffersComponent implements OnInit {
   }
 
   like(comment: MyComment): void {
-    // this.offersService.like(comment.id, Number(localStorage.getItem('userId'))).subscribe(() => {
-    //   if (comment.isLikedOrDislikedByUser === true) {
-    //     comment.likes = comment.likes - 1;
-    //     comment.isLikedOrDislikedByUser = null;
-    //   }
-    //   else if (comment.isLikedOrDislikedByUser === false) {
-    //     comment.likes = comment.likes + 1;
-    //     comment.disLikes = comment.disLikes - 1;
-    //     comment.isLikedOrDislikedByUser = true;
-    //   }
-    //   else if (comment.isLikedOrDislikedByUser === null) {
-    //     comment.likes = comment.likes + 1;
-    //     comment.isLikedOrDislikedByUser = true;
-    //   }
-    // });
+    this.offersService.like(comment.id, Number(localStorage.getItem('userId'))).subscribe(() => {
+      if (comment.isLikedOrDislikedByUser === true) {
+        comment.likers = comment.likers - 1;
+        comment.isLikedOrDislikedByUser = null;
+      }
+      else if (comment.isLikedOrDislikedByUser === false) {
+        comment.likers = comment.likers + 1;
+        comment.disLikers = comment.disLikers - 1;
+        comment.isLikedOrDislikedByUser = true;
+      }
+      else if (comment.isLikedOrDislikedByUser === null) {
+        comment.likers = comment.likers + 1;
+        comment.isLikedOrDislikedByUser = true;
+      }
+    });
   }
 
   dislike(comment: MyComment): void {
-    // this.offersService.dislike(comment.id, Number(localStorage.getItem('userId'))).subscribe(() => {
-    //   if (comment.isLikedOrDislikedByUser === false) {
-    //     comment.disLikes = comment.disLikes - 1;
-    //     comment.isLikedOrDislikedByUser = null;
-    //   }
-    //   else if (comment.isLikedOrDislikedByUser === true) {
-    //     comment.disLikes = comment.disLikes + 1;
-    //     comment.likes = comment.likes - 1;
-    //     comment.isLikedOrDislikedByUser = false;
-    //   }
-    //   else if (comment.isLikedOrDislikedByUser === null) {
-    //     comment.disLikes = comment.disLikes + 1;
-    //     comment.isLikedOrDislikedByUser = false;
-    //   }
-    // });
+    this.offersService.dislike(comment.id, Number(localStorage.getItem('userId'))).subscribe(() => {
+      if (comment.isLikedOrDislikedByUser === false) {
+        comment.disLikers = comment.disLikers - 1;
+        comment.isLikedOrDislikedByUser = null;
+      }
+      else if (comment.isLikedOrDislikedByUser === true) {
+        comment.disLikers = comment.disLikers + 1;
+        comment.likers = comment.likers - 1;
+        comment.isLikedOrDislikedByUser = false;
+      }
+      else if (comment.isLikedOrDislikedByUser === null) {
+        comment.disLikers = comment.disLikers + 1;
+        comment.isLikedOrDislikedByUser = false;
+      }
+    });
   }
 
   showAllAdditional(name: string, info: string): void {

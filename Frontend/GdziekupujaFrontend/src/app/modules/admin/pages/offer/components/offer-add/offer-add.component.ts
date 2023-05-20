@@ -1,4 +1,4 @@
-import { Observable, tap } from 'rxjs';
+import { Observable, filter, tap } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Categories, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
@@ -6,6 +6,8 @@ import { AdminStorageService } from '@modules/admin/services/admin-storage.servi
 import { ChangedNames } from '@modules/admin/interfaces/admin-form-response.interface';
 import { OfferFormHandlerService } from '@modules/admin/pages/offer/services/offer-form-handler.service';
 import { TopMenuService } from '@modules/top-menu/api/top-menu.service';
+import { AdminSubmitFormService } from '@modules/admin/services/admin-submit-form.service';
+import { Base64Service } from '@shared/modules/base64/base64.service';
 
 @Component({
   selector: 'offer-add',
@@ -27,7 +29,6 @@ export class OfferAddComponent implements OnInit {
 
   categoriesIdsToAdd: number[] = [];
   categoriesToDisplay: Categories[] = [];
-  additionalProperties: string[] = [];
   productPropertiesAll: unknown;
   productPropertiesKeys: string[] = [];
 
@@ -38,7 +39,9 @@ export class OfferAddComponent implements OnInit {
     private controlContainer: ControlContainer,
     private offerFormHandlerService: OfferFormHandlerService,
     private adminStorageService: AdminStorageService,
+    private adminSubmitFormService: AdminSubmitFormService,
     private topMenuService: TopMenuService,
+    private base64Service: Base64Service,
   ) { }
 
   ngOnInit(): void {
@@ -62,6 +65,16 @@ export class OfferAddComponent implements OnInit {
         this.form.get('price').setErrors({ 'incorrect': true });
       }
     });
+
+    this.adminSubmitFormService.getClearData().pipe(
+      filter((res) => !!res),
+    ).subscribe(() => {
+      this.form.reset();
+      this.productPropertiesAll = null;
+      this.productPropertiesKeys = [];
+      this.categoriesToDisplay = [];
+      this.base64Service.setDeleteImage(true);
+    })
   }
 
   saveImage(image: File): void {

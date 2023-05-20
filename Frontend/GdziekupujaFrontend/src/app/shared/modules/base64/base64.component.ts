@@ -1,5 +1,7 @@
-import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Output, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Base64Service } from './base64.service';
+import { filter, tap } from 'rxjs';
 
 @Component({
   selector: 'lz-base64',
@@ -13,13 +15,22 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ],
 })
-export class Base64Component implements ControlValueAccessor {
+export class Base64Component implements ControlValueAccessor, OnInit {
 
   onChange = (file: string) => { };
 
   public file: string | null = null;
 
-  constructor(private host: ElementRef<HTMLInputElement>) { }
+  constructor(
+    private host: ElementRef<HTMLInputElement>,
+    private base64Service: Base64Service,
+  ) { }
+
+  ngOnInit(): void {
+    this.base64Service.getDeleteImage().pipe(
+      filter((res) => !!res),
+    ).subscribe(() => this.deleteImage());
+  }
 
   @Output() emitImage = new EventEmitter<File>();
 

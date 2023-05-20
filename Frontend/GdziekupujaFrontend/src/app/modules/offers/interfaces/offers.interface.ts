@@ -1,3 +1,5 @@
+import { SafeUrl } from "@angular/platform-browser";
+
 export interface Product {
   id: number,
   name: string,
@@ -62,10 +64,11 @@ export interface ProductInstance {
 
 export interface MyComment {
   id: number,
-  likes: number,
-  disLikes: number,
+  likers: number,
+  disLikers: number,
   content: string,
   author: string,
   authorId: number,
   isLikedOrDislikedByUser: boolean,
+  creationTime: Date,
 }
