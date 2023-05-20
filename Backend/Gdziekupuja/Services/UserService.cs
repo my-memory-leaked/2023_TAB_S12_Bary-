@@ -82,7 +82,12 @@ public class UserService : IUserService
 
     public IEnumerable<UserDto> GetAllUsers()
     {
-        return _dbContext.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider);
+        var users = _dbContext.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToList();
+        var admins = _dbContext.Administrators.Select(a => a.UserId).ToList();
+        
+        users.ForEach(u => { u.IsAdmin = admins.Contains(u.Id); });
+
+        return users;
     }
 
     private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
