@@ -4,11 +4,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ChangedNames } from '@modules/admin/interfaces/admin-form-response.interface';
 import { AdminStorageService } from '@modules/admin/services/admin-storage.service';
 import { AdminSubmitFormService } from '@modules/admin/services/admin-submit-form.service';
-import { OffersService } from '@modules/offers/api/offers.service';
-import { Categories, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
+import { Categories, Offers, Product, SalesPoint } from '@modules/offers/interfaces/offers.interface';
 import { TopMenuService } from '@modules/top-menu/api/top-menu.service';
 import { ToastMessageService } from '@shared/modules/toast-message/services/toast-message.service';
-import { Observable } from 'rxjs';
+import { Observable, filter, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-add-offer-dialog',
@@ -17,13 +16,22 @@ import { Observable } from 'rxjs';
 })
 export class AddOfferDialogComponent {
 
-  form: FormGroup = this.fb.group({
+  addForm: FormGroup = this.fb.group({
     price: [null, [Validators.required]],
     salesPointId: [null, [Validators.required]],
     productId: [null, [Validators.required]],
     categoryIds: [null, [Validators.required]],
     additionalInfo: [null, [Validators.required]],
     image: [null, [Validators.required]],
+  });
+
+  modifyForm: FormGroup = this.fb.group({
+    offer: [null, [Validators.required]],
+    price: [null, [Validators.required]],
+  });
+
+  banForm: FormGroup = this.fb.group({
+    offer: [null, [Validators.required]],
   });
 
   products$: Observable<Product[]>;
@@ -37,6 +45,9 @@ export class AddOfferDialogComponent {
 
   salesPoints$: Observable<SalesPoint[]>;
   salesPointsFixedNames: ChangedNames[] = [];
+
+  offers: Observable<Offers[]>;
+  offersFixedNames: ChangedNames[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -60,26 +71,49 @@ export class AddOfferDialogComponent {
       })
     }));
 
-    this.form.get('price').valueChanges.subscribe((res) => {
+    this.addForm.get('price').valueChanges.subscribe((res) => {
       if (Number.isNaN(Number(res))) {
-        this.form.get('price').setErrors({ 'incorrect': true });
+        this.addForm.get('price').setErrors({ 'incorrect': true });
       }
     });
+
+    this.modifyForm.get('price').valueChanges.subscribe((res) => {
+      if (Number.isNaN(Number(res))) {
+        this.modifyForm.get('price').setErrors({ 'incorrect': true });
+      }
+    });
+
+    this.offers = this.adminStorageService.getAllOffers();
+
+    this.offers.pipe(
+      filter((res) => res.some((result) => result.userName === localStorage.getItem('userName'))),
+    ).subscribe((result) => result.map((res) => {
+      let additionalZero = '';
+      let price = res.price.toString();
+      if (price.charAt(price.length - 2) === '.') {
+        additionalZero = '0';
+      }
+
+      this.offersFixedNames.push({
+        id: res.id,
+        changedName: 'id: ' + res.id + ' | ' + res.productInstance.product.name + ' | ' + res.price + additionalZero + 'zł',
+      })
+    }));
   }
 
   saveImage(image: File): void {
-    this.form.patchValue({
+    this.addForm.patchValue({
       image: image,
     });
-    this.form.get('image').updateValueAndValidity();
+    this.addForm.get('image').updateValueAndValidity();
   }
 
   get categoryIds(): AbstractControl {
-    return this.form.get('categoryIds');
+    return this.addForm.get('categoryIds');
   }
 
   get additionalInfo(): AbstractControl {
-    return this.form.get('additionalInfo');
+    return this.addForm.get('additionalInfo');
   }
 
   addCategory(category: Categories): void {
@@ -127,11 +161,28 @@ export class AddOfferDialogComponent {
     this.additionalInfo.setValue(data);
   }
 
-  handleFormSubmit() {
-    if (this.form.valid) {
-      this.adminSubmitFormService.addOffer(this.form).subscribe(() => {
+  handleFormSubmit(where: string) {
+    if (this.addForm.valid && where === 'add') {
+      console.log('add')
+      this.adminSubmitFormService.addOffer(this.addForm).subscribe(() => {
         this.toastMessageService.notifyOfSuccess('Dodano ofertę')
-        this.form.reset();
+        this.addForm.reset();
+        this.dialogRef.close('refresh');
+      })
+    }
+    else if (this.modifyForm.valid && where === 'modify') {
+      console.log('modify')
+      this.adminSubmitFormService.modifyOffer(this.modifyForm).subscribe(() => {
+        this.toastMessageService.notifyOfSuccess('Zmodyfikowano ofertę')
+        this.modifyForm.reset();
+        this.dialogRef.close('refresh');
+      })
+    }
+    else if (this.banForm.valid && where === 'ban') {
+      console.log('modify')
+      this.adminSubmitFormService.banOffer(this.banForm.value.offer).subscribe(() => {
+        this.toastMessageService.notifyOfSuccess('Zmodyfikowano ofertę')
+        this.modifyForm.reset();
         this.dialogRef.close('refresh');
       })
     }

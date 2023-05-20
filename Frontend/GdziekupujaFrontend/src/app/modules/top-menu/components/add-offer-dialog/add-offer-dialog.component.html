@@ -1,130 +1,203 @@
 <div class="mainColor container">
-  <ng-container>
-    <h1
-      mat-dialog-title
-      class="title"
-    >
-      <span class="black">
-        Dodaj ofertę
-      </span>
-    </h1>
-    <div mat-dialog-content>
-      <form [formGroup]="form">
+  <mat-tab-group mat-stretch-tabs>
+    <mat-tab label="Dodaj ofertę">
+      <div mat-dialog-content>
+        <form [formGroup]="addForm">
 
-        <div class="forms">
-          <my-input
-            appearance="fill"
-            class="fix backgroundColor item"
-            label="Cena"
-            type="text"
-            controlName="price"
-          >
-          </my-input>
-
-          <mat-form-field
-            class="fix backgroundColor item"
-            [hideRequiredMarker]="true"
-          >
-            <mat-label class="black">Punkt sprzedaży</mat-label>
-            <mat-select formControlName="salesPointId">
-              <mat-option
-                *ngFor="let item of salesPointsFixedNames"
-                [value]="item.id"
-              >
-                {{ item.changedName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="forms">
-          <lz-nested-dropdown
-            class="dropdown fix backgroundColor removeDropdownIconMargin"
-            [categoriesData]="categories$ | async"
-            [inAdmin]="true"
-            name="Kategorie"
-            (dropdownChange)="addCategory($event)"
-          >
-          </lz-nested-dropdown>
-
-          <mat-form-field
-            class="fix backgroundColor dropdown"
-            [hideRequiredMarker]="true"
-          >
-            <mat-label class="black">Produkt</mat-label>
-            <mat-select
-              formControlName="productId"
-              (selectionChange)="getProductProperties($event.value)"
+          <div class="forms">
+            <my-input
+              appearance="fill"
+              class="fix backgroundColor item"
+              label="Cena"
+              type="text"
+              controlName="price"
             >
-              <mat-option
-                *ngFor="let item of products$ | async"
-                [value]="item.id"
-              >
-                {{ item.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+            </my-input>
 
-        <div class="forms">
-          <div
-            *ngIf="categoriesToDisplay.length"
-            class="list"
-          >
-            <h3>Kategorie</h3>
-            <app-list-items
-              *ngFor="let category of categoriesToDisplay; let i=index"
-              [data]="'id: ' + category.id.toString() + ', kategoria: ' + category.name"
-              [lineFixer]="{ index: i, array: categoriesToDisplay}"
-              (delete)="removeCategory(category)"
+            <mat-form-field
+              class="fix backgroundColor item"
+              [hideRequiredMarker]="true"
             >
-            </app-list-items>
+              <mat-label class="black">Punkt sprzedaży</mat-label>
+              <mat-select formControlName="salesPointId">
+                <mat-option
+                  *ngFor="let item of salesPointsFixedNames"
+                  [value]="item.id"
+                >
+                  {{ item.changedName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
-          <div
-            class="list"
-            *ngIf="productPropertiesKeys.length"
-          >
-            <div
-              class="list--fix"
-              *ngFor="let key of productPropertiesKeys; let i=index"
+          <div class="forms">
+            <lz-nested-dropdown
+              class="dropdown fix backgroundColor removeDropdownIconMargin"
+              [categoriesData]="categories$ | async"
+              [inAdmin]="true"
+              name="Kategorie"
+              (dropdownChange)="addCategory($event)"
             >
-              <h3>{{ key }}</h3>
-              <mat-button-toggle-group
-                (change)="toggleChange(key, $event.value)"
-                [value]="productPropertiesAll[key][0]"
+            </lz-nested-dropdown>
+
+            <mat-form-field
+              class="fix backgroundColor dropdown"
+              [hideRequiredMarker]="true"
+            >
+              <mat-label class="black">Produkt</mat-label>
+              <mat-select
+                formControlName="productId"
+                (selectionChange)="getProductProperties($event.value)"
               >
-                <ng-container *ngFor="let value of productPropertiesAll[key]">
-                  <mat-button-toggle [value]="value">{{ value }}</mat-button-toggle>
-                </ng-container>
-              </mat-button-toggle-group>
+                <mat-option
+                  *ngFor="let item of products$ | async"
+                  [value]="item.id"
+                >
+                  {{ item.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="forms">
+            <div
+              *ngIf="categoriesToDisplay.length"
+              class="list"
+            >
+              <h3>Kategorie</h3>
+              <app-list-items
+                *ngFor="let category of categoriesToDisplay; let i=index"
+                [data]="'id: ' + category.id.toString() + ', kategoria: ' + category.name"
+                [lineFixer]="{ index: i, array: categoriesToDisplay}"
+                (delete)="removeCategory(category)"
+              >
+              </app-list-items>
+            </div>
+
+            <div
+              class="list"
+              *ngIf="productPropertiesKeys.length"
+            >
               <div
-                *ngIf="i+1 !== productPropertiesKeys.length"
-                class="line"
+                class="list--fix"
+                *ngFor="let key of productPropertiesKeys; let i=index"
               >
+                <h3>{{ key }}</h3>
+                <mat-button-toggle-group
+                  (change)="toggleChange(key, $event.value)"
+                  [value]="productPropertiesAll[key][0]"
+                >
+                  <ng-container *ngFor="let value of productPropertiesAll[key]">
+                    <mat-button-toggle [value]="value">{{ value }}</mat-button-toggle>
+                  </ng-container>
+                </mat-button-toggle-group>
+                <div
+                  *ngIf="i+1 !== productPropertiesKeys.length"
+                  class="line"
+                >
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="base">
-          <lz-base64 (emitImage)="saveImage($event)"></lz-base64>
-        </div>
+          <div class="base">
+            <lz-base64 (emitImage)="saveImage($event)"></lz-base64>
+          </div>
 
-      </form>
-    </div>
-    <div class="position position--gap">
-      <button
-        type="button"
-        [disabled]="!form.valid"
-        class="button"
-        mat-stroked-button
-        (click)="handleFormSubmit()"
+        </form>
+      </div>
+      <div class="position position--gap">
+        <button
+          type="button"
+          [disabled]="!addForm.valid"
+          class="button"
+          mat-stroked-button
+          (click)="handleFormSubmit('add')"
+        >
+          <span class="white">
+            Dodaj
+          </span>
+        </button>
+      </div>
+    </mat-tab>
+    <mat-tab label="Modyfikuj ofertę">
+      <div
+        mat-dialog-content
+        class="modify"
       >
-        <span class="white">
-          Dodaj
-        </span>
-      </button>
-    </div>
-  </ng-container>
+        <form [formGroup]="modifyForm">
+          <div class="formss">
+            <mat-form-field
+              class="fixx backgroundColor item"
+              [hideRequiredMarker]="true"
+            >
+              <mat-label class="black">Oferta</mat-label>
+              <mat-select formControlName="offer">
+                <mat-option
+                  *ngFor="let item of offersFixedNames"
+                  [value]="item.id"
+                >
+                  {{ item.changedName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <my-input
+              appearance="fill"
+              class="fixx backgroundColor item"
+              label="Cena"
+              type="text"
+              controlName="price"
+            >
+            </my-input>
+          </div>
+          <div class="position position--gap">
+            <button
+              type="button"
+              [disabled]="!modifyForm.valid"
+              class="button"
+              mat-stroked-button
+              (click)="handleFormSubmit('modify')"
+            >
+              <span class="white">
+                Zmodyfikuj
+              </span>
+            </button>
+          </div>
+        </form>
+
+        <form [formGroup]="banForm">
+          <div class="formss">
+            <mat-form-field
+              class="fixx backgroundColor item"
+              [hideRequiredMarker]="true"
+            >
+              <mat-label class="black">Oferta</mat-label>
+              <mat-select formControlName="offer">
+                <mat-option
+                  *ngFor="let item of offersFixedNames"
+                  [value]="item.id"
+                >
+                  {{ item.changedName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="position position--gap">
+            <button
+              type="button"
+              [disabled]="!banForm.valid"
+              class="button"
+              mat-stroked-button
+              (click)="handleFormSubmit('ban')"
+            >
+              <span class="white">
+                Zbanuj
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

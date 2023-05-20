@@ -327,10 +327,6 @@
 
 .photo {
   border-radius: 18px;
-  height: 125px;
-}
-
-.pic {
-  display: flex;
-  align-items: flex-start;
+  height: 125px !important;
+  width: 125px !important;
 }

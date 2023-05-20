@@ -74,7 +74,7 @@ h3 {
 .title {
   display: flex;
   padding-top: 20px;
-  justify-content: center;
+  justify-content: space-between;
   font-size: x-large;
 }
 
@@ -110,4 +110,28 @@ h3 {
 
 .mat-mdc-dialog-content {
   max-height: none;
+}
+
+.formss {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 30px 0 25px 0;
+  gap: 18px;
+}
+
+.fixx {
+  border: solid 1px white;
+  border-radius: 16px;
+}
+
+.item {
+  width: calc(100%/2);
+}
+
+.modify {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding-top: 40px;
 }

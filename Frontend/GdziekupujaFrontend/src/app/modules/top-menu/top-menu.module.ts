@@ -21,6 +21,8 @@ import { AddOfferDialogComponent } from '@modules/top-menu/components/add-offer-
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ListItemsModule } from '@shared/modules/list-items/list-items.module';
 import { Base64Module } from '@shared/modules/base64/base64.module';
+import { MatTabsModule } from '@angular/material/tabs';
+import { AdminShowTableModule } from '@shared/modules/admin-show-table/admin-show-table.module';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { Base64Module } from '@shared/modules/base64/base64.module';
     MatButtonToggleModule,
     ListItemsModule,
     Base64Module,
+    MatTabsModule,
+    AdminShowTableModule
   ],
   exports: [
     TopMenuComponent,

@@ -59,11 +59,7 @@ export class AdminStorageService {
   }
 
   getAllOffers(): Observable<Offers[]> {
-    const countyId = this.isServiceAdmin ? '' : Number(localStorage.getItem('userCountyId'));
-    const params = new HttpParams()
-      .set('countyId', countyId);
-
-    return this.http.get<MainOffer>(`${environment.httpBackend}${Api.OFFERS}`, { params }).pipe(
+    return this.http.get<MainOffer>(`${environment.httpBackend}${Api.OFFERS}`, { }).pipe(
       map((res) => res.offers),
       tap((res) => this.offers$.next(res)),
       catchError(() => {
