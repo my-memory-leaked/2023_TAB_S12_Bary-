@@ -44,10 +44,8 @@ export const ADMIN_FIELDS_LIST = {
   ],
   BanUser: [
     "userId",
-    "action",
   ],
   UnbanUser: [
     "userId",
-    "action",
   ],
 };

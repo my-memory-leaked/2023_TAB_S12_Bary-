@@ -14,12 +14,10 @@ export class UserFormHandlerService {
 
   setFormGroupForUserBan(formGroup: FormGroup): void {
     formGroup.addControl('userId', this.fb.control(null, [Validators.required]));
-    formGroup.addControl('action', this.fb.control(null, [Validators.required]));
   }
   
   setFormGroupForUserUnban(formGroup: FormGroup): void {
     formGroup.addControl('userId', this.fb.control(null, [Validators.required]));
-    formGroup.addControl('action', this.fb.control(null, [Validators.required]));
   }
 
   clearControls(form: FormGroup, previousType: BanUnbanUserType): void {
