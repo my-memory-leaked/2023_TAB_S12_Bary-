@@ -1,3 +1,4 @@
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -37,8 +38,10 @@ public class ProductInstanceService : IProductInstanceService
         // var creationTime = DateTimeOffset.Now;
         // var imageName =
         //     $"{dto.Image.Name}_{creationTime:ddMMyyyyhhmmssfff}_{new Random().Next(0, 10000000)}.{dto.Image.FileName.Split('.').Last()}";
-
-        var path = Path.Combine(Path.GetFullPath("wwwroot"), dto.Image.FileName);
+        var random = new Random();
+        var value = random.Next();
+        
+        var path = Path.Combine(Path.GetFullPath("wwwroot"), value + dto.Image.FileName);
         if (File.Exists(path))
             throw new ArgumentException("Niepoprawny obraz");
 
@@ -56,11 +59,14 @@ public class ProductInstanceService : IProductInstanceService
 
         var productInstance = _mapper.Map<ProductInstance>(dto);
 
-        productInstance.AdditionalInfo = JsonSerializer.Serialize(dto.AdditionalInfo);
+        productInstance.AdditionalInfo = JsonSerializer.Serialize(dto.AdditionalInfo, new JsonSerializerOptions
+        {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        });
         productInstance.Product = product;
         productInstance.ProductId = product.Id;
         productInstance.Categories = categories;
-        productInstance.ImageName = dto.Image.FileName;
+        productInstance.ImageName = value + dto.Image.FileName;
 
         _dbContext.ProductInstances.Add(productInstance);
         _dbContext.SaveChanges();
