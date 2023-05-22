@@ -7,7 +7,7 @@
 ![image](https://github.com/my-memory-leaked/2023_TAB_S12_Barys/assets/72353213/9fad70dd-13d1-4c69-a0e0-d7f8fc0be2c1)
 
 # ERD diagram:
-![image](Documents/erd-diagram.png)
+![image](![hujs-2023-05-22_23-07](https://github.com/my-memory-leaked/2023_TAB_S12_Barys/assets/72276813/dda6f340-8aa8-45f1-9597-8cf078b2b579)
 
 
 
