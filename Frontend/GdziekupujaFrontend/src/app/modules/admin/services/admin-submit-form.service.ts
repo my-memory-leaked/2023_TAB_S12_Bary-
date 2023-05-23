@@ -205,7 +205,7 @@ export class AdminSubmitFormService {
   banUser(form: FormGroup): Observable<any> {
     const params = new HttpParams()
       .set('adminId', Number(localStorage.getItem('userId')))
-      .set('userId', form.value.id)
+      .set('userId', form.value.userId)
 
     return this.http.put<any>(`${environment.httpBackend}${Api.USER_BAN}`, {}, { params }).pipe(
       catchError(() => {
@@ -218,7 +218,7 @@ export class AdminSubmitFormService {
   unbanUser(form: FormGroup): Observable<number> {
     const params = new HttpParams()
       .set('adminId', Number(localStorage.getItem('userId')))
-      .set('userId', form.value.id)
+      .set('userId', form.value.userId)
 
     return this.http.put<any>(`${environment.httpBackend}${Api.USER_UNBAN}`, {}, { params }).pipe(
       catchError((err) => {
