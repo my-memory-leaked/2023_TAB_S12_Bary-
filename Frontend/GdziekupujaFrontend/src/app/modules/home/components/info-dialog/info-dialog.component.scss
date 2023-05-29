@@ -1,0 +1,7 @@
+@use '/src/styles/colors' as color;
+
+.container {
+  background-color: color.$primaryColor;
+  padding: 8px 12px;
+  border-radius: 12px;
+}

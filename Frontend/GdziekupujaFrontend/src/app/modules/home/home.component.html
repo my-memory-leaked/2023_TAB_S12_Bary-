@@ -19,7 +19,15 @@
   *ngIf="admin"
   mat-fab
   class="admin-button"
-  (click)="onAdminButtonClick();"
+  (click)="onAdminButtonClick()"
 >
   <mat-icon class="white">construction</mat-icon>
+</button>
+
+<button
+  mat-icon-button
+  class="info-button"
+  (click)="onInfoButtonClick()"
+>
+  <span class="white info">i</span>
 </button>

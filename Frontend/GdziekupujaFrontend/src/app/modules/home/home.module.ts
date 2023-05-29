@@ -9,10 +9,13 @@ import { OffersModule } from '@modules/offers/offers.module';
 import { TopMenuModule } from '@modules/top-menu/top-menu.module';
 import { HomeRoutingModule } from '@modules/home/home-routing.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
+import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
+    InfoDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +28,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     HomeRoutingModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
+    MatDialogModule,
   ],
 })
 export class HomeModule { }
