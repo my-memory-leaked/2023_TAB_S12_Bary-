@@ -1,3 +1,4 @@
+using Gdziekupuja;
 using Gdziekupuja.Common;
 using Gdziekupuja.Models;
 using Gdziekupuja.Services;
@@ -32,6 +33,7 @@ builder.Services.AddScoped<IProductInstanceService, ProductInstanceService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOfferService, OfferService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
@@ -50,6 +52,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 //app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseCors("corsapp");
